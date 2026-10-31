@@ -42,6 +42,10 @@ jobs:
           python -m pip check
       - name: Execute twenty real stdio variants and two integration mutants
         run: python -I integration/stdio_r5/harness.py --output-dir work/r5-ci
+      - name: Reject Boolean mandate dates through actual SDK requests
+        run: python -I integration/stdio_r5/diagnostics.py --output-dir work/r5-date-diagnostics
+      - name: Reject contradictory and missing modern discovery evidence
+        run: python -I integration/stdio_r5/reader_regressions.py --source-variant work/r5-ci/S01_nominal --output-dir work/r5-reader-regressions
       - name: Verify source attribution and independent R5 aggregate
         run: |
           python -I integration/stdio_r5/verify_package.py --summary work/r5-ci/SUMMARY.json --report work/r5-final-verification.json

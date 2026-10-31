@@ -17,11 +17,11 @@ from pathlib import Path
 
 if __package__:
     from .crypto import (DomainError, EXECUTOR, ISSUER, NOW, PROFILE, REGISTRY,
-                         RESOURCE, TENANT, U64, canonical, digest, numbers,
+                         RESOURCE, SAFE, TENANT, U64, canonical, digest, numbers,
                          quantities, reject, sign, uint, verify_jws)
 else:
     from crypto import (DomainError, EXECUTOR, ISSUER, NOW, PROFILE, REGISTRY,
-                        RESOURCE, TENANT, U64, canonical, digest, numbers,
+                        RESOURCE, SAFE, TENANT, U64, canonical, digest, numbers,
                         quantities, reject, sign, uint, verify_jws)
 
 ADMIN = 'urn:r5:admin'
@@ -83,6 +83,15 @@ def encoded(value):
 
 def decoded(value):
     return json.loads(value)
+
+
+def valid_mandate_times(body):
+    """Do not let Python bool/int equality substitute for timestamp typing."""
+    if type(body) is not dict:
+        return False
+    start, end = body.get('valid_from'), body.get('valid_until')
+    return (type(start) is int and type(end) is int and
+            0 <= start < end <= SAFE)
 
 
 class Provider:
@@ -210,6 +219,8 @@ class Provider:
             if row is None:
                 reject('AUTHORITY_UNAVAILABLE', 'SUSPENDED')
             body = decoded(row['body_json'])
+            if not valid_mandate_times(body):
+                reject('AUTHORITY_UNAVAILABLE', 'SUSPENDED')
             claims = verify_jws(row['jws'], 'zti-mandate+jwt', self.now())
             if digest(body) != row['mandate_hash'] or claims['zti_mandate'] != body:
                 reject('AUTHORITY_UNAVAILABLE', 'SUSPENDED')
@@ -236,6 +247,8 @@ class Provider:
             claims = verify_jws(token, 'zti-mandate+jwt', self.now())
             body = claims['zti_mandate']
             if type(body) is not dict or set(body) != BODY_FIELDS:
+                reject('INVALID_TOKEN')
+            if not valid_mandate_times(body):
                 reject('INVALID_TOKEN')
             if (body['profile'] != PROFILE or body['tenant_id'] != TENANT or
                     body['principal_id'] != 'urn:r5:principal' or claims['aud'] != REGISTRY or

@@ -26,6 +26,8 @@ python -m pip install -r integration/stdio_r5/requirements.txt
 python -I scripts/verify_handoff.py
 python -I integration/stdio_r5/verify_package.py
 python -I integration/stdio_r5/harness.py --output-dir work/r5-first
+python -I integration/stdio_r5/diagnostics.py --output-dir work/r5-date-diagnostics-first
+python -I integration/stdio_r5/reader_regressions.py --source-variant work/r5-first/S01_nominal --output-dir work/r5-reader-regressions-first
 python -I integration/stdio_r5/verify_package.py --summary work/r5-first/SUMMARY.json
 ```
 
@@ -34,6 +36,22 @@ results and never overwrites a nonempty run. The ordinary campaign runs eight
 scenarios, twenty normal variants, and two deliberately defective integration
 mutants in separate fresh databases. Frozen expected refusals and actual positive
 effects both matter; this is not a universal security score.
+
+The separate date diagnostics have two integer-date positive controls and six
+Boolean-date rejection cases through actual SDK registration requests. They
+check both root and child signed mandate bodies and independently read back
+the resulting registry. These were added after review reproduced Python's
+`True == 1` type confusion in the initial R5 candidate. The provider now requires
+actual safe-range integers for both validity dates at import and lineage use.
+These diagnostics do not change or enlarge the twenty frozen normal variants
+or the two integration mutants. Their output directories must also be fresh.
+
+The reader regressions keep the original positive evidence unchanged and mutate
+two disposable copies consistently: one announces incompatible modern
+`supportedVersions` alongside a compatible legacy field, and another omits the
+required modern field. Both must fail the modern discovery check. These are
+explicitly synthetic tests of the evidence reader, not real malformed SDK
+responses, new MCP scenarios or integration mutants.
 
 Historical regression remains separate:
 
@@ -91,6 +109,13 @@ action, consumes once, inserts the business row, advances state revision, and
 persists the immutable receipt and transition before committing. See
 [DATABASE_SCHEMA.md](DATABASE_SCHEMA.md). Lookup/retry returns the recorded
 receipt without a second effect. A later cancellation does not refund a commit.
+
+An identical registration retry reports stored record/root status: `ACTIVE`
+means the record itself is unrevoked and its root remains active. It does not
+attest that every intermediate ancestor is active. New reservations and execution
+revalidate the complete lineage. A retry never clears revocation, refreshes an
+ICT, changes counters or produces an effect. This explicit R5 status mapping
+must not be interpreted as a current authorization decision.
 
 The registry, effect and receipt inhabit one SQLite transaction. This establishes
 no atomicity for a later HTTP, payment, physical or other remote provider effect.

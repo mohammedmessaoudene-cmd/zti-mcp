@@ -338,10 +338,12 @@ def receipt_of(result):
 def discovery_version(result):
     # SDK v2.3.0 server/discover returns supportedVersions, while each request
     # stamps the actually used revision. The selected fixture advertises exactly
-    # one version; this is observed wire mapping, not a fabricated result field.
-    if result.get('supportedVersions') == [VERSION]:
+    # one modern version. A legacy protocolVersion/meta field cannot replace a
+    # missing or contradictory supportedVersions value in this modern profile.
+    versions = result.get('supportedVersions')
+    if type(versions) is list and all(type(v) is str for v in versions) and versions == [VERSION]:
         return VERSION
-    return result.get('protocolVersion', (result.get('_meta') or {}).get('io.modelcontextprotocol/protocolVersion'))
+    return None
 
 
 def check_wire(expected_rows, observation, database, fixtures):
@@ -624,8 +626,10 @@ def verify_capture(directory, scenario_id, variant_id, variant, fixtures, observ
         result = reply['frame']['result']
         protocol = discovery_version(result)
         request_stamp = ((request['frame'].get('params') or {}).get('_meta') or {}).get('io.modelcontextprotocol/protocolVersion')
-        if protocol != VERSION or request_stamp != VERSION:
-            infrastructure.append('actual discovery used wrong protocol')
+        if protocol != VERSION:
+            failures.append('actual discovery modern supportedVersions is missing, malformed or incompatible')
+        if request_stamp != VERSION:
+            infrastructure.append('actual discovery request lacks exact protocol metadata')
         discoveries.setdefault(identity[0],[]).append((request,reply))
     for identity, record in requests.items():
         if record['frame'].get('method') in ('tools/call',EXT+'.reserve'):
