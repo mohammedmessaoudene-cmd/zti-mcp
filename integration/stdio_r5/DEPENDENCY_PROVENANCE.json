@@ -1,0 +1,41 @@
+{
+  "sdk": "mcp==2.3.0",
+  "sdk_types": "mcp-types==2.3.0",
+  "official_release_commit": "2118f14f8a19bc158d8a1cf90af58d85d187f849",
+  "pypi_metadata_url": "https://pypi.org/pypi/mcp/2.3.0/json",
+  "wheel_filename": "mcp-2.3.0-py3-none-any.whl",
+  "wheel_url": "https://files.pythonhosted.org/packages/20/d7/4a2878f128df729db3ca04e71bfce26405cc2e0c9ebe19c592feeb4c61b9/mcp-2.3.0-py3-none-any.whl",
+  "wheel_sha256_verified": "dd0c44c089d16453e8ae31a3877a0054d7a2314caaa81f5e0541b9b1734b2377",
+  "requirements_sha256": "b6b670e5e5ecbbd896702747a2bb9a51f8514b88a1fbc43379f647a7e4a287f6",
+  "sources": [
+    "https://github.com/modelcontextprotocol/python-sdk/releases/tag/v2.3.0",
+    "https://py.sdk.modelcontextprotocol.io/advanced/extensions/",
+    "https://py.sdk.modelcontextprotocol.io/client/transports/"
+  ],
+  "actions": {
+    "checkout": {
+      "repository": "actions/checkout",
+      "tag": "v7.0.1",
+      "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+      "runtime": "node24",
+      "release_url": "https://github.com/actions/checkout/releases/tag/v7.0.1",
+      "source_url": "https://github.com/actions/checkout/blob/3d3c42e5aac5ba805825da76410c181273ba90b1/action.yml"
+    },
+    "setup-python": {
+      "repository": "actions/setup-python",
+      "tag": "v7.1.0",
+      "commit": "6d4fd22b20465ccc0f7354476588e8df7c9ca0e0",
+      "runtime": "node24",
+      "release_url": "https://github.com/actions/setup-python/releases/tag/v7.1.0",
+      "source_url": "https://github.com/actions/setup-python/blob/6d4fd22b20465ccc0f7354476588e8df7c9ca0e0/action.yml"
+    },
+    "upload-artifact": {
+      "repository": "actions/upload-artifact",
+      "tag": "v7.0.2",
+      "commit": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+      "runtime": "node24",
+      "release_url": "https://github.com/actions/upload-artifact/releases/tag/v7.0.2",
+      "source_url": "https://github.com/actions/upload-artifact/blob/cf430e030ddbb5b0abf93d22962f4752f3646cd9/action.yml"
+    }
+  }
+}

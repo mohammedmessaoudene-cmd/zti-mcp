@@ -1,0 +1,65 @@
+name: Reproduce actual stdio R5 integration
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  stdio-r5:
+    name: stdio-r5 (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+    env:
+      EXPECTED_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - name: Check out exact source revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1; node24
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Set up Python 3.12
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0; node24
+        with:
+          python-version: '3.12'
+      - name: Verify actual checkout and frozen packages
+        run: |
+          python -I scripts/verify_handoff.py
+          python -I integration/stdio_r5/verify_package.py --report work/checkout-verification.json
+      - name: Install the complete pinned integration runtime
+        run: |
+          python -m pip install --disable-pip-version-check --no-input -r integration/stdio_r5/requirements.txt
+          python -m pip check
+      - name: Execute twenty real stdio variants and two integration mutants
+        run: python -I integration/stdio_r5/harness.py --output-dir work/r5-ci
+      - name: Reject Boolean mandate dates through actual SDK requests
+        run: python -I integration/stdio_r5/diagnostics.py --output-dir work/r5-date-diagnostics
+      - name: Reject contradictory and missing modern discovery evidence
+        run: python -I integration/stdio_r5/reader_regressions.py --source-variant work/r5-ci/S01_nominal --output-dir work/r5-reader-regressions
+      - name: Verify source attribution and independent R5 aggregate
+        run: |
+          python -I integration/stdio_r5/verify_package.py --summary work/r5-ci/SUMMARY.json --report work/r5-final-verification.json
+          python -I scripts/verify_handoff.py
+      - name: Reproduce the separate historical R4 regression
+        run: |
+          python -I reference/run_r4.py --output-dir work/r4-regression
+          python -I reference/verify_examples.py --output work/r4-example-verification.json
+          python -I scripts/verify_handoff.py --summary work/r4-regression/SUMMARY.json
+      - name: Retain actual run evidence for review
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2; node24
+        with:
+          name: stdio-r5-${{ matrix.os }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: work/
+          retention-days: 7
+          if-no-files-found: error

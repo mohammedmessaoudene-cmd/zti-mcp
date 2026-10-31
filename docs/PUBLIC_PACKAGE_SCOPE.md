@@ -2,6 +2,15 @@
 
 This tree is a publication-oriented subset of the validated R4 dossier, prepared separately on 31 October 2026. Preparing the tree did not change R4 or publish anything.
 
+## Later integration
+
+This dated note describes the initial R4 subset. R5 adds a separately named
+`integration/stdio_r5/` successor with real stdio clients/endpoints, frozen tests,
+a direct SQL reader and a separate integration manifest/workflow. Its commands
+and limits are documented in that directory. R4 historical statements remain
+attributed to their original scope. New execution evidence is attributed to its
+actual source revision, never inferred from this note.
+
 ## Included
 
 - The two original executable core files, all forty scenario definitions, three mutant definitions and four frozen preexecution inputs.

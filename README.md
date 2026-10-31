@@ -6,6 +6,19 @@ The repository includes an English draft, a French engineering note, schemas, re
 
 The design, code, documentation and internal reviews were prepared with AI assistance under the author's direction. No independent human or institutional review is claimed.
 
+## Actual local MCP stdio integration (R5)
+
+The separate [R5 demonstration](integration/stdio_r5/README.md) uses the official
+Python MCP SDK 2.3.0 in distinct stdio processes with a provider-owned SQLite
+effect, shared reservations and a durable receipt in the same transaction.
+It has its own frozen eight-scenario/twenty-variant contract and two deliberately
+defective integration mutants. See the reproduction command and exact revision
+evidence associated with the experimental release. These are same-team local
+integration experiments, not independent SDK interoperability or adoption.
+
+The original R4 source, fixtures, results and specification snapshots below are
+preserved. R5 does not relabel the eighteen documentary R4 messages as real traces.
+
 ## Start here
 
 | Material | Purpose |
