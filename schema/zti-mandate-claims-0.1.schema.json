@@ -1,0 +1,43 @@
+{
+  "$comment": "Claims only, not a JWS signature verifier. Validate zti-mandate+jwt, configured key, temporal and registry bindings separately.",
+  "$id": "zti-mandate-claims-0.1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "aud": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "exp": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/numericDate"
+    },
+    "iat": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/numericDate"
+    },
+    "iss": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "jti": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "nbf": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/numericDate"
+    },
+    "sub": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "zti_mandate": {
+      "$ref": "zti-mandate-0.1.schema.json"
+    }
+  },
+  "required": [
+    "iss",
+    "sub",
+    "aud",
+    "jti",
+    "iat",
+    "nbf",
+    "exp",
+    "zti_mandate"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,154 @@
+{
+  "status": "OFFLINE_DOCUMENTARY_MESSAGES_NOT_EXCHANGED",
+  "protocol_version": "2026-07-28",
+  "profile": "zti-mcp/0.1",
+  "extension_id": "org.example/zti-mcp",
+  "extension_id_scope": "RFC2606 reserved documentation namespace only; no production identifier assigned.",
+  "draft_source_sha256": "12cdbc7c11e41960e2d441d4ecebb5e1c3d6e744eb52e2de31f2d6f882ee0f57",
+  "binding_sections_sha256": "845ee6f992bae218b32d64155095574497dcee7774cb64bb8582017b3e92febc",
+  "messages_exchanged": false,
+  "mcp_peer_or_sdk_executed": false,
+  "authentication_exchange_tested": false,
+  "http_transport_tested": false,
+  "receipt_provenance": "Unchanged examples/receipt.json: offline documentary projection of durable C02 SQLite effect and COMMITTED audit row.",
+  "invented_as_trace": false,
+  "illustrative_values": [
+    "Capability advertisement",
+    "clientInfo and serverInfo",
+    "cache hints",
+    "JSON-RPC request IDs",
+    "control response state_revision values except the copied C02 receipt revision",
+    "revocation authority_epoch",
+    "control success/refusal outcomes"
+  ],
+  "input_hashes": {
+    "examples/EXAMPLE_METADATA.json": "0c94df3abf961debe3a56c80df328e1689ff16e6ebc6d4d7932e195ddf57447e",
+    "examples/README.txt": "836db4fc5d742abed7ed5010e9ea9d6ddb01f29eb7120ff088c9deb5cc1c4031",
+    "examples/VERIFICATION.json": "ea117db2e116217711140d354d12410cddacb505fad3a735f9e5abc9b0c43085",
+    "examples/action.json": "a08f0b9f7efa84e8920ed72aa5c4123a07dbe04d5702ba7e06232a2d1c78f7a8",
+    "examples/child_mandate.jwt": "a9eb5575144173ce7f8a982bd9a63eda17f8b9c227c38f150519b2fc663c125a",
+    "examples/child_mandate_claims.json": "174c17154976ffad027c4ad31dd18be4f3f81ebcd5602c7fa5a6771524d6c5c3",
+    "examples/ict.jwt": "4699d620eaf0044a6311d4be3bc25a44b5378255656b8212218ba6045e03617d",
+    "examples/ict_claims.json": "f29fdf9fbe3129e974d16b265e91bf53db1cf3540026c455d84800d4aef5a9b9",
+    "examples/public_jwk.json": "5912e423c0b1e61443e09ae86ed3f5d4d6e7bcb90c289e06ccd29f450ee7b62a",
+    "examples/receipt.json": "25753f98bcd8112a79adcc972434698bd9dfa4eac0dfeb376298674bd668079a",
+    "examples/root_mandate.jwt": "64927a66c498ab8af9a6a91358dce10240426430090f0a506aa3439871d83722",
+    "examples/root_mandate_claims.json": "7bb135bff2b84c5d1ddb80e3f77d61e609551843c0ee13da441213d4b5a5d0f6"
+  },
+  "pairs": [
+    {
+      "request": "01-discover.request.json",
+      "response": "01-discover.response.json",
+      "method": "server/discover",
+      "assumed_authenticated_actor": "Authenticated discovery client under deployment policy.",
+      "params_definition": null,
+      "result_or_error_definition": null,
+      "explanation": "Capability advertisement, implementation names and cache hints are illustrative; no endpoint has advertised them.",
+      "provenance": "Offline assembled documentary message; not exchanged by peers or an SDK."
+    },
+    {
+      "request": "02-register-root.request.json",
+      "response": "02-register-root.response.json",
+      "method": "org.example/zti-mcp.register",
+      "assumed_authenticated_actor": "Authority role permitted to register this root.",
+      "params_definition": "registerParams",
+      "result_or_error_definition": "registerResult",
+      "explanation": "The compact JWS and content hashes come from C02 exports. ACTIVE and revision 0 are illustrative control response values, not captured register responses.",
+      "provenance": "Offline assembled documentary message; not exchanged by peers or an SDK."
+    },
+    {
+      "request": "03-register-child.request.json",
+      "response": "03-register-child.response.json",
+      "method": "org.example/zti-mcp.register",
+      "assumed_authenticated_actor": "agent-a, the parent delegatee, assuming registration rights verified by the authority.",
+      "params_definition": "registerParams",
+      "result_or_error_definition": "registerResult",
+      "explanation": "The compact JWS and content hashes come from C02 exports. ACTIVE and revision 0 are illustrative control response values, not captured register responses.",
+      "provenance": "Offline assembled documentary message; not exchanged by peers or an SDK."
+    },
+    {
+      "request": "04-reserve.request.json",
+      "response": "04-reserve.response.json",
+      "method": "org.example/zti-mcp.reserve",
+      "assumed_authenticated_actor": "agent-b, the leaf delegatee.",
+      "params_definition": "reserveParams",
+      "result_or_error_definition": "reserveResult",
+      "explanation": "The exact action, reservation identity and ICT are copied from C02 exports. RESERVED and revision 1 are documentary control response projections, not a captured MCP reply.",
+      "provenance": "Offline assembled documentary message; not exchanged by peers or an SDK."
+    },
+    {
+      "request": "05-tools-call.request.json",
+      "response": "05-tools-call.response.json",
+      "method": "tools/call",
+      "assumed_authenticated_actor": "agent-b, authenticated independently of clientInfo and the ICT string.",
+      "params_definition": null,
+      "result_or_error_definition": null,
+      "explanation": "The JWT and arguments are literal copies. The receipt is exactly examples/receipt.json, an offline projection of the persisted C02 COMMITTED record. content is deliberately empty because no MCP business response was captured.",
+      "provenance": "Offline assembled documentary message; not exchanged by peers or an SDK."
+    },
+    {
+      "request": "06-lookup.request.json",
+      "response": "06-lookup.response.json",
+      "method": "org.example/zti-mcp.lookup",
+      "assumed_authenticated_actor": "agent-b, the recorded invoker (or an explicitly authorized tenant administrator).",
+      "params_definition": "lookupParams",
+      "result_or_error_definition": "lookupResult",
+      "explanation": "Illustrative authorized lookup after C02 COMMITTED; the returned receipt is the existing documentary projection, not an observed lookup exchange.",
+      "provenance": "Offline assembled documentary message; not exchanged by peers or an SDK."
+    },
+    {
+      "request": "07-cancel-consumed.request.json",
+      "response": "07-cancel-consumed.response.json",
+      "method": "org.example/zti-mcp.cancel",
+      "assumed_authenticated_actor": "agent-b, the recorded invoker (or an explicitly authorized tenant administrator).",
+      "params_definition": "cancelParams",
+      "result_or_error_definition": "cancelResult",
+      "explanation": "Illustrative cancel after consumption. The state remains COMMITTED and the receipt is retained. This response does not cancel the operation or release its consumed authority.",
+      "provenance": "Offline assembled documentary message; not exchanged by peers or an SDK."
+    },
+    {
+      "request": "08-revoke-root.request.json",
+      "response": "08-revoke-root.response.json",
+      "method": "org.example/zti-mcp.revoke",
+      "assumed_authenticated_actor": "A separately authenticated authority role explicitly allowed to revoke this root.",
+      "params_definition": "revokeParams",
+      "result_or_error_definition": "revokeResult",
+      "explanation": "Entire control outcome is illustrative. Epoch 1 and revision 3 are chosen documentary values, not a C02 revocation trace. Revocation after COMMITTED does not undo the earlier effect or erase its cost.",
+      "provenance": "Offline assembled documentary message; not exchanged by peers or an SDK."
+    },
+    {
+      "request": "09-revoke-not-authorized.request.json",
+      "response": "09-revoke-not-authorized.error.json",
+      "method": "org.example/zti-mcp.revoke",
+      "assumed_authenticated_actor": "An authenticated caller without the required revocation authority.",
+      "params_definition": "revokeParams",
+      "result_or_error_definition": "ztiError",
+      "explanation": "Independent illustrative refusal. The same clientInfo does not confer identity or rights. operation_ref is omitted because no operation disclosure is authorized. This is not a captured denial trace.",
+      "provenance": "Offline assembled documentary message; not exchanged by peers or an SDK."
+    }
+  ],
+  "primary_message_sources": [
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic",
+      "ref": "turn113view0"
+    },
+    {
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+      "ref": "turn113view1"
+    },
+    {
+      "url": "https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/schema/2026-07-28/schema.ts",
+      "ref": "turn114view0",
+      "consulted_on": "2026-10-31",
+      "interfaces_consulted": [
+        "RequestMetaObject",
+        "ResultMetaObject",
+        "DiscoverRequest",
+        "DiscoverResult",
+        "CacheableResult",
+        "CallToolRequestParams",
+        "CallToolResult"
+      ]
+    }
+  ]
+}

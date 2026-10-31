@@ -1,0 +1,18 @@
+PRE-EXECUTION ORACLE CLARIFICATION — REVIEWER2, 31 OCTOBER 2026
+No R4 test has been executed. Original contract/cases bytes are unchanged.
+
+C23 has facts_one_of as its active fact oracle. The default empty arrays under
+committed_facts and possible_facts are NOT compared in that case. Instead the
+TWO observed arrays must be equal to EACH OTHER and equal to ONE AND THE SAME
+listed candidate set: [read_sensitive] OR [export_external]. It is insufficient
+for each array to belong independently to the candidate list. This expresses the
+two possible legitimate winners, with only one committed/held fact remaining.
+
+For C20/C23/C37, the first two verdicts describe an admission MULTISET, not an
+observed chronology. The harness sorts only that admission phase for comparison.
+Commit outcomes follow the admission phase and are compared separately/in order.
+Raw worker results, identities, process/barrier evidence and their individual
+timestamps remain in the trace. No global sorting erases an ordering property.
+
+All other verdict sequences remain ordered as listed. These clarifications do
+not alter an expected outcome or permit selecting an oracle after execution.

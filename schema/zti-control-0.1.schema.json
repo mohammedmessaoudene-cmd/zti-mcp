@@ -1,0 +1,755 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "zti-control-0.1.schema.json",
+  "title": "ZTI-MCP 0.1 control, receipt and error objects — structural candidate",
+  "$comment": "Companion to the current individual draft Sections 5.1, 8.1, 8.2 and 8.4. Select the method-specific $defs entry in a dispatcher; the top-level anyOf is only a union and does not identify a method. JSON-RPC envelopes and full MCP schema are separate. Authentication, configured EXT_ID, JOSE verification, equality, clocks, state transitions and effect coupling are not established by this schema. No production namespace is assigned here.",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/registerParams"
+    },
+    {
+      "$ref": "#/$defs/registerResult"
+    },
+    {
+      "$ref": "#/$defs/reserveParams"
+    },
+    {
+      "$ref": "#/$defs/reserveResult"
+    },
+    {
+      "$ref": "#/$defs/lookupParams"
+    },
+    {
+      "$ref": "#/$defs/lookupResult"
+    },
+    {
+      "$ref": "#/$defs/cancelParams"
+    },
+    {
+      "$ref": "#/$defs/cancelResult"
+    },
+    {
+      "$ref": "#/$defs/revokeParams"
+    },
+    {
+      "$ref": "#/$defs/revokeResult"
+    },
+    {
+      "$ref": "#/$defs/receipt"
+    },
+    {
+      "$ref": "#/$defs/ztiError"
+    },
+    {
+      "$ref": "#/$defs/ztiErrorData"
+    },
+    {
+      "$ref": "#/$defs/actionMetadata"
+    }
+  ],
+  "$defs": {
+    "compactJws": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+(?![\\s\\S])",
+      "$comment": "Compact syntax only. Base64url correctness, ES256, typ, claims and signature require the separate normative validator."
+    },
+    "extensionCapability": {
+      "type": "object",
+      "properties": {
+        "revision": {
+          "const": "0.1"
+        },
+        "profile": {
+          "const": "zti-mcp/0.1"
+        },
+        "mode": {
+          "const": "current-online"
+        },
+        "effect_coupling": {
+          "const": "required"
+        }
+      },
+      "required": [
+        "revision",
+        "profile",
+        "mode",
+        "effect_coupling"
+      ],
+      "$comment": "Validate the configured EXT_ID entry against this definition. The draft does not close the capability object to additional extension information."
+    },
+    "implementationInfo": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "$comment": "Minimal projection of MCP Implementation. Optional MCP fields are not exhaustively validated here; identity is self-reported, not authenticated."
+    },
+    "requestMeta": {
+      "type": "object",
+      "properties": {
+        "io.modelcontextprotocol/protocolVersion": {
+          "const": "2026-07-28"
+        },
+        "io.modelcontextprotocol/clientInfo": {
+          "$ref": "#/$defs/implementationInfo"
+        },
+        "io.modelcontextprotocol/clientCapabilities": {
+          "type": "object",
+          "properties": {
+            "extensions": {
+              "type": "object",
+              "minProperties": 1,
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          },
+          "required": [
+            "extensions"
+          ]
+        }
+      },
+      "required": [
+        "io.modelcontextprotocol/protocolVersion",
+        "io.modelcontextprotocol/clientCapabilities"
+      ],
+      "$comment": "MCP metadata remains open. A caller MUST additionally locate its agreed EXT_ID in extensions and validate that entry against extensionCapability. This schema cannot substitute for deployment agreement or the full MCP metadata schema."
+    },
+    "resultMeta": {
+      "type": "object",
+      "properties": {
+        "io.modelcontextprotocol/serverInfo": {
+          "$ref": "#/$defs/implementationInfo"
+        }
+      },
+      "$comment": "Open standard MCP metadata; this definition does not make an advertised implementation an authenticated peer."
+    },
+    "operationRef": {
+      "type": "object",
+      "properties": {
+        "tenant_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "root_mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "operation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        }
+      },
+      "required": [
+        "tenant_id",
+        "root_mandate_id",
+        "operation_id"
+      ],
+      "additionalProperties": false
+    },
+    "actionMetadata": {
+      "type": "object",
+      "properties": {
+        "revision": {
+          "const": "0.1"
+        },
+        "operation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "ict": {
+          "$ref": "#/$defs/compactJws"
+        }
+      },
+      "required": [
+        "revision",
+        "operation_id",
+        "ict"
+      ],
+      "additionalProperties": false
+    },
+    "receipt": {
+      "type": "object",
+      "properties": {
+        "profile": {
+          "const": "zti-mcp/0.1"
+        },
+        "tenant_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "root_mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "operation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "reservation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "action_hash": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/digest"
+        },
+        "effect_boundary": {
+          "enum": [
+            "resource-mutation",
+            "provider-acceptance"
+          ]
+        },
+        "status": {
+          "enum": [
+            "COMMITTED",
+            "COMPLETED",
+            "UNKNOWN"
+          ]
+        },
+        "state_revision": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/uint64"
+        }
+      },
+      "required": [
+        "profile",
+        "tenant_id",
+        "root_mandate_id",
+        "mandate_id",
+        "operation_id",
+        "reservation_id",
+        "action_hash",
+        "effect_boundary",
+        "status",
+        "state_revision"
+      ],
+      "additionalProperties": false,
+      "$comment": "Section 5.1 exact receipt object, referenced by Sections 8.2 and 8.4. Authenticated delivery and agreement with authoritative state remain external requirements."
+    },
+    "registerParams": {
+      "type": "object",
+      "properties": {
+        "mandate": {
+          "$ref": "#/$defs/compactJws"
+        },
+        "_meta": {
+          "$ref": "#/$defs/requestMeta"
+        }
+      },
+      "required": [
+        "mandate",
+        "_meta"
+      ],
+      "additionalProperties": false
+    },
+    "reserveParams": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "$ref": "zti-action-0.1.schema.json"
+        },
+        "_meta": {
+          "$ref": "#/$defs/requestMeta"
+        }
+      },
+      "required": [
+        "action",
+        "_meta"
+      ],
+      "additionalProperties": false
+    },
+    "lookupParams": {
+      "type": "object",
+      "properties": {
+        "tenant_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "root_mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "operation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "_meta": {
+          "$ref": "#/$defs/requestMeta"
+        }
+      },
+      "required": [
+        "tenant_id",
+        "root_mandate_id",
+        "operation_id",
+        "_meta"
+      ],
+      "additionalProperties": false
+    },
+    "cancelParams": {
+      "type": "object",
+      "properties": {
+        "tenant_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "root_mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "operation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "reservation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "_meta": {
+          "$ref": "#/$defs/requestMeta"
+        }
+      },
+      "required": [
+        "tenant_id",
+        "root_mandate_id",
+        "operation_id",
+        "reservation_id",
+        "_meta"
+      ],
+      "additionalProperties": false
+    },
+    "revokeParams": {
+      "type": "object",
+      "properties": {
+        "tenant_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "root_mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "_meta": {
+          "$ref": "#/$defs/requestMeta"
+        }
+      },
+      "required": [
+        "tenant_id",
+        "root_mandate_id",
+        "mandate_id",
+        "_meta"
+      ],
+      "additionalProperties": false
+    },
+    "registerResult": {
+      "type": "object",
+      "properties": {
+        "resultType": {
+          "const": "complete"
+        },
+        "status": {
+          "enum": [
+            "ACTIVE",
+            "REVOKED"
+          ]
+        },
+        "tenant_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "root_mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "mandate_hash": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/digest"
+        },
+        "policy_hash": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/digest"
+        },
+        "state_revision": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/uint64"
+        },
+        "_meta": {
+          "$ref": "#/$defs/resultMeta"
+        }
+      },
+      "required": [
+        "resultType",
+        "status",
+        "tenant_id",
+        "root_mandate_id",
+        "mandate_id",
+        "mandate_hash",
+        "policy_hash",
+        "state_revision"
+      ],
+      "additionalProperties": false
+    },
+    "reserveResult": {
+      "type": "object",
+      "properties": {
+        "resultType": {
+          "const": "complete"
+        },
+        "status": {
+          "enum": [
+            "RESERVED",
+            "COMMITTED",
+            "COMPLETED",
+            "UNKNOWN",
+            "CANCELLED",
+            "EXPIRED",
+            "REVOKED"
+          ]
+        },
+        "tenant_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "root_mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "operation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "reservation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "state_revision": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/uint64"
+        },
+        "receipt": {
+          "$ref": "#/$defs/receipt"
+        },
+        "ict": {
+          "$ref": "#/$defs/compactJws"
+        },
+        "_meta": {
+          "$ref": "#/$defs/resultMeta"
+        }
+      },
+      "required": [
+        "resultType",
+        "status",
+        "tenant_id",
+        "root_mandate_id",
+        "operation_id",
+        "reservation_id",
+        "state_revision"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "COMMITTED",
+                  "COMPLETED",
+                  "UNKNOWN"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "receipt"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "receipt"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "RESERVED"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {},
+          "else": {
+            "not": {
+              "required": [
+                "ict"
+              ]
+            }
+          }
+        }
+      ],
+      "$comment": "ict is permitted only for RESERVED and is never null. Returning usable RESERVED authority requires ict. Whether a recorded reservation/token is currently usable is a semantic/state predicate; this structural schema cannot infer it. No ICT refresh is defined."
+    },
+    "lookupResult": {
+      "type": "object",
+      "properties": {
+        "resultType": {
+          "const": "complete"
+        },
+        "status": {
+          "enum": [
+            "RESERVED",
+            "COMMITTED",
+            "COMPLETED",
+            "UNKNOWN",
+            "CANCELLED",
+            "EXPIRED",
+            "REVOKED"
+          ]
+        },
+        "tenant_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "root_mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "operation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "reservation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "state_revision": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/uint64"
+        },
+        "receipt": {
+          "$ref": "#/$defs/receipt"
+        },
+        "_meta": {
+          "$ref": "#/$defs/resultMeta"
+        }
+      },
+      "required": [
+        "resultType",
+        "status",
+        "tenant_id",
+        "root_mandate_id",
+        "operation_id",
+        "reservation_id",
+        "state_revision"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "COMMITTED",
+                  "COMPLETED",
+                  "UNKNOWN"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "receipt"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "receipt"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "cancelResult": {
+      "type": "object",
+      "properties": {
+        "resultType": {
+          "const": "complete"
+        },
+        "status": {
+          "enum": [
+            "RESERVED",
+            "COMMITTED",
+            "COMPLETED",
+            "UNKNOWN",
+            "CANCELLED",
+            "EXPIRED",
+            "REVOKED"
+          ]
+        },
+        "tenant_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "root_mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "operation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "reservation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "state_revision": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/uint64"
+        },
+        "receipt": {
+          "$ref": "#/$defs/receipt"
+        },
+        "_meta": {
+          "$ref": "#/$defs/resultMeta"
+        }
+      },
+      "required": [
+        "resultType",
+        "status",
+        "tenant_id",
+        "root_mandate_id",
+        "operation_id",
+        "reservation_id",
+        "state_revision"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "COMMITTED",
+                  "COMPLETED",
+                  "UNKNOWN"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "receipt"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "receipt"
+              ]
+            }
+          }
+        }
+      ],
+      "$comment": "The status type is the recorded reservation-state vocabulary. Legal cancellation transitions and the condition that only CANCELLED releases authority must be checked against live state. An already consumed operation cannot become CANCELLED."
+    },
+    "revokeResult": {
+      "type": "object",
+      "properties": {
+        "resultType": {
+          "const": "complete"
+        },
+        "status": {
+          "const": "REVOKED"
+        },
+        "tenant_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "root_mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "authority_epoch": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/uint64"
+        },
+        "state_revision": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/uint64"
+        },
+        "_meta": {
+          "$ref": "#/$defs/resultMeta"
+        }
+      },
+      "required": [
+        "resultType",
+        "status",
+        "tenant_id",
+        "root_mandate_id",
+        "mandate_id",
+        "authority_epoch",
+        "state_revision"
+      ],
+      "additionalProperties": false
+    },
+    "ztiErrorData": {
+      "type": "object",
+      "properties": {
+        "profile": {
+          "const": "zti-mcp/0.1"
+        },
+        "reason": {
+          "enum": [
+            "NOT_AUTHORIZED",
+            "NOT_FOUND",
+            "MANDATE_CONFLICT",
+            "INVALID_TOKEN",
+            "BINDING_MISMATCH",
+            "CONSTRAINT_VIOLATION",
+            "CUMULATIVE_VIOLATION",
+            "REVOKED",
+            "EXPIRED",
+            "OPERATION_CONFLICT",
+            "ALREADY_CONSUMED",
+            "AUTHORITY_UNAVAILABLE",
+            "FOOTPRINT_UNKNOWN",
+            "EFFECT_COUPLING_UNSUPPORTED",
+            "PROFILE_UNSUPPORTED"
+          ]
+        },
+        "status": {
+          "enum": [
+            "REFUSED",
+            "SUSPENDED"
+          ]
+        },
+        "operation_ref": {
+          "$ref": "#/$defs/operationRef"
+        }
+      },
+      "required": [
+        "profile",
+        "reason",
+        "status"
+      ],
+      "additionalProperties": false,
+      "$comment": "operation_ref is optional and is permitted only when the caller has access. No token, private policy or other tenant data belongs here."
+    },
+    "ztiError": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "const": -31001
+        },
+        "message": {
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/$defs/ztiErrorData"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "data"
+      ],
+      "additionalProperties": false,
+      "$comment": "Application-defined JSON-RPC error object. Interpretation is scoped to the agreed EXT_ID and profile; native MCP errors retain their own schemas."
+    }
+  }
+}

@@ -1,0 +1,1355 @@
+{
+  "cases": [
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "2",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "3",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED"
+        ]
+      },
+      "id": "C01_root_positive_exact_budget",
+      "intent": "Positive exact-budget commit must not double-count its reservation."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED"
+        ]
+      },
+      "id": "C02_narrowed_child_positive",
+      "intent": "Valid attenuated child commits."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "DELEGATION_WIDEN"
+        ]
+      },
+      "id": "C03_tool_widening",
+      "intent": "Child must not expand parent allowed tools."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "DELEGATION_WIDEN"
+        ]
+      },
+      "id": "C04_action_cap_widening",
+      "intent": "Child per-action cap must not expand."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "DELEGATION_WIDEN"
+        ]
+      },
+      "id": "C05_validity_widening",
+      "intent": "Child validity must be contained."
+    },
+    {
+      "expected": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "FORBIDDEN"
+        ]
+      },
+      "id": "C06_ancestor_prohibition_not_omitted",
+      "intent": "Leaf copying no rule cannot remove immutable root forbidden pair."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "STATE_INCOMPLETE"
+        ]
+      },
+      "id": "C07_missing_ancestor",
+      "intent": "Missing authoritative ancestry fails closed."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "PARENT_HASH"
+        ]
+      },
+      "id": "C08_parent_digest_mismatch",
+      "intent": "Wrong parent hash prevents delegation."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "SCOPE_MISMATCH"
+        ]
+      },
+      "id": "C09_root_rebinding",
+      "intent": "Changing root/correlation cannot reset budget or identity."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "IMMUTABLE_CONFLICT"
+        ]
+      },
+      "id": "C10_immutable_identifier_replacement",
+      "intent": "Existing mandate body cannot be replaced under its identifier."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "SIGNATURE"
+        ]
+      },
+      "id": "C11_bad_es256_signature",
+      "intent": "Altered real signature is rejected; reservation remains held."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "SUBJECT"
+        ]
+      },
+      "id": "C12_wrong_authenticated_delegatee",
+      "intent": "Authenticated invoker must equal authorized leaf delegatee/sub."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "AUDIENCE",
+          "TOKEN_TYPE"
+        ]
+      },
+      "id": "C13_wrong_audience_or_token_type",
+      "intent": "Wrong destination and mandate-as-ICT both fail."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "ACTION_MISMATCH"
+        ]
+      },
+      "id": "C14_changed_execution_command",
+      "intent": "Post-transformation executed arguments must match permit binding."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "INVALID_QUANTITY",
+          "INVALID_QUANTITY"
+        ]
+      },
+      "id": "C15_negative_or_boolean_quantity",
+      "intent": "Negative decimal and boolean quantity are not valid uint64 amounts."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "18446744073709551615",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "OVERFLOW"
+        ]
+      },
+      "id": "C16_uint64_boundary_no_wrap",
+      "intent": "Max uint64 is exact; adding one cannot wrap or use float."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COST_BINDING"
+        ]
+      },
+      "id": "C17_wrong_quantity_unit",
+      "intent": "Signed quantity unit must match policy and reservation."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "FACT_BINDING"
+        ]
+      },
+      "id": "C18_false_signed_fact_assertion",
+      "intent": "Validly signed false facts do not override authoritative reservation."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "2",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "BUDGET"
+        ]
+      },
+      "id": "C19_sequential_siblings_budget",
+      "intent": "Two children share one consumed root budget."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "2",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "BUDGET",
+          "RESERVED",
+          "COMMITTED"
+        ]
+      },
+      "id": "C20_concurrent_siblings_budget",
+      "intent": "Two real reservation processes cost2/budget3; one wins, then commits."
+    },
+    {
+      "expected": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED"
+        ]
+      },
+      "id": "C21_individual_sensitive_fact_positive",
+      "intent": "A single symbolic fact is allowed in a clean root."
+    },
+    {
+      "expected": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "FORBIDDEN"
+        ]
+      },
+      "id": "C22_sequential_forbidden_pair",
+      "intent": "Committed read_sensitive blocks export_external."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "facts_one_of": [
+          [
+            "read_sensitive"
+          ],
+          [
+            "export_external"
+          ]
+        ],
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "FORBIDDEN",
+          "RESERVED",
+          "COMMITTED"
+        ]
+      },
+      "id": "C23_concurrent_reserved_forbidden_pair",
+      "intent": "Outstanding sibling facts block the second incompatible reservation."
+    },
+    {
+      "expected": {
+        "committed_facts": [
+          "export_external"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "export_external"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "CANCELLED",
+          "COMMITTED"
+        ]
+      },
+      "id": "C24_precommit_cancel_releases_only_pending",
+      "intent": "Cancel pending read fact, then permit and commit export."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "CANCELLED",
+          "CANCELLED"
+        ]
+      },
+      "id": "C25_cancel_wins_serialization",
+      "intent": "Cancellation committed first prevents a racing consumption."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "CANCEL_REJECTED"
+        ]
+      },
+      "id": "C26_commit_wins_serialization",
+      "intent": "Commit first prevents cancellation from releasing consumed state."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "2",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "UNKNOWN",
+          "BUDGET"
+        ]
+      },
+      "id": "C27_unknown_retains_consumed_charge",
+      "intent": "UNKNOWN after cost2 commit remains charged; next cost2 is denied."
+    },
+    {
+      "expected": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "UNKNOWN",
+          "FORBIDDEN"
+        ]
+      },
+      "id": "C28_unknown_retains_committed_facts",
+      "intent": "UNKNOWN read fact still blocks export."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "CANCEL_REJECTED",
+          "UNKNOWN"
+        ]
+      },
+      "id": "C29_unknown_not_cancelled_or_repeated",
+      "intent": "UNKNOWN cannot be refunded; existing outcome can be returned without another effect."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "EXPIRED"
+        ]
+      },
+      "id": "C30_expired_permit_no_automatic_release",
+      "intent": "Expired ICT produces no effect; held allocation persists pending authoritative cleanup."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "REVOKED"
+        ]
+      },
+      "id": "C31_ancestor_revoked_before_consumption",
+      "intent": "Revocation before effect blocks pending permit."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "STALE_AUTHORITY"
+        ]
+      },
+      "id": "C32_changed_authority_epoch",
+      "intent": "Old authority epoch cannot override current state."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "REVOKED"
+        ]
+      },
+      "id": "C33_revocation_after_commit_retains_history",
+      "intent": "Later revocation does not erase committed charge/effect."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "6",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "BUDGET"
+        ]
+      },
+      "id": "C34_second_dimension_cumulative_limit",
+      "intent": "Bytes dimension independently limits cumulative allocation."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "POLICY_UNSUPPORTED"
+        ]
+      },
+      "id": "C35_unknown_policy_rule",
+      "intent": "Unsupported root predicate fails closed at policy registration."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "CLIENT_UNKNOWN",
+          "COMMITTED"
+        ]
+      },
+      "id": "C36_lost_acknowledgement_after_commit",
+      "intent": "Real child commits then drops acknowledgement; lookup resolves committed state."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "4",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 2,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "RESERVED",
+          "RESERVED",
+          "COMMITTED",
+          "COMMITTED"
+        ]
+      },
+      "id": "C37_concurrent_positive_budget_four",
+      "intent": "Two real sibling requests cost2/budget4 both reserve and commit."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "distinct_signed_bytes": true,
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "COMMITTED"
+        ]
+      },
+      "id": "C38_resigned_same_ict_is_same_operation",
+      "intent": "Different valid ES256 signatures of identical claims do not create a second effect."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "DEPTH_LIMIT"
+        ]
+      },
+      "id": "C39_depth_eight_boundary",
+      "intent": "Root plus seven children is valid; ninth mandate rejected."
+    },
+    {
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "UNSUPPORTED_SUBSET"
+        ]
+      },
+      "id": "C40_canonical_subset_boundary",
+      "intent": "Non-ASCII object key is explicitly outside this executable subset, not generally invalid JCS."
+    }
+  ],
+  "contract_version": 1,
+  "mutants": [
+    {
+      "id": "skip_ancestors",
+      "witness": "C03_tool_widening"
+    },
+    {
+      "id": "ignore_reserved_facts",
+      "witness": "C23_concurrent_reserved_forbidden_pair"
+    },
+    {
+      "id": "release_unknown",
+      "witness": "C27_unknown_retains_consumed_charge"
+    }
+  ],
+  "scenario_count": 40
+}

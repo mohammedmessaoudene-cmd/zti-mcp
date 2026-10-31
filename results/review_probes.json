@@ -1,0 +1,138 @@
+{
+  "actors_spawned": 0,
+  "authority_sha256": "0489bf76fc482558051e65ac3517aab9189109bc3d1647724e54211b623aa11f",
+  "expected_observations_matched": 7,
+  "limitations": [
+    "Diagnostics selected from actual review findings; not added to the original forty-scenario score.",
+    "Facts/state inconsistencies are privileged fixture injections, not demonstrated external attacks.",
+    "Observed state is local SQLite and does not establish remote atomicity."
+  ],
+  "network_calls": 0,
+  "probe_count": 7,
+  "results": [
+    {
+      "actual": {
+        "commit": "REVOKED",
+        "effects": 0,
+        "epoch": "18446744073709551615",
+        "reservations": 1,
+        "reserve_again": "REVOKED",
+        "revoke": "REVOKED",
+        "root_revoked": 1,
+        "root_terminal": true
+      },
+      "expected": {
+        "commit": "REVOKED",
+        "effects": 0,
+        "epoch": "18446744073709551615",
+        "reservations": 1,
+        "reserve_again": "REVOKED",
+        "revoke": "REVOKED",
+        "root_revoked": 1,
+        "root_terminal": true
+      },
+      "id": "P01_epoch_saturation",
+      "matches": true
+    },
+    {
+      "actual": {
+        "commit": "FACT_BINDING",
+        "effects": 0,
+        "reservations": 1,
+        "state": "RESERVED"
+      },
+      "expected": {
+        "commit": "FACT_BINDING",
+        "effects": 0,
+        "reservations": 1,
+        "state": "RESERVED"
+      },
+      "id": "P02_stored_facts_inconsistent",
+      "matches": true
+    },
+    {
+      "actual": {
+        "commit": "STATE_INCOMPLETE",
+        "effects": 0,
+        "new_reserve": "STATE_INCOMPLETE",
+        "reservations": 1,
+        "state": "UNSUPPORTED_FUTURE_STATE"
+      },
+      "expected": {
+        "commit": "STATE_INCOMPLETE",
+        "effects": 0,
+        "new_reserve": "STATE_INCOMPLETE",
+        "reservations": 1,
+        "state": "UNSUPPORTED_FUTURE_STATE"
+      },
+      "id": "P03_unknown_registry_state",
+      "matches": true
+    },
+    {
+      "actual": {
+        "allowed_tools": [],
+        "effects": 0,
+        "registered": "REGISTERED",
+        "reservations": 0,
+        "reserve": "ACTION_NOT_ALLOWED"
+      },
+      "expected": {
+        "allowed_tools": [],
+        "effects": 0,
+        "registered": "REGISTERED",
+        "reservations": 0,
+        "reserve": "ACTION_NOT_ALLOWED"
+      },
+      "id": "P04_empty_allow_set",
+      "matches": true
+    },
+    {
+      "actual": {
+        "effects": 0,
+        "register": "POLICY_UNSUPPORTED",
+        "reservations": 0,
+        "roots": 0
+      },
+      "expected": {
+        "effects": 0,
+        "register": "POLICY_UNSUPPORTED",
+        "reservations": 0,
+        "roots": 0
+      },
+      "id": "P05_empty_policy_object",
+      "matches": true
+    },
+    {
+      "actual": {
+        "effects": 0,
+        "register": "INVALID_QUANTITY",
+        "reservations": 0,
+        "roots": 0
+      },
+      "expected": {
+        "effects": 0,
+        "register": "INVALID_QUANTITY",
+        "reservations": 0,
+        "roots": 0
+      },
+      "id": "P06_empty_budget_object",
+      "matches": true
+    },
+    {
+      "actual": {
+        "effects": 0,
+        "register": "INVALID_QUANTITY",
+        "reservations": 0,
+        "roots": 0
+      },
+      "expected": {
+        "effects": 0,
+        "register": "INVALID_QUANTITY",
+        "reservations": 0,
+        "roots": 0
+      },
+      "id": "P07_empty_cap_object",
+      "matches": true
+    }
+  ]
+}

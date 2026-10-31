@@ -1,0 +1,2720 @@
+{
+  "mutant_witnesses": [
+    {
+      "actual": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "DELEGATION_WIDEN"
+        ]
+      },
+      "id": "C03_tool_widening",
+      "mutant": "skip_ancestors",
+      "mutation_detected": true
+    },
+    {
+      "actual": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "export_external",
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "RESERVED",
+          "RESERVED",
+          "COMMITTED",
+          "FORBIDDEN"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "facts_one_of": [
+          [
+            "read_sensitive"
+          ],
+          [
+            "export_external"
+          ]
+        ],
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "FORBIDDEN",
+          "RESERVED",
+          "COMMITTED"
+        ]
+      },
+      "id": "C23_concurrent_reserved_forbidden_pair",
+      "mutant": "ignore_reserved_facts",
+      "mutation_detected": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "4",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 2,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "UNKNOWN",
+          "COMMITTED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "2",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "UNKNOWN",
+          "BUDGET"
+        ]
+      },
+      "id": "C27_unknown_retains_consumed_charge",
+      "mutant": "release_unknown",
+      "mutation_detected": true
+    }
+  ],
+  "normal_scenarios": [
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "2",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "3",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "2",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "3",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED"
+        ]
+      },
+      "id": "C01_root_positive_exact_budget",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED"
+        ]
+      },
+      "id": "C02_narrowed_child_positive",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "DELEGATION_WIDEN"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "DELEGATION_WIDEN"
+        ]
+      },
+      "id": "C03_tool_widening",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "DELEGATION_WIDEN"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "DELEGATION_WIDEN"
+        ]
+      },
+      "id": "C04_action_cap_widening",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "DELEGATION_WIDEN"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "DELEGATION_WIDEN"
+        ]
+      },
+      "id": "C05_validity_widening",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "FORBIDDEN"
+        ]
+      },
+      "expected": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "FORBIDDEN"
+        ]
+      },
+      "id": "C06_ancestor_prohibition_not_omitted",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "STATE_INCOMPLETE"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "STATE_INCOMPLETE"
+        ]
+      },
+      "id": "C07_missing_ancestor",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "PARENT_HASH"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "PARENT_HASH"
+        ]
+      },
+      "id": "C08_parent_digest_mismatch",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "SCOPE_MISMATCH"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "SCOPE_MISMATCH"
+        ]
+      },
+      "id": "C09_root_rebinding",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "IMMUTABLE_CONFLICT"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "IMMUTABLE_CONFLICT"
+        ]
+      },
+      "id": "C10_immutable_identifier_replacement",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "SIGNATURE"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "SIGNATURE"
+        ]
+      },
+      "id": "C11_bad_es256_signature",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "SUBJECT"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "SUBJECT"
+        ]
+      },
+      "id": "C12_wrong_authenticated_delegatee",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "AUDIENCE",
+          "TOKEN_TYPE"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "AUDIENCE",
+          "TOKEN_TYPE"
+        ]
+      },
+      "id": "C13_wrong_audience_or_token_type",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "ACTION_MISMATCH"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "ACTION_MISMATCH"
+        ]
+      },
+      "id": "C14_changed_execution_command",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "INVALID_QUANTITY",
+          "INVALID_QUANTITY"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "INVALID_QUANTITY",
+          "INVALID_QUANTITY"
+        ]
+      },
+      "id": "C15_negative_or_boolean_quantity",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "18446744073709551615",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "OVERFLOW"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "18446744073709551615",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "OVERFLOW"
+        ]
+      },
+      "id": "C16_uint64_boundary_no_wrap",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COST_BINDING"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COST_BINDING"
+        ]
+      },
+      "id": "C17_wrong_quantity_unit",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "FACT_BINDING"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "FACT_BINDING"
+        ]
+      },
+      "id": "C18_false_signed_fact_assertion",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "2",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "BUDGET"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "2",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "BUDGET"
+        ]
+      },
+      "id": "C19_sequential_siblings_budget",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "2",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "BUDGET",
+          "RESERVED",
+          "COMMITTED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "2",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "BUDGET",
+          "RESERVED",
+          "COMMITTED"
+        ]
+      },
+      "id": "C20_concurrent_siblings_budget",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED"
+        ]
+      },
+      "id": "C21_individual_sensitive_fact_positive",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "FORBIDDEN"
+        ]
+      },
+      "expected": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "FORBIDDEN"
+        ]
+      },
+      "id": "C22_sequential_forbidden_pair",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [
+          "export_external"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "export_external"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "FORBIDDEN",
+          "RESERVED",
+          "COMMITTED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "facts_one_of": [
+          [
+            "read_sensitive"
+          ],
+          [
+            "export_external"
+          ]
+        ],
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "FORBIDDEN",
+          "RESERVED",
+          "COMMITTED"
+        ]
+      },
+      "id": "C23_concurrent_reserved_forbidden_pair",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [
+          "export_external"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "export_external"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "CANCELLED",
+          "COMMITTED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [
+          "export_external"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "export_external"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "CANCELLED",
+          "COMMITTED"
+        ]
+      },
+      "id": "C24_precommit_cancel_releases_only_pending",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "CANCELLED",
+          "CANCELLED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "CANCELLED",
+          "CANCELLED"
+        ]
+      },
+      "id": "C25_cancel_wins_serialization",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "CANCEL_REJECTED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "CANCEL_REJECTED"
+        ]
+      },
+      "id": "C26_commit_wins_serialization",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "2",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "UNKNOWN",
+          "BUDGET"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "2",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "UNKNOWN",
+          "BUDGET"
+        ]
+      },
+      "id": "C27_unknown_retains_consumed_charge",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "UNKNOWN",
+          "FORBIDDEN"
+        ]
+      },
+      "expected": {
+        "committed_facts": [
+          "read_sensitive"
+        ],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [
+          "read_sensitive"
+        ],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "UNKNOWN",
+          "FORBIDDEN"
+        ]
+      },
+      "id": "C28_unknown_retains_committed_facts",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "CANCEL_REJECTED",
+          "UNKNOWN"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "CANCEL_REJECTED",
+          "UNKNOWN"
+        ]
+      },
+      "id": "C29_unknown_not_cancelled_or_repeated",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "EXPIRED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "EXPIRED"
+        ]
+      },
+      "id": "C30_expired_permit_no_automatic_release",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "REVOKED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "REVOKED"
+        ]
+      },
+      "id": "C31_ancestor_revoked_before_consumption",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "STALE_AUTHORITY"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "STALE_AUTHORITY"
+        ]
+      },
+      "id": "C32_changed_authority_epoch",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "REVOKED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "REVOKED"
+        ]
+      },
+      "id": "C33_revocation_after_commit_retains_history",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "6",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "BUDGET"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "6",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "BUDGET"
+        ]
+      },
+      "id": "C34_second_dimension_cumulative_limit",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "POLICY_UNSUPPORTED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "POLICY_UNSUPPORTED"
+        ]
+      },
+      "id": "C35_unknown_policy_rule",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "CLIENT_UNKNOWN",
+          "COMMITTED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "CLIENT_UNKNOWN",
+          "COMMITTED"
+        ]
+      },
+      "id": "C36_lost_acknowledgement_after_commit",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "4",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 2,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "RESERVED",
+          "RESERVED",
+          "COMMITTED",
+          "COMMITTED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "4",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 2,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "RESERVED",
+          "RESERVED",
+          "COMMITTED",
+          "COMMITTED"
+        ]
+      },
+      "id": "C37_concurrent_positive_budget_four",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "distinct_signed_bytes": true,
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "COMMITTED"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "distinct_signed_bytes": true,
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "COMMITTED"
+        ]
+      },
+      "id": "C38_resigned_same_ict_is_same_operation",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "DEPTH_LIMIT"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "1",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 1,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "COMMITTED",
+          "DEPTH_LIMIT"
+        ]
+      },
+      "id": "C39_depth_eight_boundary",
+      "matches_oracle": true
+    },
+    {
+      "actual": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "UNSUPPORTED_SUBSET"
+        ]
+      },
+      "expected": {
+        "committed_facts": [],
+        "consumed": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "effect_rows": 0,
+        "possible_facts": [],
+        "reserved": {
+          "bytes": {
+            "amount": "0",
+            "unit": "byte"
+          },
+          "ops": {
+            "amount": "0",
+            "unit": "operation"
+          }
+        },
+        "verdicts": [
+          "UNSUPPORTED_SUBSET"
+        ]
+      },
+      "id": "C40_canonical_subset_boundary",
+      "matches_oracle": true
+    }
+  ],
+  "scope": "Aggregate observations only; original raw traces and SQLite databases are outside this public subset."
+}

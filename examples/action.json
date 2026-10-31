@@ -1,0 +1,16 @@
+{
+  "arguments": {
+    "payload": "",
+    "units": "1"
+  },
+  "executor_id": "urn:lab:executor",
+  "mandate_id": "child-964917085ccc1da032f2b3d63fbcc2db",
+  "method": "tools/call",
+  "operation_id": "operation-1",
+  "profile": "zti-mcp/0.1",
+  "resource_id": "urn:lab:resource",
+  "root_mandate_id": "root-596ad77dd6298ee578c1077594e869f7",
+  "tenant_id": "lab-tenant",
+  "tool_name": "lab.compute",
+  "tool_revision": "1"
+}

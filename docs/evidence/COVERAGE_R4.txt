@@ -1,0 +1,195 @@
+R4 REQUIREMENT-TO-EVIDENCE MAP — 31 OCTOBER 2026
+
+This map refers to requirement identifiers R01-R28 in the coordinator's candidate
+draft-messaoudene-zti-mcp-00. Every entry is a bounded exercised subset or an
+explicit gap. None is a whole-requirement conformance certification. Cases C01-
+C40 are the frozen corpus; P01-P07 are separate post-review diagnostic probes in
+../review/probes/. The seven probes are not added to the forty-scenario count.
+
+R01 — Trust roles and authenticated identity
+  EXERCISED SUBSET: C12 rejects a caller that differs from the signed/authorized
+  delegatee. C02 signs a valid narrowed child for its own delegatee.
+  ASSUMED/NOT EXERCISED: callers are trusted function arguments; no OAuth/channel
+  authentication, federation, dynamic key discovery or hostile proxy was run.
+
+R02 — Complete immutable lineage and scope
+  EXERCISED SUBSET: C07 missing ancestor, C08 parent digest, C09 wrong root, C10
+  immutable replacement, C39 valid depth eight and rejected depth nine; C06
+  retains root prohibition across the child.
+  NOT EXHAUSTIVE: no cycle-injection campaign, arbitrary cross-tenant attack
+  corpus or independently implemented registry peer.
+
+R03 — Attenuation and no reset of root authority
+  EXERCISED SUBSET: C02 positive narrowing; C03-C05 tool/cap/validity widening;
+  C19/C20/C37 shared sibling credit; C06 inherited root policy. P04 confirms an
+  empty allow-set authorizes no tool. M1 shows the selected missing-check impact.
+  NOT EXHAUSTIVE: all permutations of executor/resource/method/unit/dimension
+  widening, administrative delegation and root-policy migration are not run.
+
+R04 — Exact quantities, units, stable scoped keys
+  EXERCISED SUBSET: C15 negative/bool quantity; C16 uint64 max and no wrap;
+  C17 unit mismatch; C34 byte budget with zero operation cost. P06/P07 reject
+  malformed empty budget/cap maps. C38 uses stable operation identity across
+  distinct signatures. Code stores full tenant/root operation/reservation keys.
+  GAP: executable catalog has two fixed dimensions. Generic dimension-name
+  handling, broad numeric/parser interop and persistent state-revision overflow
+  are not established by these tests.
+
+R05 — Root issuance, signed registration, immutability
+  EXERCISED SUBSET: root IDs are authority-generated; every exercised root/child
+  is signed with ES256 and checked through the local lineage path; C10 rejects
+  replacement. Examples retain actual signed bodies and hashes.
+  GAP: root issuance authorization is a fixture assumption. The local API creates
+  mandates internally; it is not an external signed-mandate registration service.
+  Idempotent import of identical signed mandates is not implemented/tested. Its
+  local store rejects an already-existing identifier rather than implementing
+  the complete documentary register response semantics.
+
+R06 — Authoritative final-action footprint
+  EXERCISED SUBSET: C14 changed command, C17 cost unit, C18 false signed facts;
+  C35 rejects an unsupported policy shape; P02 rejects a corrupted stored fact
+  footprint. Cost/facts derive from the exact harmless catalog action.
+  GAP: no classifier correctness, mutable-file precondition, external catalog
+  provenance or real-world effect completeness is established.
+
+R07 — Atomic reservation admission
+  EXERCISED SUBSET: C19/C20 budget sharing, C22/C23 possible-fact combination,
+  C37 positive concurrent admission; real processes share SQLite transactions.
+  GAP: no lost-reservation-response recovery campaign or distributed registry.
+
+R08 — Gateway non-delivery
+  NOT EXERCISED IN R4: no downstream transport/tool-receipt probe is part of this
+  corpus. Earlier R3 IPC evidence is separate and is not silently counted here.
+
+R09 — AtomicEffect integration
+  EXERCISED SUBSET: authorized transition, reservation consumption and real local
+  effect INSERT share one SQLite transaction; C01/C25/C26/C31/C33/C36 expose
+  relevant boundary outcomes.
+  GAP: no remote/provider/physical transaction, irreversible external acceptance
+  protocol, replicated failover or cross-service commit is implemented.
+
+R10 — Current identity, lineage, command and usable state at effect
+  EXERCISED SUBSET: C07/C11-C14/C17/C18/C25/C29-C33/C38 and P02/P03 exercise
+  selected rejection and replay paths at the actual local effect boundary.
+  GAP: no real authenticated network identity or MCP provider implementation.
+
+R11 — Cancellation only before consumption
+  EXERCISED SUBSET: C24 releases a now-unusable pending fact; C25 cancel-first
+  gives no effect; C26 commit-first retains effect/charge; C29 UNKNOWN cannot be
+  cancelled. C25/C26 impose two orders in separate processes, not lock-contention
+  measurement. No exhaustive interleaving exploration is claimed.
+
+R12 — COMMITTED/COMPLETED/UNKNOWN retain cost and facts
+  EXERCISED SUBSET: C27-C29 retain UNKNOWN cost/facts and prevent repeat effect;
+  C33 retains committed history after revocation; M3 detects blind charge release.
+  GAP: the broader COMPLETED lifecycle and arbitrary external outcome resolution
+  are not implemented. UNKNOWN is set only after a protected local commit.
+
+R13 — ES256/JWS type and key validation
+  EXERCISED SUBSET: true ES256 signing/verifying throughout, C11 bad signature,
+  C13 wrong token type/audience, C38 same claims with a distinct valid signature.
+  Three exported signatures are verified using the exported public JWK.
+  GAP: public fixture private key; no production custody/rotation or broad JOSE
+  parser/algorithm-confusion adversarial suite.
+
+R14 — Complete ICT claims and immutable reservation binding
+  EXERCISED SUBSET: C12-C14/C17/C18/C38 and P02; code checks exact claim/member
+  sets and stored binding, including tenant and correlation.
+  GAP: no independent fuzzed cross-tenant/cross-root corpus, no full structural
+  validator conformance claim and no independent peer implementation.
+
+R15 — Current temporal validity
+  EXERCISED SUBSET: C30 advances the deterministic trusted clock past the ICT
+  deadline before consumption; no effect and no automatic credit release.
+  GAP: no clock-synchronization, uncertainty, regression, restart or real-time
+  deadline measurement. Per-worker timestamps were not recorded; see erratum.
+
+R16 — Exact action binding and canonical hash
+  EXERCISED SUBSET: C14 substitution and exported positive digest bindings.
+  C40 explicitly rejects non-ASCII object keys outside the executable subset.
+  GAP: executable canonicalizer is not full RFC8785, nor are all provider input
+  transformations and mutable resource preconditions exercised.
+
+R17 — Componentwise root cost and cumulative fact gate
+  EXERCISED SUBSET: C01/C16/C19-C24/C27/C28/C34/C37; M2 exposes the omission of
+  other reserved facts. M2 has two admissions, one committed effect and one held
+  reservation, followed by a refused second commit: not two completed effects.
+  GAP: correctness of real-world fact assignment is assumed, not learned/tested.
+
+R18 — No double-add of own held reservation
+  EXERCISED SUBSET: C01 reaches the exact budget and commits once; C16 reaches
+  uint64 max without counting the same reservation twice; C37 commits both
+  admitted cost-2 actions under budget 4.
+
+R19 — Common root ordering
+  EXERCISED SUBSET: SQLite BEGIN IMMEDIATE gives the local shared order; C20,
+  C23 and C37 release real admission processes from barriers. C25/C26 examine
+  two directed cancellation/consumption orders; C31/C33 two revocation orders.
+  GAP: no consensus/partition/failover, distributed linearizability, throughput
+  measurement or proof of all concurrent schedules.
+
+R20 — Revocation/epoch semantics
+  EXERCISED SUBSET: C31 revocation first, C33 commit first, C32 changed epoch;
+  P01 verifies epoch saturation leaves the root terminally revoked with no wrap.
+  GAP: authenticated revocation acknowledgements and persistent state-revision
+  saturation are not implemented as a network/control API.
+
+R21 — Stable operation, replay and acknowledgement recovery
+  EXERCISED SUBSET: C29 and C38 prevent another effect; C36 commits in a child,
+  loses its acknowledgement and finds durable COMMITTED through local lookup.
+  GAP: no storage compaction/tombstone policy, process-restart campaign or complete
+  identity-conflict matrix. New-operation semantic deduplication is not provided.
+
+R22 — Complete mediation and disclosed exclusions
+  ASSUMPTION/DISCLOSURE ONLY: the fixture routes actions through the authority.
+  Direct database access is deliberately available for diagnostic injections.
+  It is not a defended deployment; bypass administrators, separate roots and
+  out-of-domain actions are outside the local guarantee.
+
+R23 — Resource limits, unsupported input and configured trust
+  EXERCISED SUBSET: C35 unsupported rule, C39 lineage depth, C40 canonical subset;
+  P03 unknown ledger state. The code never fetches a URL supplied by a token.
+  GAP: no complete size/nesting/pending-queue/resource-exhaustion controls or
+  general parser-hardening audit; thus whole-requirement conformance is absent.
+
+R24 — Extension identifier and MCP negotiation
+  NOT EXERCISED: documentary envelopes only; no actual MCP initialization,
+  negotiation, extension namespace ownership or version handshake.
+
+R25 — MCP/provider compatibility and binding
+  NOT EXERCISED: method tools/call is an illustrative binding string in the local
+  command, not a real protocol exchange. No OAuth credential forwarding or real
+  downstream provider integration is tested.
+
+R26 — Privacy, access, retention and operational reporting
+  EXERCISED SUBSET: policy refusals and unexpected infrastructure failures are
+  distinct in the runner; readback is explicit. All fixture tokens/data are
+  public test values. Lookup/cancel actor binding exists in local code.
+  GAP: no production tenant authorization audit, transport confidentiality,
+  storage ACL, minimization, retention/deletion or incident-response program.
+
+R27 — Complete named deployment and conformance evidence
+  DOCUMENTED BOUNDED PROFILE ONLY: README names source, clock, catalog, key,
+  storage, state and effect boundary. Forty scenarios, three mutants, examples
+  and independent readback are evidence of specified local observations.
+  NOT A CONFORMANCE CLAIM: the gaps in this map remain. receipt.json is an offline
+  view of the real effect/audit; the executable local return dictionary is not
+  the full authenticated wire receipt required by the draft.
+
+R28 — Control-operation authorization
+  EXERCISED SUBSET: reserve/delegate/lookup/cancel use local caller checks; C12
+  exercises an unauthorized invoker at consumption. Root/admin operations are
+  trusted fixture methods, not exposed endpoints.
+  GAP: no authenticated control server, full cross-principal control test matrix
+  or wire response implementation. In particular local reserve can return an
+  existing stored JWT for idempotent state lookup; it does not implement the
+  documentary rule to omit ict except for usable RESERVED authority. Consumption
+  still validates current time/state. This local API must not be advertised as
+  the draft's complete register/reserve/lookup/cancel/revoke wire service.
+
+HOW TO INTERPRET THE COUNTS
+40/40 means that the selected normal scenarios produced their predetermined
+verdicts, effects, cost vectors and facts. 3/3 means each selected mutation changed
+at least one predetermined observation. 7/7 denotes distinct diagnostics chosen
+from real review findings after the frozen corpus. No denominator here measures
+all potential attacks, all implementations or all semantic intentions.

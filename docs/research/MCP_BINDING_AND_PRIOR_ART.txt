@@ -1,0 +1,306 @@
+ZTI-MCP R4 — Architecture, binding MCP et antériorités ciblées
+Mandat P1 exécuté le 31 octobre 2026. Note de recherche et recommandations.
+Auteur de la recherche : agent IA protocol_prior_art ; aucune revue humaine
+ni validation institutionnelle n'est revendiquée.
+
+CONCLUSION OPERATOIRE
+
+Un profil tiers peut transporter un permis signé dans les métadonnées MCP,
+annoncer sa révision et exiger sa prise en charge pour les opérations protégées.
+Le rattachement conseillé vise exclusivement MCP 2026-07-28. Il ne requiert
+aucun changement de transport et ne transforme pas une déclaration de capacité
+en preuve d'intégration. Le contrat R4 doit ajouter le registre partagé, les
+contraintes héritées et la consommation liée à l'effet final. Ce sont des
+obligations explicites de ce profil individuel, non des garanties que MCP ou
+Interceptors apporteraient automatiquement.
+
+L'appellation honnête est « proposed third-party experimental profile » ou
+« individual experimental specification ». Elle ne signifie pas admission au
+stade Experimental de la gouvernance MCP. Aucun namespace attribué, dépôt
+Internet-Draft, parrainage, acceptation ni nouveauté brevetable n'est établi.
+
+1. BASE MCP VERIFIEE
+
+La version 2026-07-28 est sans session implicite : version et capacités sont
+portées par chaque requête ; les objets applicatifs persistants utilisent des
+identifiants explicites. Les clés _meta ont des préfixes et noms documentés.
+Les préfixes dont le deuxième label est mcp ou modelcontextprotocol sont
+réservés. Les informations clientInfo/serverInfo sont autodéclarées. [S01]
+
+Les extensions s'annoncent dans capabilities.extensions, côté client dans
+les métadonnées de chaque requête et côté serveur dans server/discover.
+Une extension obligatoire pour un service peut conduire au refus si elle
+manque. L'activation est explicite. Les identifiants tiers utilisent un
+préfixe DNS inversé contrôlé par leur auteur. [S02]
+
+Le modèle host/client/server ne confère pas à chaque serveur l'ensemble de
+l'historique : il conserve des frontières de contexte. Les transports lient
+les mêmes messages à stdio ou HTTP ; leur choix ne change pas la sémantique
+applicative. En HTTP, certaines métadonnées sont dupliquées en en-têtes pour
+les intermédiaires, avec rejet des incohérences. [S03, S04, S05]
+
+L'autorisation MCP HTTP est fondée sur OAuth ; le jeton d'accès est destiné au
+serveur protégé et envoyé dans Authorization à chaque requête. Le flux OAuth
+HTTP ne s'applique pas tel quel à stdio, où la spécification recommande des
+credentials d'environnement. Les jetons d'accès destinés à d'autres ressources
+ne doivent pas être acceptés ou transmis comme substituts. [S06]
+
+Conséquence de conception : une passerelle est un composant de déploiement.
+Elle peut être un serveur MCP face au client et un client MCP face à un
+fournisseur, avec authentification et audiences appropriées sur chaque lien.
+Ce découpage ne prouve ni médiation complète ni validation de l'état au moment
+de l'effet. Si le fournisseur peut exécuter par une voie indépendante, le
+périmètre strict R4 ne couvre pas cette voie.
+
+2. REPRESENTATION EXPERIMENTALE RECOMMANDEE
+
+2.1 Identifiant
+
+Utiliser un paramètre de déploiement EXT_ID de la forme :
+    <controlled-reverse-DNS-prefix>/zti-mcp
+
+Le document et les fixtures peuvent utiliser org.example/zti-mcp, EXCLUSIVEMENT
+comme identifiant illustratif. example.org est réservé aux exemples [S07].
+Ce n'est pas un domaine contrôlé par l'auteur et ce n'est pas un identifiant
+de production. La rédaction doit interdire de présenter cette valeur comme
+namespace attribué. Aucun nom io.modelcontextprotocol/zti-mcp, org.mcp/* ou
+préfixe d'un tiers non contrôlé ne doit être revendiqué.
+
+Avant une interopérabilité extérieure, un opérateur doit choisir un domaine
+qu'il contrôle et les participants doivent s'accorder sur EXT_ID. Cette étape
+ne constitue ni une admission MCP ni une inscription IANA.
+
+2.2 Annonce et négociation
+
+Proposition R4, pas des champs natifs MCP : la valeur sous EXT_ID annonce une
+révision exacte, le mode current-authority-online et le contrat de couplage
+requis. Le client recopie la capacité pertinente dans chaque requête protégée.
+Le serveur vérifie cette déclaration ET le contenu du permis ; une découverte
+antérieure mise en cache ne crée aucune autorisation.
+
+Exemple structurel de requête, volontairement sans vrai JWT ni appel réseau :
+
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "example_operation",
+    "arguments": {"quantity": 1},
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientCapabilities": {
+        "extensions": {
+          "org.example/zti-mcp": {
+            "revision": "r4-2026-10-31",
+            "authorityMode": "current-online"
+          }
+        }
+      },
+      "org.example/zti-mcp": {
+        "revision": "r4-2026-10-31",
+        "permit": "<compact-JWS-permit>"
+      }
+    }
+  }
+}
+
+Les noms internes revision/authorityMode/permit ci-dessus sont une proposition
+d'interface à figer par le coordinateur. Ils ne sont pas un schéma déjà adopté.
+L'annonce du serveur figure dans result.capabilities.extensions[EXT_ID] de
+server/discover. Un serveur ne doit pas annoncer le profil strict uniquement
+parce qu'il peut parser cette enveloppe : son intégration doit satisfaire le
+contrat de consommation final.
+
+Définir les exceptions de bootstrap, au minimum server/discover, pour éviter
+d'exiger un permis avant de découvrir le profil. L'authentification MCP qui
+s'applique à cette opération reste obligatoire. Les exceptions sont définies
+par opération, non par une description en langage naturel telle que « sans
+danger ». Les opérations protégées refusent profil manquant, révision inconnue,
+contrainte incomprise ou impossibilité de joindre l'autorité. Aucun repli vers
+les droits acquis à l'admission de R3 n'est autorisé.
+
+2.3 HTTP, stdio et erreurs
+
+Pour une requête HTTP tools/call, l'exemple complet doit aussi comporter
+MCP-Protocol-Version, Mcp-Method et Mcp-Name, cohérents avec le corps [S05].
+Authorization conserve le jeton OAuth applicable. Le permis ZTI reste dans
+_meta ; aucun nouvel en-tête ZTI n'est nécessaire dans cette base.
+
+En stdio, la même enveloppe est disponible. L'identité effective provient d'un
+contrat local d'authentification et d'isolation établi par le déploiement,
+jamais du seul nom clientInfo ou d'un identifiant de conversation fourni par
+l'appelant. Un processus partagé ne doit pas être assimilé à une seule tâche.
+
+Réutiliser les erreurs MCP existantes pour leurs conditions exactes :
+version non prise en charge -32022 ; capacité requise absente -32021 ;
+métadonnées requises manquantes -32602 ; désaccord en-tête/corps -32020.
+Les raisons propres à ZTI ont leur mapping défini par le profil, hors des
+plages réservées aux nouvelles erreurs MCP/JSON-RPC. Ne pas reprendre des
+codes historiques trouvés dans une proposition antérieure. [S01, S05]
+
+3. INTERCEPTORS : REVISION EXAMINEE ET LIMITE PRECISE
+
+PR : https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2624
+Etat constaté : ouverte le 31 octobre 2026. [S08]
+
+Révision figée de la proposition :
+commit 3a2760642010e30037231ef4d7586750b0654e65, 17 juillet 2026.
+Fichier lu dans le fork auteur, qui porte ce commit :
+https://github.com/Degiorgio/modelcontextprotocol/blob/3a2760642010e30037231ef4d7586750b0654e65/seps/2624-interceptors-for-model-context-protocol.md
+
+L'en-tête du texte porte Status: Draft, Type: Standards Track et la date de
+création 2025-11-04. Ce « Standards Track » est la catégorie de SEP proposée,
+pas le statut d'un RFC IETF. Le dépôt experimental-ext-interceptors indique
+explicitement ne pas être une extension MCP acceptée ou officielle. [S09,S10]
+
+Le texte propose validators, mutators, découverte et invocation. Il définit
+en émission Mutate→Validate→Send et en réception Validate→Mutate→Process.
+Il permet audit et failOpen, y compris des overrides de politique par
+l'invocateur. L'atomicité annoncée porte sur la chaîne de mutations. [S10]
+
+ANALYSE D'INTEGRATION R4 : un validateur exécuté à l'entrée ne suffit pas à
+lier un permis à la commande après mutations. Un adaptateur peut réemployer
+l'interception pour le filtrage initial, mais le fournisseur doit vérifier
+la commande finale et consommer le permis au point d'effet contractuel.
+Une mutation des champs engagés nécessite une nouvelle autorisation, ou
+un échec de la comparaison finale. Ce gate final est un contrôle métier
+supplémentaire ; il n'est pas prétendu être une étape normative déjà présente
+dans SEP-2624. Les overrides audit/failOpen doivent être incompatibles avec
+la revendication de conformité stricte sur ce chemin.
+
+L'atomicité d'une transformation de message ne dit rien, à elle seule, de
+l'atomicité entre registre d'autorisation et transaction du fournisseur.
+Aucun audit du code ni test d'interopérabilité avec ce dépôt n'a été réalisé
+dans P1. La comparaison est documentaire et porte sur cette révision précise.
+
+4. JOSE/JWT, ES256 ET ENGAGEMENT DE COMMANDE
+
+4.1 Signature
+
+JWS Compact signe les octets des segments protégés reçus, reliés par un point.
+La vérification ne doit pas reconstruire un JSON « équivalent » avant de
+vérifier la signature. ES256 utilise P-256/SHA-256 et une signature de 64 octets,
+R puis S sur 32 octets chacun ; une sortie DER d'une bibliothèque doit être
+convertie au format JWS. [S11,S12]
+
+Recommandation R4 : accepter uniquement ES256 dans cette révision ; associer
+chaque clé de confiance à l'émetteur, au type de jeton et à cet algorithme.
+Séparer les types mandat et permis et leurs ensembles de claims requis.
+Le jeton OAuth est un troisième rôle. Ne pas accepter un jeton d'un rôle dans
+un autre validateur. Le BCP JWT exige la sélection contrôlée d'algorithmes,
+la validation issuer/audience et des règles incompatibles entre types. [S14]
+
+Restreindre les en-têtes acceptés à ceux définis dans le profil ; rejeter les
+extensions critiques non comprises. Pour cette base, ne pas utiliser une clé
+ou URL arbitrairement proposée dans le header comme racine de confiance.
+kid sélectionne une clé autorisée dans une configuration de confiance bornée.
+La rotation, le retrait de clé et l'indisponibilité de cette configuration
+doivent avoir des conséquences opérationnelles explicites.
+
+Si la rédaction retient zti-ict+jwt et zti-mandate+jwt, les présenter comme
+identifiants de type non enregistrés, utilisés par accord explicite dans ce
+profil expérimental. Le paramètre typ reste interprété selon JWS ; aucun type
+média officiel n'est revendiqué. Les claims zti et zti_mandate sont privés par
+accord. Une section « This individual experimental draft requests no IANA
+actions » est cohérente avec cette portée limitée ; elle n'anticipe pas la
+décision d'enregistrement d'une future publication publique. [S11,S13,S14]
+
+4.2 Temps et identité stable
+
+JWT définit notamment iss, aud, sub, iat, nbf, exp et jti. Son format général
+permet des profils plus souples ; les restrictions R4 (audience unique,
+claims temporels obligatoires, entiers sûrs, absence de tolérance implicite)
+sont donc des décisions du profil, pas des exigences universelles JWT. [S13]
+
+Choisir une source de temps autoritative au point de consommation ; documenter
+le traitement d'une horloge non fiable, de sa régression et d'un redémarrage.
+Une signature valide n'établit pas l'heure actuelle ni l'absence de révocation.
+Le registre identifie l'autorisation par (issuer,jti) et/ou un identifiant
+d'opération autoritatif stable. Le hash du JWT complet ne doit pas être le seul
+identifiant de non-rejeu : une nouvelle signature, et certaines transformations
+ECDSA valides, peuvent donner des octets différents pour les mêmes claims.
+
+4.3 JCS
+
+RFC8785 (juin 2020) est un RFC Informational de la filière Independent Submission.
+JCS impose notamment absence de noms dupliqués, Unicode valide et non normalisé,
+nombres représentables en IEEE754, sérialisation déterministe et tri récursif
+des propriétés selon les unités UTF-16. [S15]
+
+Recommandation : séparer le digest de commande, calculé sur une structure
+strictement définie et canonisée, de la signature JWS qui le transporte.
+La structure engagée doit inclure les éléments qui changent l'action :
+opération, arguments effectifs, ressource/tenant, identité d'exécuteur, version
+de commande, contexte ou préconditions nécessaires. Exclure explicitement
+les champs de transport non sémantiques. Résoudre les defaults et mutations
+avant l'engagement, ou les inclure par une règle déterministe identique.
+
+Un chemin, alias ou nom mutable ne suffit pas à engager son référent si
+celui-ci peut changer ; l'adaptateur doit lier une version ou une précondition
+vérifiée au même point d'effet. Le digest démontre une égalité d'entrée selon
+le schéma ; il ne prouve pas que le fournisseur implémente correctement la
+signification de cette entrée.
+
+json.dumps(sort_keys=True) n'est pas une implémentation générale de JCS.
+Si le banc n'utilise pas de canoniseur complet installé, il peut tester un
+sous-ensemble annoncé : clés ASCII partout, entiers sûrs (sans booléens traités
+comme entiers), chaînes Unicode valides, pas de doublons, représentation sans
+espaces et sans échappement Unicode superflu. Il faut alors rejeter le reste
+ou le décrire comme non exercé ; ne pas revendiquer la conformité générale
+RFC8785 à partir des seules fixtures de ce sous-ensemble.
+
+5. ANTERIORITES DE MECANISME, SANS CONCLUSION DE NOUVEAUTE
+
+RFC9396, mai 2023, Standards Track : authorization_details permet des droits
+structurés ; la comparaison/réduction dépend de la sémantique de chaque type.
+Le RFC explique qu'une comparaison JSON générique ne suffit pas. [S16]
+Réemploi possible : modèle de requête de droits précis. Différence candidate
+R4 : sémantique d'un type borné, réservations communes et prédicats cumulatifs.
+Ne pas appeler cela une propriété absente de tous les profils RAR possibles.
+
+RFC8693, janvier 2020, Standards Track : échange de jetons et rôles sujet/acteur.
+L'échange ne consomme pas automatiquement ses jetons d'entrée ; la propagation
+de révocation n'est pas une propriété générale. Les act imbriqués antérieurs
+sont informatifs, non sources de droits pour la décision du destinataire. [S17]
+Réemploi possible : authentification et délégation dans l'infrastructure OAuth.
+R4 doit maintenir son propre graphe autoritatif de contraintes d'ancêtres ;
+il ne peut pas prétendre que le simple décodage d'un act impose cet héritage.
+
+UCAN v1.0.0 observé le 31 octobre 2026 : spécification communautaire, sans statut
+IETF revendiqué. Elle sépare délégation/invocation, exige une atténuation et une
+validation à execution-time ; le format courant signe DAG-CBOR. La décrire
+comme « JWT actuel » serait inexact. [S18]
+Réemploi conceptuel : distinction autorité transmise/exercice d'autorité.
+Le choix R4 d'un registre cohérent en ligne et de budgets communs constitue
+un contrat de déploiement spécifique ; P1 n'établit pas son unicité parmi les
+systèmes de capacités. L'existence d'une vérification d'exécution n'est pas
+une innovation démontrée.
+
+Verifiable Intent, 0.1-draft, en-tête du 18 février 2026 : chaînes de mandats
+SD-JWT, ES256, actions commerciales liées à l'intention déclarée, vérification
+des contraintes et suivi cumulé par le réseau. La révocation propre à VI est
+reportée à une version future dans le texte lu. [S19]
+Cette antériorité interdit de présenter « mandat signé + agent + budget
+cumulatif » comme invention de R4. Un profil MCP générique, une consommation
+couplée et des règles de combinaison peuvent constituer un sujet de revue,
+sans démonstration de première invention ni supériorité quantitative.
+
+6. STATUT DES REFERENCES ET LIMITES DE P1
+
+Les sources exactes, dates, versions, sections et identifiants de consultation
+sont dans SOURCES_R4.json. Les RFC JOSE/JWT/JCS effectivement requis et la
+version MCP ciblée peuvent être références normatives de la spécification
+individuelle. RAR, Token Exchange, UCAN, VI et Interceptors restent informatifs
+tant que le binding R4 n'exige pas leur implémentation.
+
+P1 vérifie un rattachement documentaire et propose des conditions de conformité.
+Il ne démontre ni interopérabilité entre SDK MCP, ni robustesse distribuée,
+ni couplage à un paiement réel, ni garantie d'intention humaine. Les essais du
+banc et les preuves d'invariants sont un livrable séparé. L'acceptation d'une
+extension, l'adoption et une revue indépendante restent des jalons non réalisés.
+
+Le critère d'arrêt P1 est satisfait : représentation expérimentale sans
+usurpation, révision Interceptors identifiée, références cryptographiques et
+antériorités directes vérifiées ; les risques de compatibilité matériels ont
+été transmis au coordinateur avant figement de l'interface.

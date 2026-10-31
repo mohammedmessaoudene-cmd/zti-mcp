@@ -1,0 +1,26 @@
+PRE-RUN CODE REVIEW — 31 OCTOBER 2026
+
+No scenario was executed before the following code corrections. The contract,
+cases and four-file preexecution manifest remain unchanged. Reviewer2 and root
+approved the bounded contract, with ORACLE_INTERPRETATION.txt applied to C23 and
+to the admission-only multiset comparison of concurrent scenarios.
+
+The first implementation is preserved in pre_run_review/. Reviewer2 identified:
+1. Epoch saturation must not roll back a requested revocation. The corrected
+   authority revokes the root durably at the uint64 maximum without wrapping.
+2. Consumed facts must equal the stored reservation footprint as well as the
+   trusted catalog. The corrected binding checks both and the stored claims.
+3. An unknown ledger state must fail STATE_INCOMPLETE, never silently release
+   its cost/facts from accounting.
+4. Empty allowed sets mean no rights, not a request for defaults. Defaults now
+   apply only to None; empty malformed policies/budgets/caps are rejected.
+5. The fixture action method now uses tools/call, consistent with the intended
+   illustrative binding. This still does not run an MCP server or transport.
+
+These are code-review corrections, not outcomes hidden by moving test oracles.
+The fixed 40 scenarios do not independently exercise all five findings; targeted
+review probes, if run, are separate evidence and must be reported as such.
+
+M2 intentionally ignores other outstanding reservation facts. This may admit an
+incompatible pair while still rejecting a later commit. Report the actual ledger
+and effects, not an invented claim that both incompatible effects completed.

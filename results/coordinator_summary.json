@@ -1,0 +1,33 @@
+{
+  "child_processes": 13,
+  "errors": 0,
+  "expected_observations_matched": 40,
+  "frozen_inputs": {
+    "CENTRAL_SOURCE_SNAPSHOT.txt": "92142d024125863de42f9a1e39b97c65aafa5d170b012e4c42ed84075f86a40b",
+    "CONTRACT.txt": "32a8deec560ba97f1e3cb67b086491533381731142dbe721a6d4964c5bd26f15",
+    "ORACLE_INTERPRETATION.txt": "2456351f0e14038b35cd41d603e2b4949ab1d1fde62a7741ee038a7038ccde8d",
+    "cases.json": "9a64060be1bf22e87963a9a4d1e8598e18e35850b05000f3c11829b141e86176"
+  },
+  "llm_calls": 0,
+  "mutants_detected": 3,
+  "network_calls": 0,
+  "notes": [
+    "One current-online architecture only.",
+    "Facts and costs are a trusted symbolic catalog fixture.",
+    "Real ES256 signatures; JCS-compatible ASCII-key/safe-integer executable subset only.",
+    "SQLite transaction binds current authorization to the local effect row, not a remote side effect.",
+    "Finite expected observations are not a general conformance or safety rate."
+  ],
+  "runtime": {
+    "cryptography": "50.0.2",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "sqlite": "3.53.1",
+    "start_method": "spawn"
+  },
+  "scenario_count": 40,
+  "source_sha256": {
+    "authority.py": "0489bf76fc482558051e65ac3517aab9189109bc3d1647724e54211b623aa11f",
+    "run_r4.py": "56e382fa65a079ee8b24b03aa5a9d0874a09938400442a9c707cd54fa0394741"
+  },
+  "targeted_mutants": 3
+}

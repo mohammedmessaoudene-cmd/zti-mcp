@@ -1,0 +1,67 @@
+{
+  "aud": "urn:lab:registry",
+  "exp": 1793408400,
+  "iat": 1793404800,
+  "iss": "https://authority.example.invalid",
+  "jti": "m-167fa784042852953b4d02af7b00434d",
+  "nbf": 1793404800,
+  "sub": "agent-a",
+  "zti_mandate": {
+    "constraints": {
+      "action_caps": {
+        "bytes": {
+          "amount": "10",
+          "unit": "byte"
+        },
+        "ops": {
+          "amount": "3",
+          "unit": "operation"
+        }
+      },
+      "allowed_executors": [
+        "urn:lab:executor"
+      ],
+      "allowed_methods": [
+        "tools/call"
+      ],
+      "allowed_resources": [
+        "urn:lab:resource"
+      ],
+      "allowed_tools": [
+        "lab.compute",
+        "lab.read_sensitive",
+        "lab.export_external"
+      ]
+    },
+    "correlation_id": "corr-b63802c8b203a7d92fe8580f0f157b21",
+    "delegatee_id": "agent-a",
+    "mandate_id": "root-596ad77dd6298ee578c1077594e869f7",
+    "parent_hash": null,
+    "parent_id": null,
+    "policy_hash": "32cdc6266f90955706728bccf9c2f1d3680749154de671ac219ea4d297f3b90c",
+    "principal_id": "principal-root",
+    "profile": "zti-mcp/0.1",
+    "root_mandate_id": "root-596ad77dd6298ee578c1077594e869f7",
+    "root_policy": {
+      "budgets": {
+        "bytes": {
+          "amount": "10",
+          "unit": "byte"
+        },
+        "ops": {
+          "amount": "3",
+          "unit": "operation"
+        }
+      },
+      "forbidden_sets": [
+        [
+          "read_sensitive",
+          "export_external"
+        ]
+      ]
+    },
+    "tenant_id": "lab-tenant",
+    "valid_from": 1793404800,
+    "valid_until": 1793408400
+  }
+}

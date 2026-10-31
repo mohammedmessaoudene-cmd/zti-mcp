@@ -1,0 +1,29 @@
+{
+  "jsonrpc": "2.0",
+  "id": "wire-01",
+  "result": {
+    "resultType": "complete",
+    "supportedVersions": [
+      "2026-07-28"
+    ],
+    "capabilities": {
+      "tools": {},
+      "extensions": {
+        "org.example/zti-mcp": {
+          "revision": "0.1",
+          "profile": "zti-mcp/0.1",
+          "mode": "current-online",
+          "effect_coupling": "required"
+        }
+      }
+    },
+    "ttlMs": 0,
+    "cacheScope": "private",
+    "_meta": {
+      "io.modelcontextprotocol/serverInfo": {
+        "name": "zti-offline-documentary-service",
+        "version": "0.1"
+      }
+    }
+  }
+}

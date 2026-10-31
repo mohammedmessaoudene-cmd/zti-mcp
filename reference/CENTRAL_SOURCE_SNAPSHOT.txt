@@ -1,0 +1,151 @@
+ZTI-MCP R4 — Interface candidate pour revue avant gel des essais
+31 octobre 2026. Ce fichier fixe des décisions de conception, pas une norme.
+
+UN SEUL CONTRAT
+current-online. T_initial autorise une réservation révocable. T_revalidate est
+la décision courante atomiquement liée à la consommation et à la frontière
+d'effet déclarée. Le point d'effet peut être la mutation protégée elle-même ou
+l'acceptation irrévocable par le fournisseur, uniquement si cette acceptation
+est explicitement le contrat protégé. Elle n'est pas une preuve d'achèvement.
+Un adaptateur qui ne sait faire que check réseau puis action séparée n'est pas
+conforme. Aucun fallback acquired-right, aucune tolérance offline cachée.
+
+ROLES
+Un principal reçoit une racine d'autorité après une décision hors protocole.
+L'autorité de mandat signe les mandats et ICT ; le registre conserve contraintes,
+réservations, états et résultats. La passerelle applique admission + non-remise.
+Le fournisseur applique la frontière d'effet. Ces rôles peuvent partager le même
+domaine transactionnel ; un modèle/agent ne modifie jamais le registre lui-même.
+
+SCOPE ET DELEGATION
+Un Global_Mandate est immuable et identifie tenant, principal, root_mandate_id,
+mandate_id, parent_id/parent_hash (null pour racine), correlation_id attribué par
+l'autorité, délégué autorisé, validité et contraintes. Parent unique, au maximum 8 niveaux
+dans la révision 0.1. Toute modification crée un nouveau mandat lié ; elle ne
+remet pas à zéro les compteurs historiques. Une nouvelle racine n'est accordée
+que par l'autorité : changer correlation_id ne crée ni budget ni identité.
+
+Contraintes de base : ensembles autorisés d'exécuteurs/ressources/opérations,
+budget RACINE par dimension avec unité et plafond, forbidden_sets RACINE de faits
+positifs, plafonds PAR ACTION atténuables dans les enfants et validité atténuée.
+L'autorité résout et vérifie chaque ancêtre. Les descendants partagent les mêmes
+compteurs de racine ; aucun sous-budget cumulatif n'est créé dans la version 0.1.
+Les règles cumulatives forbidden_sets sont immuables et communes à la racine :
+un enfant ne peut pas les modifier. Une règle ajoutée dans une branche seule ne
+pourrait pas contraindre les futures actions des autres branches ; un changement
+de politique globale nécessite une procédure de migration hors du profil 0.1.
+
+STRUCTURES FIXEES POUR LE CONTRAT R4
+Toute quantité prend la forme {"unit":"operation","amount":"2"}. Une dimension
+est une clé de dictionnaire ; les unités réelles sont fixées par la politique.
+budgets, action_caps et cost_bounds utilisent ce même format ; amount signifie
+respectivement plafond cumulé, plafond par action et borne de charge. Les clés
+de dimension doivent correspondre exactement à celles de la politique racine,
+y compris une dimension à coût zéro. Aucun plafond manquant n'est infini.
+
+zti_mandate contient exactement : profile, tenant_id, principal_id,
+root_mandate_id, mandate_id, parent_id, parent_hash, correlation_id,
+delegatee_id, valid_from, valid_until, constraints, root_policy, policy_hash.
+parent_id/parent_hash sont null pour une racine. root_policy est un objet
+{budgets,forbidden_sets} uniquement pour la racine ; il est null chez l'enfant.
+policy_hash est SHA256(JCS(root_policy de la racine)) dans toute la lignée.
+constraints contient exactement allowed_executors, allowed_resources,
+allowed_methods, allowed_tools et action_caps. Ces quatre listes sont des
+ensembles explicites sans wildcard, atténués par inclusion. Les action_caps
+enfants ne dépassent aucun plafond parent ; valid_from/valid_until sont des
+NumericDate sûrs et contenus dans l'intervalle parent. La profondeur maximale
+est 8 mandats, racine incluse. L'appel delegate doit être authentifié comme le
+delegatee du parent (ou autorité d'administration expressément habilitée).
+Le JWT de mandat a sub=delegatee_id, nbf=valid_from, exp=valid_until ; les autres
+claims conservent leur sens. Les émetteurs sont configurés par l'exploitant.
+
+VECTORIAL GATE
+Les coûts et faits viennent d'un adaptateur/catalogue de confiance, pas d'une
+auto-déclaration LLM. Le gate utilise D(coûts consommés), R(réservations) et
+F(faits consommés OU possibles des réservations). Tous coûts/plafonds sont des
+entiers non négatifs exacts. A la racine, D+R+coût<=budget et aucune forbidden_set
+ne doit être incluse dans F UNION faits_candidats ; les plafonds PAR ACTION sont
+vérifiés dans chaque ancêtre. Les réservations
+en vol sont incluses pour empêcher A et B de passer simultanément chacun seul.
+Les faits sont de simples étiquettes autoritatives, pas des embeddings ni une
+preuve de l'assemblage physique. Politique 0.1 monotone pour toute extension de F.
+
+TRANSITIONS
+RESERVED -> COMMITTED -> COMPLETED ou UNKNOWN.
+RESERVED -> CANCELLED/EXPIRED/REVOKED seulement via transition autoritative
+qui interdit toute consommation future avant de rendre la réservation libre.
+COMMITTED/UNKNOWN restent chargés ; pas de remboursement de coût brut, version 0.1.
+UNKNOWN signifie résultat final incertain APRES acceptation protégée COMMITTED.
+Une réponse perdue avant connaissance par le client de COMMITTED exige lookup
+par operation_id ; elle ne transforme pas arbitrairement RESERVED en UNKNOWN.
+La charge et les faits de COMMITTED/UNKNOWN ne sont comptés qu'une seule fois.
+Dans une autorité préconfigurée, Operation_Key=(tenant_id,root_mandate_id,
+operation_id) et Reservation_Key=(tenant_id,root_mandate_id,reservation_id).
+L'epoch change sur une décision d'autorité ou révocation, jamais sur la simple
+mise à jour de compteurs. A la valeur maximale, une révocation rend la racine
+définitivement inactive sans boucler à zéro ; la saturation ne permet pas de
+conserver l'autorité active. Le banc n'a pas à revendiquer cet ultime bord s'il
+ne l'exerce pas.
+Refus avant réservation ne crée pas de droit. Rejeu avec même operation_id et
+même action peut retourner le résultat existant ; aucun nouvel effet. Même
+operation_id et action différente=>CONFLICT. Le serveur de registre authentifie
+chaque appel ; aucune autorité n'est tirée du seul identifiant de corrélation.
+
+NUMERIQUE ET CANONISATION
+Quantités/epochs/revisions : chaînes décimales canoniques "0" ou [1-9][0-9]*,
+maximum 18446744073709551615 ; arithmétique exacte sans dépassement silencieux.
+NumericDate JWT : nombres entiers non négatifs <=2^53-1. JCS RFC8785 pour
+Action_Binding et empreintes de documents ; UTF-8, pas de clés dupliquées, pas de
+NaN/Inf ni Unicode invalide. Les preuves locales pourront annoncer honnêtement
+un sous-ensemble JCS à entiers sûrs, sans prétendre valider tous les nombres.
+
+ACTION_BINDING
+Objet canonicalisé : profile, tenant_id, root_mandate_id, mandate_id,
+operation_id, executor_id, resource_id, method, tool_name, tool_revision,
+arguments. Les arguments sont ceux exécutés APRES toute transformation.
+Empreinte SHA256 sous forme hexadécimale minuscule. Le numéro JSON-RPC et les
+en-têtes transport ne constituent pas l'identité stable de l'opération.
+La réservation associe également coût et faits autoritatifs ; la consommation
+doit retrouver la même action, le même sujet, la même audience et la même portée.
+
+ICT JWT (proposition d'interface pour les exemples)
+JWS compact, alg ES256 (P-256/SHA256), signature JOSE brute de 64 octets, typ
+"zti-ict+jwt", kid local configuré ; typ privé convenu et non enregistré IANA.
+En-tête exact alg/kid/typ ; pas de none, crit, jku,x5u, jwk incorporé ni négociation
+d'algorithme dictée par l'appelant. Une révision ultérieure pourra être agile.
+Claims obligatoires : iss, sub, aud(chaîneunique), iat, nbf, exp, jti, zti.
+zti obligatoire : profile="zti-mcp/0.1", mode="current-online", tenant_id,
+root_mandate_id, mandate_id, mandate_hash, correlation_id, operation_id,
+reservation_id, action_hash, policy_hash, authority_epoch, cost_bounds, facts.
+Empreintes = 64 caractères hexadécimaux minuscules. sub = identité authentifiée de l'invocateur attendu
+au fournisseur, aud = exécuteur exact. L'identité du principal racine reste dans
+le mandat ; le proxy s'authentifie sous sa propre identité autorisée. ICT n'est
+PAS le jeton OAuth d'accès et ne remplace aucune authentification par saut.
+TTL maximal 60 s : exp>nbf, iat<=nbf et exp-iat<=60. A T_revalidate : nbf<=t<exp au
+point de décision du registre avec horloge/borne d'incertitude annoncées.
+Le registre vérifie la signature ET l'état courant, les ancêtres, la réservation,
+la liaison, les contraintes et la destination. Un JWT valide seul n'autorise rien.
+
+MANDAT SIGNE
+JWS distinct, typ="zti-mandate+jwt", ES256, claimsiss/sub (délégué)/aud (registre),
+iat/nbf/exp/jti et zti_mandate portant les champs immuables ci-dessus. La lignée
+peut être résolue par références auprès du registre ; copier un sous-ensemble
+des contraintes dans un ICT ne supprime jamais les obligations des ancêtres.
+La distinction de type, claims et destination empêche la substitution entre mandat, ICT et OAuth.
+
+MCP BINDING CANDIDAT
+MCP 2026-07-28. Identifiant d'extension EXT_ID appartenant à l'exploitant ;
+org.example/zti-mcp réservé uniquement aux exemples. params._meta[EXT_ID]
+porte revision, ict et operation_id. Les participants négocient la révision
+exacte et current-online conformément aux mécanismes actuels MCP. Pas d'en-tête HTTP
+personnalisé contenant tout l'historique, pas de registre IANA implicitementcréé.
+Le coordinateur complètera cette partie après lecture des règles MCP.
+
+LIMITES ET EVALUATION
+Pas de ZK dans le profil de base : cela exige un prédicat, un témoin, un modèle de sécurité et une
+liaison récente au mandat ; aucune preuve ZK n'établit une intention mentale.
+Le banc local SQLite démontre seulement la frontière transactionnelle locale.
+Les tickets réels signés du nouveau banc, s'ils sont vérifiés, n'impliquent pas
+interopMCP, protection contre un administrateur malveillant ou un acteur hors domaine.
+L'acceptation irrévocable du fournisseur est un engagement : l'état COMPLETED requiert
+une observation distincte ; UNKNOWN conserve sa charge et n'autorise pas une répétition.

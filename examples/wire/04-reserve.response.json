@@ -1,0 +1,20 @@
+{
+  "jsonrpc": "2.0",
+  "id": "wire-04",
+  "result": {
+    "resultType": "complete",
+    "status": "RESERVED",
+    "tenant_id": "lab-tenant",
+    "root_mandate_id": "root-596ad77dd6298ee578c1077594e869f7",
+    "operation_id": "operation-1",
+    "reservation_id": "r-7ac035f3202b180f33db64aa6875ee01",
+    "state_revision": "1",
+    "ict": "eyJhbGciOiJFUzI1NiIsImtpZCI6InB1YmxpYy1sYWJvcmF0b3J5LXAyNTYta2V5IiwidHlwIjoienRpLWljdCtqd3QifQ.eyJhdWQiOiJ1cm46bGFiOmV4ZWN1dG9yIiwiZXhwIjoxNzkzNDA0ODYwLCJpYXQiOjE3OTM0MDQ4MDAsImlzcyI6Imh0dHBzOi8vYXV0aG9yaXR5LmV4YW1wbGUuaW52YWxpZCIsImp0aSI6ImljdC1lMTg2NGUwMTlmMTkxZDZhM2ZjOWE1ZjFlMzQxMWQ2YiIsIm5iZiI6MTc5MzQwNDgwMCwic3ViIjoiYWdlbnQtYiIsInp0aSI6eyJhY3Rpb25faGFzaCI6ImFjN2VmODgwNjIzOGZiZTFiOWExNTY5MjdlOTg3MDE3NzJkMDY4YWRmZDA0YmE0ZTU5MzQwYzFmMTE1NTA2MTEiLCJhdXRob3JpdHlfZXBvY2giOiIwIiwiY29ycmVsYXRpb25faWQiOiJjb3JyLWI2MzgwMmM4YjIwM2E3ZDkyZmU4NTgwZjBmMTU3YjIxIiwiY29zdF9ib3VuZHMiOnsiYnl0ZXMiOnsiYW1vdW50IjoiMCIsInVuaXQiOiJieXRlIn0sIm9wcyI6eyJhbW91bnQiOiIxIiwidW5pdCI6Im9wZXJhdGlvbiJ9fSwiZmFjdHMiOltdLCJtYW5kYXRlX2hhc2giOiJmZWE5M2YxNjgyNWM0MTNmYTA4ZThkNDU4ZjQ1ZmVhNThiZWI1MGRjNDAwOTA0YWRjMzg1MzI2MjU4NDY3ZWQ1IiwibWFuZGF0ZV9pZCI6ImNoaWxkLTk2NDkxNzA4NWNjYzFkYTAzMmYyYjNkNjNmYmNjMmRiIiwibW9kZSI6ImN1cnJlbnQtb25saW5lIiwib3BlcmF0aW9uX2lkIjoib3BlcmF0aW9uLTEiLCJwb2xpY3lfaGFzaCI6IjMyY2RjNjI2NmY5MDk1NTcwNjcyOGJjY2Y5YzJmMWQzNjgwNzQ5MTU0ZGU2NzFhYzIxOWVhNGQyOTdmM2I5MGMiLCJwcm9maWxlIjoienRpLW1jcC8wLjEiLCJyZXNlcnZhdGlvbl9pZCI6InItN2FjMDM1ZjMyMDJiMTgwZjMzZGI2NGFhNjg3NWVlMDEiLCJyb290X21hbmRhdGVfaWQiOiJyb290LTU5NmFkNzdkZDYyOThlZTU3OGMxMDc3NTk0ZTg2OWY3IiwidGVuYW50X2lkIjoibGFiLXRlbmFudCJ9fQ.LU57Cb33d1um5610n2IS_6La3NarPhrpxfclJcYq4EvF759pfrMJI5JnxC_GWLin2IvWVfzO2TYezWyWFflkDA",
+    "_meta": {
+      "io.modelcontextprotocol/serverInfo": {
+        "name": "zti-offline-documentary-service",
+        "version": "0.1"
+      }
+    }
+  }
+}

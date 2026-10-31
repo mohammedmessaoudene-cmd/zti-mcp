@@ -1,0 +1,28 @@
+{
+  "jsonrpc": "2.0",
+  "id": "wire-07",
+  "method": "org.example/zti-mcp.cancel",
+  "params": {
+    "tenant_id": "lab-tenant",
+    "root_mandate_id": "root-596ad77dd6298ee578c1077594e869f7",
+    "operation_id": "operation-1",
+    "reservation_id": "r-7ac035f3202b180f33db64aa6875ee01",
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientInfo": {
+        "name": "zti-offline-documentary-client",
+        "version": "0.1"
+      },
+      "io.modelcontextprotocol/clientCapabilities": {
+        "extensions": {
+          "org.example/zti-mcp": {
+            "revision": "0.1",
+            "profile": "zti-mcp/0.1",
+            "mode": "current-online",
+            "effect_coupling": "required"
+          }
+        }
+      }
+    }
+  }
+}

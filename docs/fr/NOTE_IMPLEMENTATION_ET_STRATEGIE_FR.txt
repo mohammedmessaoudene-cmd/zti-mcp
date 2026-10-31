@@ -1,0 +1,325 @@
+ZTI-MCP R4 — NOTE D'INGÉNIERIE, RÉSULTATS ET POSITIONNEMENT
+Mohammed Messaoudene — 31 octobre 2026
+Document de travail privé, non soumis
+
+1. DÉCISION RETENUE
+
+Le dossier sélectionne un profil unique, zti-mcp/0.1, en mode current-online.
+Une admission initiale réserve une autorité révocable. L'effet protégé ne peut
+être engagé qu'après une nouvelle vérification de l'autorité courante, couplée
+à la consommation unique de cette réservation et à la transition du fournisseur.
+Le nom historique « Intent » désigne le contexte déclaré d'un mandat. Il ne
+signifie pas que l'on connaît l'intention mentale de son auteur.
+
+La propriété recherchée est précise : dans une racine administrée, avec un
+registre et des adaptateurs de confiance, les descendants ne peuvent élargir
+les droits hérités, dépasser ensemble un budget ou former une combinaison
+explicitement interdite par la politique racine, y compris à travers leurs
+réservations encore en attente.
+
+Le profil est agnostique au modèle : un LLM propriétaire, un modèle à poids
+ouverts et un programme sans LLM reçoivent les mêmes contrôles. Il ne crée
+aucune autorité sur des outils ou des actions situés hors du périmètre administré.
+
+2. CE QUI A ÉTÉ PRODUIT
+
+Le document principal, en anglais pour la revue technique, est le candidat
+draft-messaoudene-zti-mcp-00, intitulé « ZTI-MCP: Constraint-Preserving Delegation
+and Cumulative Effect Authorization ». Il comprend les sept sections techniques
+demandées, la liaison MCP, la confidentialité, la conformité, les considérations
+IANA, les références et trois annexes. Vingt-huit repères d'exigences R01-R28
+facilitent la revue et la liaison aux observations. D'autres obligations normatives
+figurent dans les paragraphes associés ; les repères ne constituent pas un
+dénombrement de chaque occurrence de MUST.
+
+Le dossier contient également le prompt directeur réellement appliqué, les
+décisions d'architecture, les références primaires, les revues contradictoires,
+le noyau Python, les oracles figés avant exécution, deux campagnes conservées,
+les mutations, les diagnostics ciblés, les schémas JSON, les exemples signés et
+les messages MCP documentaires. Le PDF facilite la lecture ; RFCXML conserve
+la source structurée destinée à l'outillage de préparation IETF.
+
+Trois rôles d'agents IA ont été mobilisés : architecture et antériorités,
+implémentation de référence, et revue contradictoire de la spécification et des
+résultats. Le coordinateur a intégré les corrections et reproduit la campagne.
+Ce sont des revues au sein d'un même travail assisté, pas un comité humain
+indépendant, une certification ni un programme DARPA.
+
+3. CORRECTION DE L'OPPOSITION « ROUTEUR OU FOURNISSEUR »
+
+Le routeur constitue une barrière de livraison utile : si les contrôles échouent,
+il ne transmet pas l'action protégée à l'outil. Mais il ne contrôle pas, par sa
+seule position, l'instant où un fournisseur distant engagera l'effet. Un contrôle
+à 10 h 00 suivi d'une exécution autonome à 10 h 01 laisse un intervalle pendant
+lequel une révocation ou une modification peut survenir.
+
+La solution choisie comporte donc deux obligations complémentaires dans un
+seul profil : admission avant transmission, puis AtomicEffect chez le fournisseur.
+La seconde obligation peut protéger une mutation locale ou une acceptation
+durable, irrévocable et explicitement définie par le fournisseur. Dans ce dernier
+cas, l'acceptation est distincte de l'achèvement ultérieur de l'opération.
+
+AtomicEffect est un contrat d'intégration à réaliser, pas un nouvel algorithme
+universel de transaction distribuée. Un fournisseur qui ne peut pas le réaliser
+doit être exclu de la couverture stricte ou refuser l'action. Aucun mode de repli
+sur un jeton admis auparavant n'est inclus dans la version 0.1.
+
+4. LE MANDAT ET LE JETON
+
+Le Global_Mandate signé est immuable. Il fixe la racine comptable, le tenant,
+le principal, le délégataire, la validité, les ensembles d'opérations permis et
+les plafonds par action. Seule la racine porte les budgets et les forbidden_sets.
+Un enfant ne peut que restreindre ses ensembles permis, ses plafonds et sa durée.
+Il ne reçoit pas une copie indépendante du budget de ses frères.
+
+La lignée complète est contrôlée à la réservation et à la consommation. Elle a
+un parent unique, des empreintes de parents vérifiables et une profondeur maximale
+de huit mandats, racine incluse. L'autorité assigne la racine ; changer un libellé
+de tâche ou un identifiant de corrélation ne crée pas de nouveaux crédits.
+
+L'Intent and Constraint Token est un JWT signé par ES256, lié à une réservation
+existante. Il lie notamment l'émetteur, le délégataire authentifié, le destinataire,
+la racine, le mandat, la corrélation, l'opération, la réservation, l'empreinte de
+l'action finale, la politique, l'epoch d'autorité, les coûts et les faits possibles.
+Sa durée maximale est de 60 secondes. Ce délai court ne remplace jamais le contrôle
+de l'état courant. Les jetons de mandat, ICT et OAuth restent des objets distincts.
+
+Les empreintes couvrent les données canoniques selon RFC 8785. Les signatures
+ES256 utilisent le format JWS R||S de 64 octets. Les clés de confiance sont
+configurées ; une URL fournie dans un jeton ne peut pas désigner librement une clé
+ou un registre. Le profil ne définit aucune « preuve cryptographique de bonne
+intention ». Une éventuelle extension ZK devrait définir son prédicat, ses témoins,
+sa fraîcheur et sa révocation avant de pouvoir faire une promesse précise.
+
+5. LE CONTRÔLE CUMULÉ ET SON ARGUMENT DE SÛRETÉ
+
+Pour chaque dimension k : D[k] est la charge déjà consommée, R[k] la charge réservée,
+c[k] le coût candidat et B[k] le budget de la racine. L'admission exige :
+
+    D[k] + R[k] + c[k] <= B[k]
+
+Les dimensions portent des unités explicites. Les quantités sont des chaînes
+entières canoniques uint64, avec arithmétique exacte. Les valeurs négatives,
+booléens assimilés à des entiers, conversions implicites et débordements ne
+peuvent pas augmenter les droits.
+
+Le second contrôle porte sur l'union des faits consommés et des faits possibles
+de toutes les réservations, plus les faits candidats. Si une combinaison interdite
+est incluse dans cette union, la nouvelle réservation est refusée. Par exemple,
+une politique de laboratoire peut autoriser séparément read_sensitive et
+export_external, mais interdire leur combinaison dans la même racine. Ces
+étiquettes sont des faits symboliques fournis par un catalogue de confiance ;
+elles ne sont ni déduites d'une distance vectorielle, ni déclarées librement par
+l'agent demandeur.
+
+L'argument d'invariant est simple, sous les hypothèses explicites de la
+spécification. L'admission vérifie l'état puis ajoute la réservation dans la même
+transition ordonnée. La consommation transfère son coût de R vers D sans modifier
+D+R et conserve ses faits. Une annulation sûre ne retire que des possibilités
+dont l'exécution future est devenue impossible. Pour les prédicats positifs
+monotones de la version 0.1, retirer ces possibilités ne crée pas de nouvelle
+combinaison interdite. UNKNOWN conserve charge et faits après un engagement.
+La politique de racine reste immuable pendant ces transitions.
+
+Cet argument explique la propriété recherchée. Il ne constitue pas une preuve
+mécanisée du code, du stockage distribué ou de la classification du monde réel.
+Il dépend de l'exactitude des empreintes d'effet, de la médiation complète dans
+le périmètre et du contrat d'ordre commun entre autorisation et effet.
+
+6. RÉVOCATION, CONCURRENCE ET RÉCUPÉRATION
+
+Toutes les transitions conflictuelles d'une racine ont un ordre commun. Si une
+révocation précède la consommation, l'effet ne peut pas être engagé sous cette
+autorité. Si l'effet ou l'acceptation irrévocable précède la révocation, le dossier
+ne prétend pas l'annuler rétroactivement. « Immédiate » signifie donc effective
+dans cet ordre d'autorité, et non propagation physique instantanée.
+
+L'epoch évite l'usage d'une autorité devenue périmée ; le contrôle de tous les
+ancêtres reste obligatoire. À saturation de l'epoch, une révocation doit laisser
+la racine définitivement inactive plutôt que revenir à zéro ou annuler sa propre
+transition. L'historique et les compteurs ne sont jamais réinitialisés pour rendre
+une opération admissible.
+
+Une réponse perdue n'établit pas l'absence d'effet. Le client consulte l'opération
+existante à partir de sa clé stable (tenant, racine, opération). Un nouveau JWT
+signant les mêmes claims ne crée pas une nouvelle opération. Cela ne reconnaît
+pas automatiquement deux identifiants différents décrivant la même action réelle.
+
+UNKNOWN désigne une incertitude de résultat après COMMITTED. Il reste chargé et
+ne devient pas une réserve de crédit réutilisable. Une notification d'annulation,
+un timeout ou une expiration de jeton ne libèrent pas automatiquement le budget.
+La libération exige une transition qui empêche atomiquement toute consommation
+future de la réservation.
+
+7. RÉSULTATS RÉELLEMENT OBSERVÉS
+
+La campagne initiale et la reproduction par le coordinateur utilisent exactement
+les mêmes sources et les mêmes oracles figés. Chacune rapporte :
+
+    40 scénarios ; 40 observations attendues retrouvées
+    3 mutations ciblées ; 3 divergences détectées
+    13 processus enfants au total ; 0 erreur opérationnelle
+    0 appel réseau et 0 appel LLM dans le banc d'essai
+
+Il s'agit de quarante scénarios distincts exécutés deux fois, pas de quatre-vingts
+scénarios différents. Les identifiants aléatoires, signatures, PID et gagnants
+autorisés peuvent différer sans modifier les invariants attendus.
+
+Les deux demandes concurrentes de coût 2 sous budget 3 produisent une seule
+admission et un seul effet. Le témoin positif sous budget 4 admet les deux
+demandes puis produit deux effets, pour une charge totale de 4. Le contrôle
+n'est donc pas validé uniquement par des refus systématiques.
+
+La lignée trop permissive, l'action substituée, le mauvais délégataire, le mauvais
+destinataire, les unités incompatibles, la révocation avant consommation et le
+jeton expiré sont examinés par des cas sélectionnés. Un vrai processus enfant
+effectue un commit SQLite puis omet son accusé ; le parent retrouve COMMITTED
+avec un seul effet. Une seconde signature valide des mêmes claims ne produit
+pas un second effet.
+
+Les mutations ont des effets observés différents :
+  M1 : supprimer les contrôles des ancêtres permet un effet sous enfant élargi.
+  M2 : ignorer les faits des réservations admet deux réservations incompatibles ;
+       un seul effet est commis et la seconde consommation est refusée. Le défaut
+       concerne l'état possible réservé, pas deux effets incompatibles achevés.
+  M3 : libérer la charge UNKNOWN permet deux effets et une charge brute de 4
+       sous un budget de 3.
+
+Le rôle Reviewer2 a relu séparément les 43 bases du premier lot, en lecture seule,
+sans importer le contrôleur, et reconstruit effets, coûts, faits et relations
+comptables. Sept probes ciblés, déclarés avant leur exécution et issus de défauts
+de revue concrets, ont vérifié les corrections de saturation, incohérence de
+faits stockés, état inconnu et valeurs vides. Ils restent séparés du décompte 40.
+
+Les fichiers OBSERVATION_ERRATA et COVERAGE_R4 limitent expressément la portée
+des résultats. C20/C23/C37 utilisent une barrière commune pour des admissions
+concurrentes. C25/C26 imposent les ordres annulation-d'abord et commit-d'abord ;
+ils ne mesurent pas une contention simultanée. Les traces ne comportent pas
+d'horodatage individuel de chaque worker et ne sont pas un benchmark de latence.
+
+8. FRONTIÈRE ENTRE SPÉCIFICATION ET PROTOTYPE
+
+Le noyau testé protège une mutation locale SQLite dans la même transaction que
+l'autorisation. Il n'exécute pas un paiement, un outil industriel ni une opération
+distante. UNKNOWN est un état de laboratoire après un engagement local réel.
+
+Les identités, la clé publique de test, l'horloge et le catalogue sont des entrées
+de confiance explicites du banc. Le canonicaliseur couvre les clés ASCII et les
+entiers JSON sûrs utilisés dans les exemples ; il n'implémente pas tout RFC 8785.
+Le moteur a deux dimensions de coût fixes. Les scénarios ne démontrent ni consensus
+distribué, ni résistance aux partitions, ni exactitude d'un classificateur.
+
+Les appels de contrôle MCP définis dans la spécification ne sont pas tous des
+endpoints implémentés par le noyau Python. L'import idempotent de mandats signés,
+les ACL d'un service réseau, les réponses complètes et le transport authentifié
+des reçus restent à intégrer. Un retour Python interne peut contenir un ancien
+JWT alors que la réponse wire normative doit omettre ict s'il n'est plus utilisable.
+La consommation locale continue néanmoins à vérifier temps et état courants.
+
+Les trois signatures de l'exemple positif ont été vérifiées avec la JWK exportée.
+Les empreintes lient l'action, le mandat et la politique. Le reçu joint est une
+projection documentaire d'une entrée de commit persistée, pas une réponse MCP
+observée. Les enveloppes de messages sont assemblées hors ligne et ne constituent
+pas une démonstration d'interopérabilité SDK. Les schémas structurels JSON ont
+été parsés et leurs références contrôlées ; aucune conformité générale à un
+moteur JSON Schema n'est déduite de ces vérifications.
+
+9. ANTÉRIORITÉS ET APPORT DÉFENDABLE
+
+Les sources primaires examinées établissent que les autorisations structurées,
+les délégations atténuées, les mandats signés, la validation à l'exécution et le
+suivi de budgets cumulés ont des antécédents. OAuth RAR (RFC 9396), Token Exchange
+(RFC 8693), UCAN et Verifiable Intent sont cités dans le draft. Il serait inexact
+de revendiquer l'invention de toutes ces briques ou d'affirmer la nouveauté
+brevetable à partir de cette recherche documentaire.
+
+L'apport proposé est la spécification conjointe d'obligations vérifiables dans un
+profil MCP : contraintes non élargissables, état cumulé comprenant les réservations,
+liaison à l'action finale après transformation, vérification courante au point
+d'effet, consommation unique, révocation ordonnée et conservation des charges
+incertaines. Cette combinaison précise est la matière à faire examiner.
+
+La comparaison Interceptors est figée sur la proposition SEP-2624 au commit
+3a2760642010e30037231ef4d7586750b0654e65. Le texte étudié place la validation en
+réception avant la mutation et comporte des options audit/fail-open. Notre
+inférence d'intégration est qu'une conformité ZTI stricte exige une vérification
+de l'action finale après les transformations pertinentes, avec blocage obligatoire
+et état partagé. L'atomicité d'une chaîne de mutations n'est pas, à elle seule,
+l'atomicité avec l'effet chez un fournisseur. Aucun audit de son code n'est
+revendiqué par cette comparaison documentaire.
+
+10. VOIE DE STANDARDISATION CHOISIE
+
+La voie recommandée est un profil d'extension MCP expérimental, avec un point de
+contrôle final non désactivable et un contrat fournisseur explicite. Cette voie
+garde un seul objet technique et permet de discuter son intégration avec les
+travaux existants. La spécification officielle distingue Experimental, Beta et
+Stable ; écrire « Experimental » dans notre titre ne nous attribue pas ce statut.
+Les préfixes de production doivent relever d'un domaine contrôlé. org.example
+reste exclusivement un espace d'exemple.
+
+Le premier examen technique devrait porter sur quatre décisions concrètes :
+le mandat et son atténuation, la portée du registre cumulatif, le lien entre
+vérification finale et effet, puis la représentation des erreurs et résultats
+incertains. Une discussion sur ces contrats est plus exploitable qu'une demande
+d'approbation générale d'un « protocole parfait ».
+
+Le dossier RFCXML fournit une forme de contribution individuelle IETF, sans nom
+de groupe inventé ni numéro RFC. Une éventuelle adoption MCP, une contribution
+IETF et une publication RFC sont des étapes distinctes, avec leurs propres revues.
+Ce travail n'a envoyé aucun message, créé aucune soumission ni obtenu un soutien
+de l'AAIF, de l'IETF, de MCP ou d'un organisme public.
+
+La preuve suivante qui changerait la maturité du projet est une interopérabilité
+entre deux implémentations indépendantes avec un vrai adaptateur fournisseur et
+un point d'effet démontré. Elle doit réutiliser le corpus, compléter les ACL et
+le format des messages, puis traiter les défaillances propres au fournisseur.
+Elle n'est pas remplacée par davantage de reformulations du prompt ou par un
+nombre arbitrairement élevé de scénarios symboliques.
+
+11. FORMULATION DE CONTRIBUTION POUR REVUE TECHNIQUE
+
+Proposed contribution: ZTI-MCP defines a constraint-preserving delegation profile
+for MCP, backed by a current shared authority registry. It binds each protected
+operation to an immutable mandate lineage and a unique reservation, counts both
+consumed and outstanding effects, and requires current revalidation coupled to
+the provider's declared effect boundary. The proposal reuses established signed
+credential mechanisms and does not claim to infer hidden intentions. Review is
+requested on the mandatory final gate, root accounting semantics, provider
+coupling contract and interoperable wire representation. The accompanying local
+experiment is bounded evidence, not a complete conforming MCP implementation.
+
+Ce paragraphe est un texte préparé pour examen ; il n'a été adressé à personne.
+
+12. SOURCES ET REPRODUCTION
+
+Le catalogue research/SOURCES_R4.json consigne les sources, versions et limites.
+Le draft sépare références normatives et informatives. Les liens principaux sont :
+
+MCP 2026-07-28 :
+https://modelcontextprotocol.io/specification/2026-07-28/basic
+Extensions MCP : https://modelcontextprotocol.io/extensions/overview
+Interceptors figé :
+https://github.com/Degiorgio/modelcontextprotocol/blob/3a2760642010e30037231ef4d7586750b0654e65/seps/2624-interceptors-for-model-context-protocol.md
+OAuth RAR : https://www.rfc-editor.org/rfc/rfc9396.html
+Token Exchange : https://www.rfc-editor.org/rfc/rfc8693.html
+JWT BCP : https://www.rfc-editor.org/rfc/rfc8725.html
+JWS ES256 : https://www.rfc-editor.org/rfc/rfc7518.html
+JCS : https://www.rfc-editor.org/rfc/rfc8785.html
+UCAN : https://github.com/ucan-wg/spec
+Verifiable Intent : https://verifiableintent.dev/spec/
+Préparation IETF : https://authors.ietf.org/en/required-content
+
+Les sources exécutables communes aux deux campagnes sont :
+authority.py — SHA256
+0489bf76fc482558051e65ac3517aab9189109bc3d1647724e54211b623aa11f
+run_r4.py — SHA256
+56e382fa65a079ee8b24b03aa5a9d0874a09938400442a9c707cd54fa0394741
+
+Depuis experiment/, dans un environnement doté de Python et cryptography :
+python3 -I run_r4.py --output-dir runs/new_reproduction
+
+La commande exige un nouveau répertoire de sortie. Les sources précédant les
+corrections de revue sont archivées à titre de provenance ; elles ne sont pas
+les sources utilisées par les campagnes. Les rapports de format et de rendu
+décrivent séparément ce qui a réellement été exécuté sur la version livrée.

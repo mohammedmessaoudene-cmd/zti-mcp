@@ -1,0 +1,104 @@
+{
+  "$comment": "Claims only. ES256, issuer/key trust, TTL<=60, current registry, identity, binding and atomic effect requirements are not supplied by this schema.",
+  "$id": "zti-ict-claims-0.1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "aud": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "exp": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/numericDate"
+    },
+    "iat": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/numericDate"
+    },
+    "iss": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "jti": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "nbf": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/numericDate"
+    },
+    "sub": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "zti": {
+      "additionalProperties": false,
+      "properties": {
+        "action_hash": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/digest"
+        },
+        "authority_epoch": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/uint64"
+        },
+        "correlation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "cost_bounds": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/quantityMap"
+        },
+        "facts": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/stringSet"
+        },
+        "mandate_hash": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/digest"
+        },
+        "mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "mode": {
+          "const": "current-online"
+        },
+        "operation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "policy_hash": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/digest"
+        },
+        "profile": {
+          "const": "zti-mcp/0.1"
+        },
+        "reservation_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "root_mandate_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "tenant_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        }
+      },
+      "required": [
+        "tenant_id",
+        "root_mandate_id",
+        "mandate_id",
+        "correlation_id",
+        "operation_id",
+        "reservation_id",
+        "profile",
+        "mode",
+        "mandate_hash",
+        "action_hash",
+        "policy_hash",
+        "authority_epoch",
+        "cost_bounds",
+        "facts"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "iss",
+    "sub",
+    "aud",
+    "jti",
+    "iat",
+    "nbf",
+    "exp",
+    "zti"
+  ],
+  "type": "object"
+}

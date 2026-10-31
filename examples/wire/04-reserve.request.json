@@ -1,0 +1,40 @@
+{
+  "jsonrpc": "2.0",
+  "id": "wire-04",
+  "method": "org.example/zti-mcp.reserve",
+  "params": {
+    "action": {
+      "arguments": {
+        "payload": "",
+        "units": "1"
+      },
+      "executor_id": "urn:lab:executor",
+      "mandate_id": "child-964917085ccc1da032f2b3d63fbcc2db",
+      "method": "tools/call",
+      "operation_id": "operation-1",
+      "profile": "zti-mcp/0.1",
+      "resource_id": "urn:lab:resource",
+      "root_mandate_id": "root-596ad77dd6298ee578c1077594e869f7",
+      "tenant_id": "lab-tenant",
+      "tool_name": "lab.compute",
+      "tool_revision": "1"
+    },
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientInfo": {
+        "name": "zti-offline-documentary-client",
+        "version": "0.1"
+      },
+      "io.modelcontextprotocol/clientCapabilities": {
+        "extensions": {
+          "org.example/zti-mcp": {
+            "revision": "0.1",
+            "profile": "zti-mcp/0.1",
+            "mode": "current-online",
+            "effect_coupling": "required"
+          }
+        }
+      }
+    }
+  }
+}

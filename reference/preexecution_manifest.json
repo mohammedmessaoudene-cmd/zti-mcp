@@ -1,0 +1,9 @@
+{
+  "sha256": {
+    "CENTRAL_SOURCE_SNAPSHOT.txt": "92142d024125863de42f9a1e39b97c65aafa5d170b012e4c42ed84075f86a40b",
+    "CONTRACT.txt": "32a8deec560ba97f1e3cb67b086491533381731142dbe721a6d4964c5bd26f15",
+    "ORACLE_INTERPRETATION.txt": "2456351f0e14038b35cd41d603e2b4949ab1d1fde62a7741ee038a7038ccde8d",
+    "cases.json": "9a64060be1bf22e87963a9a4d1e8598e18e35850b05000f3c11829b141e86176"
+  },
+  "stage": "before any R4 executable run; awaiting contract review"
+}

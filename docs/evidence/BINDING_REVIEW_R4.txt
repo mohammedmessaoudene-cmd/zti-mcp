@@ -1,0 +1,276 @@
+ZTI-MCP R4 — Contre-revue ciblée normative, MCP et cryptographique
+31 octobre 2026 — agent IA protocol_prior_art
+
+PERIMETRE ET VERSION
+
+Document relu : draft_source.json, 12 sections, 69 780 octets.
+SHA256 de la version initialement relue :
+9d66d7994f935d936952d24c6bcabf7b7ac802b4e81718f9d71e06efc9ab009b
+
+Contrat comparé : ARCHITECTURE_DECISIONS.txt.
+SHA256 :
+d1f65528e27d40cfbe913402cf9fc781a5db502de3640d9d30194139eebeb895
+
+Lecture documentaire uniquement. Aucun draft, générateur, schéma ni test
+modifié. Aucun nouvel essai exécuté. La recherche additionnelle s'est limitée
+à la question explicite du coordinateur sur les noms de méthodes RPC tiers.
+Cette revue assistée n'est pas une certification indépendante.
+
+VERDICT SUR CETTE VERSION
+
+Pas de contradiction majeure relevée dans le contrat current-online :
+AtomicEffect est correctement distingué d'un simple check réseau, les limites
+de l'acceptation irrévocable sont explicites, les droits acquis à l'admission
+ne réapparaissent pas comme repli. Les preuves de budget et de combinaisons
+sont conditionnelles aux hypothèses nommées ; elles ne sont pas présentées
+comme preuve d'intention ou de maîtrise d'un fournisseur arbitraire.
+
+Six fermetures normatives sont nécessaires avant de qualifier le binding de
+complet pour une revue d'interopérabilité. Elles concernent le contrat écrit,
+pas un bug observé dans le banc. Elles ont été transmises au coordinateur.
+L'API CSR que le coordinateur ajoute n'était pas présente dans la version
+ci-dessus : son intégration devra être relue avant le verdict final.
+
+B1 — IDENTITE, TENANT ET CORRELATION : COMPARAISONS EXPLICITES
+
+Localisation : §2.1 R01, §4.2 R14, §5 pseudocode RESERVE, §5.1 AtomicEffect.
+
+Constat : R14 énumère les comparaisons de l'ICT à la réservation mais ne cite
+pas explicitement tenant_id et correlation_id. R01 établit correctement que
+l'identité ne vient pas de clientInfo. Le texte doit aussi relier la portée
+tenant à une relation d'autorisation authentifiée, pas uniquement au texte
+signé reçu ou à un identifiant opaque connu.
+
+Correction requise : exiger la concordance exacte de tenant_id et de la
+correlation_id attribuée par l'autorité avec les enregistrements de racine,
+mandat et réservation. Pour reserve, consume, lookup, cancel et revoke,
+exiger l'authentification ET l'autorisation de l'acteur pour cette portée.
+Définir les clés de portée de l'opération et de la réservation, avec le même
+tuple dans réserve, consommation, lookup et rejets de conflit.
+
+Conséquence : un interpréteur ne peut pas ignorer un champ de tenant signé
+comme une simple étiquette, ni traiter la connaissance d'une référence comme
+une permission. Le texte général indique déjà la bonne direction ; il manque
+la comparaison obligatoire et son point d'application.
+
+B2 — PROXY : CONTINUITE EXPLICITE DU DELEGUE
+
+Localisation : §2.1 proxy ; §4.2 sub ; §5 RESERVE.
+
+Constat : le proxy s'authentifie sous l'identité acceptée par le fournisseur ;
+ICT.sub doit égaler le delegatee du mandat. Le pseudocode d'admission exige
+aussi invoker == mandate.delegatee_id. Ces règles sont compatibles mais une
+intégration pourrait croire qu'elle peut réécrire sub lors du forwarding.
+
+Correction requise : lorsqu'un saut change l'identité authentifiée de
+l'invocateur, le proxy doit disposer d'un mandat atténué qui le désigne comme
+delegatee, obtenu avant la réservation de son action. La racine et ses
+compteurs restent partagés. Une simple réécriture du sujet ou la possession
+du mandat de l'agent amont n'autorise pas ce changement. Si une identité
+déléguée est fournie par un mécanisme d'authentification existant, sa preuve
+et son mapping doivent être configurés, pas autodéclarés dans les arguments.
+
+Cette fermeture porte sur la preuve d'identité de l'acteur effectif, sans
+exiger que tous les fournisseurs authentifient directement l'humain initial.
+
+B3 — ACTION_BINDING : PRECONDITIONS NON MODIFIABLES APRES ENGAGEMENT
+
+Localisation : §3.2 préparation ; §4.3 R16 et paragraphe suivant.
+
+Constat : R16 exige que arguments contienne les préconditions du fournisseur.
+Le paragraphe suivant autorise toutefois les métadonnées pertinentes dans
+« the envelope or its authoritative provider preconditions ». Cette seconde
+formulation peut être lue comme autorisant des préconditions mutables hors
+engagement. Elle affaiblit la précision du premier énoncé.
+
+Correction requise : toute précondition qui modifie le référent, la commande
+ou son effet doit être engagée dans l'enveloppe, directement ou par référence
+ou digest immuable engagé. AtomicEffect doit vérifier la même précondition.
+Une mise à jour d'un document externe de préconditions n'est pas implicitement
+autorisée par un hash d'action inchangé. Une évolution pertinente exige une
+nouvelle autorisation.
+
+Le reste du binding est cohérent : arguments après transformations, identité
+exécuteur, ressource, révision de catalogue, tenant et mandat sont engagés ;
+les exclusions de JSON-RPC id et de connexion sont correctement limitées aux
+éléments sans effet sémantique.
+
+B4 — MANDAT : PROFIL DE VALIDATION JOSE COMPLET ET DISTINCT DE L'ICT
+
+Localisation : §3.1 mandat signé ; §4.1 R13 ; §4.2 R14–R15.
+
+Constat : le mandat nomme ses claims et son type mais renvoie seulement à
+« validate the signed record and its lineage ». Les règles strictes de header,
+types et inconnus sont dans la section ICT. Deux implémentations peuvent
+donc appliquer des validateurs de mandat différents tout en interprétant
+littéralement ces paragraphes.
+
+Correction requise : dire explicitement quelles règles JOSE sont communes
+aux deux rôles : ES256, entrée JWS reçue, R||S, clés liées à l'émetteur et au
+rôle, en-tête exact alg/kid/typ, rejet des doublons et membres non pris en
+charge. Définir le schéma fermé du mandat, profile exact, aud du registre,
+sub=delegatee_id, nbf=valid_from, exp=valid_until et valid_from<valid_until.
+Les exigences temporelles propres au mandat doivent être écrites séparément ;
+ne pas lui transférer par inadvertance le TTL maximal de 60 secondes de l'ICT.
+
+Précision associée : la phrase « Their claim sets and audiences are mutually
+exclusive » est trop générale si registre et fournisseur partagent le même
+identifiant d'audience. Exiger des règles de validation mutuellement exclusives
+par typ et schéma suffit ; si la séparation des audiences fait aussi partie
+du mécanisme, elle doit être imposée au déploiement. Les rôles peuvent être
+co-hébergés sans que cela permette la substitution de jetons.
+
+Le choix d'ES256, le traitement original du JWS, l'absence de clé libre dans
+le token, l'identifiant stable indépendant de la signature et le statut privé
+des typ sont autrement correctement décrits.
+
+B5 — API CSR : AUTORISATION PAR METHODE ET AUCUN COMMIT DETACHE
+
+Localisation : ajout annoncé par le coordinateur pendant cette revue.
+
+L'absence d'un contrat réseau register/reserve/lookup/cancel/revoke ne rend
+pas faux AtomicEffect, mais limite la revendication d'interopérabilité des
+messages de contrôle. Une API explicite est pertinente à condition de ne pas
+introduire un RPC qui accorde un droit exécutable indépendamment de l'effet.
+
+Chaque méthode doit fixer paramètres, résultat, clé stable, erreurs et droits
+de l'acteur. Pour reserve, l'acteur est le delegatee de la feuille applicable.
+Pour lookup/cancel, il doit être le sujet enregistré ou un administrateur
+habilité dans la portée concernée. Pour register/revoke, il faut un rôle
+d'autorité explicitement habilité sur la racine ou la délégation concernée.
+Un jeton d'accès valide à l'API entière n'est pas à lui seul un droit de
+révoquer n'importe quel mandat.
+
+La transition d'effet reste le mécanisme privé d'intégration du fournisseur,
+avec le contrat AtomicEffect. Une réponse « validation OK » suivie d'un effet
+indépendant resterait non conforme, quelle que soit la syntaxe RPC.
+
+QUESTION CIBLEE SUR LE NOM DES METHODES
+
+Source primaire supplémentaire : documentation officielle MCP Python SDK,
+https://py.sdk.modelcontextprotocol.io/advanced/extensions/
+consultée le 31 octobre 2026, sections Serving your own methods et Extension
+verbs ; références de consultation turn110view0 / turn109search0.
+
+Elle prévoit des méthodes de requête additionnelles, montre l'identifiant
+com.example/jobs associé à la méthode com.example/jobs.status, et décrit le
+contrôle de capacité ainsi que l'interdiction de remplacer les méthodes core.
+Le SDK n'a pas été installé ni exécuté dans cette revue.
+
+Recommandation : EXT_ID + '.register', '.reserve', '.lookup', '.cancel',
+'.revoke'. La forme avec deuxième slash n'est pas interdite par JSON-RPC,
+qui traite method comme une chaîne et réserve rpc.* ; la forme avec point
+est directement illustrée par la documentation SDK consultée. Aucune de ces
+formes n'est un nom natif MCP attribué à ZTI.
+
+Source complémentaire exacte : https://www.jsonrpc.org/specification
+version indiquée mise à jour le 4 janvier 2013, §§4 et 5.1 ; turn109view1.
+MCP Base 2026-07-28 reprend method:string et impose ses métadonnées par requête.
+
+B6 — ERREURS : SCHEMA DU PAYLOAD ET PORTEE DE L'EXIGENCE
+
+Localisation : §8.3 Errors and outcome representation.
+
+Constat : le code privé -31001 est correctement situé hors de la plage
+réservée JSON-RPC. Le paragraphe final impose toutefois « An error response
+MUST include status REFUSED or SUSPENDED » sans emplacement formel ni
+distinction entre erreur ZTI et erreur MCP existante.
+
+Correction requise : définir error.data.profile, error.data.reason,
+error.data.status et la référence d'opération optionnelle avec des noms et
+types précis, pour l'erreur ZTI -31001. Enumérer les raisons individuellement.
+Les erreurs MCP natives conservent leur code, leur schéma et leur mapping HTTP,
+notamment data.requiredCapabilities pour -32021 ; ne pas leur imposer une
+nouvelle forme ZTI implicite. Une incertitude post-COMMITTED reste un résultat
+UNKNOWN obtenu par état autoritatif, non un refus assuré sans effet.
+
+POINTS CONFIRMES SANS OBJECTION MATERIELLE
+
+- EXT_ID de domaine contrôlé ; org.example/zti-mcp pour exemples uniquement.
+- MCP 2026-07-28 fixé ; découverte et capacités par requête ; pas de repli
+  admission-only, pas d'extension déclarée équivalente à une attestation.
+- Jetons OAuth distincts de l'ICT ; audience downstream appropriée.
+- Headers MCP courants mentionnés et correspondance au corps exigée.
+- Préservation des contraintes d'ancêtres et budgets de racine non clonés.
+- Registre ordonné, consommation unique, charge conservée en UNKNOWN.
+- Annulation sûre avant libération ; aucune déduction de rollback physique.
+- Interceptors présenté comme proposition informative à commit identifié ;
+  aucun couplage fournisseur attribué abusivement à son ordre d'interception.
+- Limites JCS et preuves locales distinguées de la spécification générale.
+- Aucune soumission, attribution IANA, acceptation MCP ou certification
+  indépendante inventée dans les sections de statut relues.
+
+SUIVI
+
+Les corrections B1–B6 ont été envoyées au coordinateur. Les détails des clés
+d'opération et de saturation d'epoch font aussi l'objet de la revue P3 ; ils
+ne sont pas réimplémentés ni testés ici. Une annexe de clôture indiquera le
+SHA256 de la version corrigée et les points effectivement refermés après
+relecture ciblée. Ce document ne vaut pas encore approbation du texte futur.
+
+RELECTURE DES CORRECTIONS — 31 OCTOBRE 2026
+
+Version corrigée examinée, SHA256 :
+b42dd0f1c563db2414e314d80be5cded77e0fee8dd08abf9d2ae7073010b3152
+
+B1 fermé : R14 compare tenant_id/correlation_id ; les clés Operation_Key et
+Reservation_Key sont définies avec tenant et racine ; toute mutation et lookup
+doivent vérifier la clé complète et les droits de l'appelant authentifié.
+
+B2 fermé : le proxy d'identité distincte doit recevoir un mandat enfant
+atténué qui le désigne, avant émission de l'ICT downstream. La réécriture
+isolée de sub est expressément interdite.
+
+B3 fermé : toute précondition pertinente est engagée dans l'enveloppe,
+directement ou par référence/digest immuable engagé, puis résolue et vérifiée
+à AtomicEffect. Les préconditions mutables hors engagement sont exclues.
+
+B4 fermé : les vérifications communes JOSE et le schéma propre au mandat
+sont explicités, les dates sont strictes, le TTL60s est limité à l'ICT, et
+la séparation des rôles reste requise même avec une audience co-hébergée.
+
+B5 fermé quant aux droits et au modèle d'exécution : cinq méthodes privées
+additives, acteurs et portées définis, signature/atténuation maintenues,
+aucune méthode publique .commit ni droit durable détaché d'AtomicEffect.
+L'idempotence de registration préserve aussi la révocation et l'historique.
+
+B6 fermé quant à l'emplacement error.data et à la conservation des erreurs
+MCP natives. Une ultime précision de schéma B5/B6 reste demandée : remplacer
+les termes « operation identity », « identified scope » et « authorized
+operation reference » par leurs noms JSON exacts et fixer la structure de
+la référence dans error.data. Les slashs du tableau des reasons doivent
+séparer explicitement des valeurs d'enum, pas être interprétés comme parties
+d'une même valeur. Ce point est transmis au coordinateur pour correction
+textuelle ; aucun nouvel essai n'est nécessaire à cette clarification.
+
+Aucune autre anomalie matérielle créée par les corrections n'a été relevée
+dans le périmètre ciblé. La clôture finale attend uniquement ce vocabulaire
+de message, puis l'identification de la version effectivement relue.
+
+CLOTURE B1–B6 — 31 OCTOBRE 2026
+
+Dernière version ciblée vérifiée, SHA256 de draft_source.json :
+12cdbc7c11e41960e2d441d4ecebb5e1c3d6e744eb52e2de31f2d6f882ee0f57
+
+Les résultats des cinq méthodes CSR désignent désormais les champs JSON
+exacts ; le reçu possède des noms et valeurs de statut explicités en §5.1.
+error.data.operation_ref est défini comme objet optionnel à trois membres,
+réservé à un appelant autorisé. Le tableau des reasons est explicitement une
+présentation groupée de valeurs distinctes.
+
+Une ambiguïté introduite par l'ajout des méthodes de contrôle a été corrigée :
+l'obligation de porter le reçu d'effet dans result._meta[EXT_ID] concerne le
+résultat protégé tools/call ; les résultats des méthodes de contrôle suivent
+leurs propres schémas §8.2. Ni register ni server/discover n'ont à inventer
+un reçu d'effet qui n'existe pas.
+
+Verdict final de cette contre-revue : B1, B2, B3, B4, B5 et B6 FERMES sur la
+version identifiée ci-dessus. Aucun blocage matériel restant relevé dans les
+changements ciblés. Les corrections n'introduisent pas de .commit public
+détaché, de repli hors ligne, ni de changement du contrat AtomicEffect.
+
+Portée du verdict : cohérence normative et documentaire des points revus.
+Il ne valide pas une implémentation réseau, un SDK MCP, un fournisseur externe
+ou un mécanisme cryptographique par de nouveaux essais. Aucune exécution de
+test n'a été faite pendant cette relecture. Les exemples MCP générés pourront
+faire l'objet d'une lecture de cohérence distincte, sans nouveau périmètre.

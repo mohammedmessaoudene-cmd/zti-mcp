@@ -1,0 +1,112 @@
+{
+  "$comment": "Structural definitions only. Equality to root dimensions/units and trust/state rules require semantic validation.",
+  "$defs": {
+    "constraints": {
+      "additionalProperties": false,
+      "properties": {
+        "action_caps": {
+          "$ref": "#/$defs/quantityMap"
+        },
+        "allowed_executors": {
+          "$ref": "#/$defs/stringSet"
+        },
+        "allowed_methods": {
+          "$ref": "#/$defs/stringSet"
+        },
+        "allowed_resources": {
+          "$ref": "#/$defs/stringSet"
+        },
+        "allowed_tools": {
+          "$ref": "#/$defs/stringSet"
+        }
+      },
+      "required": [
+        "allowed_executors",
+        "allowed_resources",
+        "allowed_methods",
+        "allowed_tools",
+        "action_caps"
+      ],
+      "type": "object"
+    },
+    "digest": {
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])",
+      "type": "string"
+    },
+    "identifier": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "numericDate": {
+      "maximum": 9007199254740991,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "quantity": {
+      "additionalProperties": false,
+      "properties": {
+        "amount": {
+          "$ref": "#/$defs/uint64"
+        },
+        "unit": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": [
+        "unit",
+        "amount"
+      ],
+      "type": "object"
+    },
+    "quantityMap": {
+      "additionalProperties": {
+        "$ref": "#/$defs/quantity"
+      },
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^[A-Za-z0-9_.-]{1,64}(?![\\s\\S])"
+      },
+      "type": "object"
+    },
+    "rootPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "budgets": {
+          "$ref": "#/$defs/quantityMap"
+        },
+        "forbidden_sets": {
+          "items": {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "budgets",
+        "forbidden_sets"
+      ],
+      "type": "object"
+    },
+    "stringSet": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "uint64": {
+      "pattern": "^(?:0|[1-9][0-9]{0,18}|1[0-7][0-9]{18}|18[0-3][0-9]{17}|184[0-3][0-9]{16}|1844[0-5][0-9]{15}|18446[0-6][0-9]{14}|184467[0-3][0-9]{13}|1844674[0-3][0-9]{12}|184467440[0-6][0-9]{10}|1844674407[0-2][0-9]{9}|18446744073[0-6][0-9]{8}|1844674407370[0-8][0-9]{6}|18446744073709[0-4][0-9]{5}|184467440737095[0-4][0-9]{4}|18446744073709550[0-9]{3}|18446744073709551[0-5][0-9]{2}|1844674407370955160[0-9]{1}|1844674407370955161[0-4]|18446744073709551615)(?![\\s\\S])",
+      "type": "string"
+    }
+  },
+  "$id": "zti-common-0.1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

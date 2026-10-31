@@ -1,0 +1,65 @@
+{
+  "artifact_sha256": {
+    "examples/EXAMPLE_METADATA.json": "0c94df3abf961debe3a56c80df328e1689ff16e6ebc6d4d7932e195ddf57447e",
+    "examples/action.json": "a08f0b9f7efa84e8920ed72aa5c4123a07dbe04d5702ba7e06232a2d1c78f7a8",
+    "examples/child_mandate.jwt": "a9eb5575144173ce7f8a982bd9a63eda17f8b9c227c38f150519b2fc663c125a",
+    "examples/child_mandate_claims.json": "174c17154976ffad027c4ad31dd18be4f3f81ebcd5602c7fa5a6771524d6c5c3",
+    "examples/ict.jwt": "4699d620eaf0044a6311d4be3bc25a44b5378255656b8212218ba6045e03617d",
+    "examples/ict_claims.json": "f29fdf9fbe3129e974d16b265e91bf53db1cf3540026c455d84800d4aef5a9b9",
+    "examples/public_jwk.json": "5912e423c0b1e61443e09ae86ed3f5d4d6e7bcb90c289e06ccd29f450ee7b62a",
+    "examples/receipt.json": "25753f98bcd8112a79adcc972434698bd9dfa4eac0dfeb376298674bd668079a",
+    "examples/root_mandate.jwt": "64927a66c498ab8af9a6a91358dce10240426430090f0a506aa3439871d83722",
+    "examples/root_mandate_claims.json": "7bb135bff2b84c5d1ddb80e3f77d61e609551843c0ee13da441213d4b5a5d0f6",
+    "schema/zti-action-0.1.schema.json": "6cf04bf6315ec422d0ea6f8e547d7acf120145e4b85e2a9e2d32d78881afa8a4",
+    "schema/zti-common-0.1.schema.json": "cfcb1917d5ac0daa1194428c2ddc45721e758bcbfa7435e529d6e824733bc979",
+    "schema/zti-ict-claims-0.1.schema.json": "328d099553ac2a5f171138524794258798778b392aaa357dbd9b6e71395e493e",
+    "schema/zti-mandate-0.1.schema.json": "d0e93bfbf34601cc628accb93abcc67c5b8dc3e48d88acf4e2ce5d91228b71e2",
+    "schema/zti-mandate-claims-0.1.schema.json": "c6fd88a1eaeab43f2c678a603dbcf84ce55d3775926dccfeb2063da1ceb7e0b7"
+  },
+  "binding_assertions_passed": true,
+  "example_origin": "Existing C02 run; not an additional scenario.",
+  "full_jcs_validation": false,
+  "full_json_schema_validation": false,
+  "local_schema_references_resolved": 57,
+  "mcp_transport_validation": false,
+  "receipt_is_offline_documentary_view": true,
+  "schema_files_parsed": 5,
+  "signatures": [
+    {
+      "algorithm": "ES256",
+      "file": "root_mandate.jwt",
+      "signature_octets": 64,
+      "verified": true
+    },
+    {
+      "algorithm": "ES256",
+      "file": "child_mandate.jwt",
+      "signature_octets": 64,
+      "verified": true
+    },
+    {
+      "algorithm": "ES256",
+      "file": "ict.jwt",
+      "signature_octets": 64,
+      "verified": true
+    }
+  ],
+  "uint64_pattern_boundary_examples": {
+    "accepted": [
+      "0",
+      "1",
+      "18446744073709551614",
+      "18446744073709551615"
+    ],
+    "rejected": [
+      "-1",
+      "01",
+      "1.0",
+      "true",
+      "",
+      "18446744073709551616",
+      "99999999999999999999",
+      "0\n"
+    ]
+  }
+}

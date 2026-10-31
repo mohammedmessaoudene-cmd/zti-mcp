@@ -1,0 +1,204 @@
+{
+  "study": "ZTI-MCP R4 P1 targeted architecture and prior art",
+  "consulted_on": "2026-10-31",
+  "scope": "Primary sources; documentary compatibility review, not implementation audit or novelty proof",
+  "sources": [
+    {
+      "id": "S01",
+      "title": "MCP Base Protocol",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic",
+      "version": "2026-07-28",
+      "status": "Published MCP specification revision, not an IETF RFC",
+      "sections": ["Error codes", "Statelessness", "_meta", "Per-request protocol fields"],
+      "web_refs": ["turn101view1", "turn82view4"],
+      "supports": "Per-request metadata; reserved prefixes; explicit application handles; error mappings; self-reported implementation metadata is not authenticated identity"
+    },
+    {
+      "id": "S02",
+      "title": "MCP Extensions Overview",
+      "url": "https://modelcontextprotocol.io/extensions/overview",
+      "version": "Living documentation consulted 2026-10-31",
+      "status": "Official MCP extension guidance; does not establish ZTI-MCP membership or status",
+      "sections": ["Identifiers", "Creating Extensions", "Negotiation", "Graceful Degradation"],
+      "web_refs": ["turn101view0", "turn103view1"],
+      "supports": "Owned reverse-DNS identifiers; per-request extension capabilities and server/discover; explicit opt-in; rejection when required extension unsupported; distinct Experimental/Beta/Stable process"
+    },
+    {
+      "id": "S03",
+      "title": "MCP Architecture",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/architecture",
+      "version": "2026-07-28",
+      "status": "Published MCP specification revision",
+      "sections": ["Core Components", "Design Principles", "Capability Negotiation"],
+      "web_refs": ["turn100view1"],
+      "supports": "Host/client/server roles; context isolation; per-request capability negotiation"
+    },
+    {
+      "id": "S04",
+      "title": "MCP Transports Overview",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports",
+      "version": "2026-07-28",
+      "status": "Published MCP specification revision",
+      "sections": ["Messages", "Request Metadata", "Custom Transports"],
+      "web_refs": ["turn100view0"],
+      "supports": "Transport binding does not change protocol semantics; body metadata authoritative"
+    },
+    {
+      "id": "S05",
+      "title": "MCP Streamable HTTP",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http",
+      "version": "2026-07-28",
+      "status": "Published MCP specification revision",
+      "sections": ["Request Metadata", "Standard Request Headers", "Server Validation"],
+      "web_refs": ["turn101view2", "turn103view0"],
+      "supports": "MCP-Protocol-Version, Mcp-Method, and conditional Mcp-Name requirements; header-body agreement and HeaderMismatch; intermediaries do not infer policy safety from routing headers alone"
+    },
+    {
+      "id": "S06",
+      "title": "MCP Authorization",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization",
+      "version": "2026-07-28",
+      "status": "Published MCP specification revision, referencing OAuth including drafts",
+      "sections": ["Protocol Requirements", "Roles", "Resource Parameter Implementation", "Access Token Usage"],
+      "web_refs": ["turn94view1"],
+      "supports": "HTTP OAuth access token audience and header requirements; stdio environment-credential distinction; access-token passthrough prohibited"
+    },
+    {
+      "id": "S07",
+      "title": "RFC 2606: Reserved Top Level DNS Names",
+      "url": "https://www.rfc-editor.org/rfc/rfc2606.html",
+      "date": "1999-06",
+      "status": "Best Current Practice, BCP32",
+      "sections": ["3"],
+      "web_refs": ["turn94view2"],
+      "supports": "example.org reserved for examples; org.example is illustrative reverse-DNS notation, not author-owned namespace"
+    },
+    {
+      "id": "S08",
+      "title": "SEP-2624 Pull Request and Commit History",
+      "url": "https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2624",
+      "history_url": "https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2624/commits",
+      "status": "Open pull request observed 2026-10-31",
+      "revision": "3a2760642010e30037231ef4d7586750b0654e65",
+      "revision_date": "2026-07-17",
+      "web_refs": ["turn89view0", "turn89view1"],
+      "supports": "Identifiable proposed revision and open status; no acceptance inferred"
+    },
+    {
+      "id": "S09",
+      "title": "MCP Interceptors Experimental Extension README",
+      "url": "https://github.com/modelcontextprotocol/experimental-ext-interceptors",
+      "version": "Living README consulted 2026-10-31",
+      "status": "Experimental, explicitly not accepted or official MCP extension",
+      "web_refs": ["turn100view2"],
+      "supports": "Status qualification only; implementation directories are not evidence of tested interoperability"
+    },
+    {
+      "id": "S10",
+      "title": "SEP-2624: Interceptors for Model Context Protocol, pinned proposal",
+      "url": "https://github.com/Degiorgio/modelcontextprotocol/blob/3a2760642010e30037231ef4d7586750b0654e65/seps/2624-interceptors-for-model-context-protocol.md",
+      "revision": "3a2760642010e30037231ef4d7586750b0654e65",
+      "revision_date": "2026-07-17",
+      "created_field": "2025-11-04",
+      "status": "Draft SEP; Type Standards Track is MCP proposal type, not IETF RFC status",
+      "sections": ["Interceptor", "Execution Model", "Chain Execution", "Capability vs Policy"],
+      "web_refs": ["turn95view0", "turn96view0", "turn96view1", "turn96view2"],
+      "supports": "Validator/mutator lifecycle; receive validation precedes mutation; configurable audit/failOpen; mutation-chain atomicity differs from effect/registry atomicity",
+      "limit": "Read proposal text only; no repository implementation audit"
+    },
+    {
+      "id": "S11",
+      "title": "RFC 7515: JSON Web Signature (JWS)",
+      "url": "https://www.rfc-editor.org/rfc/rfc7515.html",
+      "date": "2015-05",
+      "status": "Standards Track",
+      "sections": ["3.1", "4.1.9", "4.1.11", "5.2", "A.3"],
+      "web_refs": ["turn85view0", "turn97view2", "turn104view0"],
+      "supports": "Compact serialization, original encoded signing input, critical extension validation, ES256 example"
+    },
+    {
+      "id": "S12",
+      "title": "RFC 7518: JSON Web Algorithms (JWA)",
+      "url": "https://www.rfc-editor.org/rfc/rfc7518.html",
+      "date": "2015-05",
+      "status": "Standards Track",
+      "sections": ["3.4"],
+      "web_refs": ["turn91view1"],
+      "supports": "ES256 uses P-256 and SHA-256; JWS signature fixed 64-octet R||S representation"
+    },
+    {
+      "id": "S13",
+      "title": "RFC 7519: JSON Web Token (JWT)",
+      "url": "https://www.rfc-editor.org/rfc/rfc7519.html",
+      "date": "2015-05",
+      "status": "Standards Track",
+      "sections": ["2", "4", "4.1", "4.3"],
+      "web_refs": ["turn97view3", "turn98view1"],
+      "supports": "Registered claims, expiry/audience/jti semantics; private claims by agreement; profile restrictions may be stricter than generic JWT"
+    },
+    {
+      "id": "S14",
+      "title": "RFC 8725: JSON Web Token Best Current Practices",
+      "url": "https://www.rfc-editor.org/rfc/rfc8725.html",
+      "date": "2020-02",
+      "status": "Best Current Practice, BCP225; updates RFC7519",
+      "sections": ["3.1", "3.8", "3.9", "3.10", "3.11", "3.12"],
+      "web_refs": ["turn90view3", "turn103view2"],
+      "supports": "Controlled algorithm selection, issuer/audience validation, key lookup protection, explicit typing, mutually exclusive token-validation profiles"
+    },
+    {
+      "id": "S15",
+      "title": "RFC 8785: JSON Canonicalization Scheme (JCS)",
+      "url": "https://www.rfc-editor.org/rfc/rfc8785.html",
+      "date": "2020-06",
+      "status": "Informational, Independent Submission; not IETF Standards Track",
+      "sections": ["3.1", "3.2", "3.2.3", "5"],
+      "web_refs": ["turn91view2", "turn90view2"],
+      "supports": "I-JSON input restrictions, UTF-16 property sort, preserved Unicode, deterministic number serialization; plain sorted Python JSON is not general JCS"
+    },
+    {
+      "id": "S16",
+      "title": "RFC 9396: OAuth 2.0 Rich Authorization Requests",
+      "url": "https://www.rfc-editor.org/rfc/rfc9396.html",
+      "date": "2023-05",
+      "status": "Standards Track",
+      "sections": ["2", "6.1"],
+      "web_refs": ["turn85view2", "turn97view0"],
+      "supports": "Structured authorization details and API-specific reduction/comparison; no generic JSON-subset permission proof"
+    },
+    {
+      "id": "S17",
+      "title": "RFC 8693: OAuth 2.0 Token Exchange",
+      "url": "https://www.rfc-editor.org/rfc/rfc8693.html",
+      "date": "2020-01",
+      "status": "Standards Track",
+      "sections": ["2.1", "4.1"],
+      "web_refs": ["turn98view0", "turn96view3"],
+      "supports": "Subject/actor exchange; no automatic one-time input use or revocation linkage; nested past act claims informational for access decisions"
+    },
+    {
+      "id": "S18",
+      "title": "UCAN Specification",
+      "url": "https://github.com/ucan-wg/spec",
+      "version": "1.0.0 observed on main 2026-10-31",
+      "date": null,
+      "date_note": "No publication date inferred from live README",
+      "status": "Community specification, not an IETF RFC; main is mutable",
+      "sections": ["Lifecycle", "Execution-Time", "Attenuation", "Encoding", "Replay Attack Prevention"],
+      "web_refs": ["turn98view2", "turn99view0", "turn100view3"],
+      "supports": "Delegation/invocation distinction, attenuated authority, execution-time validation, current DAG-CBOR format; older JWT descriptions should not be applied unqualified"
+    },
+    {
+      "id": "S19",
+      "title": "Verifiable Intent Specification Overview",
+      "url": "https://github.com/agent-intent/verifiable-intent/blob/main/spec/README.md",
+      "version": "0.1-draft",
+      "date": "2026-02-18",
+      "date_note": "Header date of draft, not independently inferred launch date",
+      "status": "Draft project specification; no IETF or MCP adoption inferred",
+      "sections": ["Terminology: Network-Enforced Constraint", "Architecture", "Conformance", "Security Considerations"],
+      "web_refs": ["turn98view3", "turn99view3"],
+      "supports": "Signed commercial mandates and SD-JWT layers; cumulative network budget already explicit; VI credential revocation deferred"
+    }
+  ]
+}

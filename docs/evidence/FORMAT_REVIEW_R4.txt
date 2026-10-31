@@ -1,0 +1,34 @@
+REVUE DE FORMAT R4 — VALIDATION RELAX NG BORNEE
+Date : 2026-10-31T02:17:41.825449+00:00
+Verdict : PASS_RELAX_NG_ONLY
+
+Objet : copie XML résolue du draft-messaoudene-zti-mcp-00.
+Original : docs/specification/draft-messaoudene-zti-mcp-00.xml
+SHA-256 original avant : 0a600763b6eb21ddcdcd809290a329371991ab65fef3833470962c878a8d446f
+SHA-256 original après : 0a600763b6eb21ddcdcd809290a329371991ab65fef3833470962c878a8d446f
+Original inchangé : True
+
+Schéma officiel : ietf-tools/xml2rfc, xml2rfc/data/v3.rng.
+Commit figé : 8f07f9ec5876bb0fd90f7f686238ed201e52e52f (HEAD consulté le 31 octobre 2026).
+Dernière release annoncée : v3.35.0 ; son tag n’est pas assimilé au HEAD.
+Dépendance locale : SVG-1.2-RFC.rng ; les deux Git blob SHA-1 sont vérifiés.
+Les SHA-256, URL officielles et métadonnées de récupération sont dans le JSON
+et dans format_sources/download_manifest.json.
+
+Méthode : parseur lxml installé, résolution contrôlée de dix xi:include
+bibliographiques depuis des copies officielles bib.ietf.org, puis
+compilation de Relax NG et validation de la copie. Aucun autre accès réseau
+n’est permis au parseur ; DTD et entités externes ne sont pas chargées.
+Les XML et RNG téléchargés sont des données ; aucun code xml2rfc n’est exécuté.
+
+Résolution bibliographique : 10 référence(s).
+Compilation du schéma : True
+Conformité Relax NG : True
+Erreurs de validation : 0
+
+
+Portée : cette vérification établit uniquement la conformité de la copie
+résolue au schéma figé. Elle ne remplace pas l’exécution complète de xml2rfc
+ou idnits, ne vérifie pas la mise en page, ne constitue pas une soumission,
+une acceptation IETF ni une validation de la sémantique du protocole.
+Le draft et le renderer n’ont pas été modifiés par ce contrôle.

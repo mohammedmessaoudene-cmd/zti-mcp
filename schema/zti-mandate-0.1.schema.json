@@ -1,0 +1,99 @@
+{
+  "$comment": "Root/parent identity equality, policy hash, ancestry, attenuation and validity ordering require semantic validation.",
+  "$id": "zti-mandate-0.1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "properties": {
+        "parent_hash": {
+          "type": "null"
+        },
+        "parent_id": {
+          "type": "null"
+        },
+        "root_policy": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/rootPolicy"
+        }
+      }
+    },
+    {
+      "properties": {
+        "parent_hash": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/digest"
+        },
+        "parent_id": {
+          "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+        },
+        "root_policy": {
+          "type": "null"
+        }
+      }
+    }
+  ],
+  "properties": {
+    "constraints": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/constraints"
+    },
+    "correlation_id": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "delegatee_id": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "mandate_id": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "parent_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "parent_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "policy_hash": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/digest"
+    },
+    "principal_id": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "profile": {
+      "const": "zti-mcp/0.1"
+    },
+    "root_mandate_id": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "root_policy": {},
+    "tenant_id": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "valid_from": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/numericDate"
+    },
+    "valid_until": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/numericDate"
+    }
+  },
+  "required": [
+    "tenant_id",
+    "principal_id",
+    "root_mandate_id",
+    "mandate_id",
+    "correlation_id",
+    "delegatee_id",
+    "profile",
+    "parent_id",
+    "parent_hash",
+    "valid_from",
+    "valid_until",
+    "constraints",
+    "root_policy",
+    "policy_hash"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,13 @@
+{
+  "authenticated_receipt_delivery_tested": false,
+  "canonicalization": "ASCII object keys, safe integer JSON numbers, valid Unicode strings; not full JCS.",
+  "example_clock": 1793404800,
+  "identities": "Public fictional laboratory identities only.",
+  "mcp_server_tested": false,
+  "private_key": "Public laboratory P-256 scalar 1; never use for deployment.",
+  "receipt_provenance": "Offline documentary projection of the durable C02 SQLite effect and COMMITTED audit row.",
+  "source_authority_sha256": "0489bf76fc482558051e65ac3517aab9189109bc3d1647724e54211b623aa11f",
+  "source_case": "C02_narrowed_child_positive",
+  "source_result_sha256": "f63ae7641b06336b380184708a7379d0a9ec5b58077a00f00cf3cfb683f06352",
+  "state_revision": "The persisted COMMITTED audit sequence is used for this example; the local API is not the documentary wire API."
+}

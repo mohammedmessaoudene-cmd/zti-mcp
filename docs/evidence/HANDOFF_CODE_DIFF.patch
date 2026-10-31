@@ -1,0 +1,41 @@
+--- r4/experiment/verify_examples.py
++++ public/reference/verify_examples.py
+@@ -3,7 +3,7 @@
+ 
+ Not a general JOSE/JCS/JSON-Schema validator or an MCP implementation.
+ """
+-import hashlib,json,re,sys
++import argparse,hashlib,json,re,sys
+ from pathlib import Path
+ from cryptography.hazmat.primitives import hashes
+ from cryptography.hazmat.primitives.asymmetric import ec,utils
+@@ -15,6 +15,15 @@
+ def digest(v):return hashlib.sha256(canonical(v)).hexdigest()
+ 
+ def main():
++    parser=argparse.ArgumentParser()
++    parser.add_argument('--output',type=Path,help='Write the verification report outside tracked fixtures.')
++    args=parser.parse_args()
++    output=None
++    if args.output is not None:
++        raw=args.output.absolute();work=ROOT.parent/'work';output=raw.resolve()
++        if (work.is_symlink() or output==work.resolve() or not output.is_relative_to(work.resolve())
++            or any(path.is_symlink() for path in (raw,*raw.parents)) or output.exists()):
++            parser.error('--output must name a fresh file under work/, without symbolic links.')
+     examples=ROOT.parent/'examples';schema=ROOT.parent/'schema'
+     jwk=read(examples/'public_jwk.json')
+     assert jwk['kty']=='EC' and jwk['crv']=='P-256' and jwk['alg']=='ES256'
+@@ -86,7 +95,12 @@
+             'receipt_is_offline_documentary_view':True,
+             'artifact_sha256':{str(p.relative_to(ROOT.parent)):hashlib.sha256(p.read_bytes()).hexdigest()
+                                for p in sorted(list(examples.glob('*.json'))+list(examples.glob('*.jwt'))+files) if p.name!='VERIFICATION.json'}}
+-    (examples/'VERIFICATION.json').write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
++    if output is None:
++        (examples/'VERIFICATION.json').write_text(json.dumps(result,indent=2,sort_keys=True)+'\n',encoding='utf-8',newline='\n')
++    else:
++        output.parent.mkdir(parents=True,exist_ok=True)
++        with output.open('x',encoding='utf-8',newline='\n') as stream:
++            stream.write(json.dumps(result,indent=2,sort_keys=True)+'\n')
+     print(json.dumps({k:v for k,v in result.items() if k!='artifact_sha256'},indent=2))
+ 
+ def read_json(raw):return json.loads(raw)

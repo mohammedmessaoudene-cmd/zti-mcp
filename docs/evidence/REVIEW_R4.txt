@@ -1,0 +1,741 @@
+ZTI-MCP R4 — REVIEWER2 ET FORME INTERNET-DRAFT
+31 octobre 2026
+Rôle : law_standards_review, agent IA
+
+STATUT
+P0 et P3 du prompt directeur lus ; source centrale d'architecture relue après
+clarification ; contrat P2 final et 40 cas relus avant exécution ; GO donné
+après une clarification explicite des oracles. Source du draft intégralement
+lue et corrections vérifiées. Code et résultats relus ; 43 bases du premier
+batch contrôlées en lecture seule et sept diagnostics ciblés exécutés.
+TXT et structure XML examinés ; la vérification du rendu final relève du
+coordinateur. Revue close sur ce périmètre, sans nouvel essai optionnel.
+Une mission de livraison ultérieure a ensuite fait fonctionner xml2rfc 3.35.0
+sur une copie locale, sans réseau pour le document ; voir le rapport séparé
+review/toolchain/TOOLCHAIN_FEASIBILITY.txt. Les constats antérieurs concernant
+l'absence de cet outil décrivent la phase préalable, et non cet état final.
+Aucun document IETF n'a été
+soumis et aucun service de validation distant n'a reçu le contenu du draft.
+Les anciens dossiers R1/R2/R3 n'ont pas été modifiés.
+
+1. VERDICT ARCHITECTURAL AVANT RÉDACTION
+
+La révision current-online constitue un contrat cohérent si T_initial crée
+seulement une réservation révocable et si T_revalidate est effectivement lié
+à la consommation et à la frontière d'effet annoncée. Un appel réseau de
+validation suivi d'une action indépendante n'obtient pas cette propriété par
+son seul nom. Le fournisseur doit participer à l'unité de validation ; sinon
+il ne peut pas être annoncé conforme au profil strict.
+
+Une acceptation durable et irrévocable par le fournisseur peut être la
+frontière protégée, si elle est explicitement définie ainsi. Ce n'est ni
+l'admission initiale, ni la simple réception du message, ni une promesse
+d'achèvement physique. La révocation prioritaire dans l'état d'autorité doit
+bloquer toute nouvelle consommation ; une révocation postérieure ne prétend
+pas annuler une acceptation déjà linéarisée.
+
+Les objections initiales à ARCHITECTURE_DECISIONS.txt ont été résolues dans
+sa version relue : le budget cumulatif et les forbidden_sets appartiennent
+exclusivement à la racine ; les enfants réduisent les ensembles autorisés,
+les plafonds par action et la période de validité. Ils ne créent pas de
+crédits indépendants et ne modifient pas la politique cumulative des autres
+branches. UNKNOWN désigne désormais un résultat incertain après COMMITTED,
+avec charge unique conservée ; il n'est pas créé arbitrairement depuis
+RESERVED par la seule absence d'une réponse.
+
+2. OBLIGATIONS À RENDRE EXPLICITES DANS LE DRAFT
+
+2.1. Périmètre et autorité
+
+« Global » doit désigner le périmètre administré d'une racine identifiée.
+L'autorité assigne la racine et ancre les mandats enregistrés. Un identifiant
+de corrélation choisi par un demandeur n'accorde aucun droit et ne crée pas
+un nouveau budget. Les actions de racines distinctes ne sont pas corrélées
+par cette version, sauf politique d'émission externe expressément décrite.
+
+L'autorité doit refuser ou suspendre la création d'un enfant ou l'utilisation
+d'un permis si toute la lignée enregistrée ne peut pas être résolue. Parent
+unique, empreinte du contenu immuable, racine, tenant, principal et délégué
+doivent être cohérents. Tous les ancêtres pertinents doivent rester valides
+et non révoqués. La profondeur maximale de huit mandats, racine incluse,
+n'autorise jamais à ignorer les ancêtres au-delà de cette profondeur.
+
+Une signature prouve une provenance dans le modèle de confiance choisi ;
+elle ne remplace ni l'ancrage au registre ni le contrôle actuel de lignée.
+Un JWT de mandat, un ICT et un jeton OAuth ont des fonctions différentes et
+des règles de validation séparées. Le sujet de l'ICT doit correspondre à
+l'identité authentifiée de l'invocateur prévu chez le fournisseur ; un proxy
+ne doit pas devenir le principal par simple copie d'un champ.
+
+2.2. Héritage et règles comprises
+
+La création d'un enfant doit vérifier l'inclusion de chaque ensemble permis,
+les plafonds par action et la validité temporelle. L'exécution doit encore
+vérifier les restrictions de tous les ancêtres : copier seulement les
+restrictions de la feuille ne suffit pas. Un champ manquant n'accorde pas
+une limite infinie. Une règle inconnue ou une dimension inconnue doit
+produire le refus ou la suspension explicitement défini, sans être ignorée.
+
+La version 0.1 simplifie volontairement les règles globales : les enfants
+ne changent pas les forbidden_sets de racine. Une branche qui ajouterait
+une interdiction globale pour elle seule ne protégerait pas forcément les
+actions futures de ses soeurs. Les migrations de politique globale doivent
+donc conserver l'historique ou être hors du profil, jamais réinitialiser les
+compteurs par remplacement d'un objet.
+
+2.3. Coûts, faits et réservations
+
+Chaque dimension doit avoir une unité et une arithmétique exacte. Les chaînes
+décimales canoniques, les bornes des valeurs et les règles de dépassement
+doivent être cohérentes entre prose, schéma et code. Les valeurs négatives,
+booléens traités comme nombres, flottants et dimensions inconnues ne doivent
+pas entrer dans une somme quantitative par coercition implicite.
+
+Au T_initial, la décision et la réservation doivent être sérialisées pour
+la racine. Le candidat est admis seulement si les coûts consommés, toutes
+les réservations en attente et son coût respectent le budget commun. Les
+coûts et faits proviennent de l'adaptateur ou catalogue de confiance, pas
+d'une déclaration du LLM. Si le coût est une borne, le fournisseur doit
+respecter cette borne ou obtenir une nouvelle décision avant tout excès.
+
+Le test de combinaison doit porter sur les faits consommés, les faits
+possibles de toutes les réservations et les faits du candidat. Il ne doit
+pas se limiter aux effets déjà achevés. Les prédicats monotones interdits
+doivent avoir une syntaxe et une version précises ; leur validité signifie
+respect d'une politique configurée, pas détection de toutes les intentions.
+
+Au T_revalidate, une réservation existante ne doit pas être ajoutée une
+deuxième fois au total. Sa liaison, son coût, ses faits et son état sont
+revalidés. Le passage RESERVED vers COMMITTED transfère une charge de la
+catégorie réservée à la catégorie consommée, sans la faire disparaître et
+sans la compter deux fois.
+
+2.4. Mutation, rejeu et état inconnu
+
+Action_Binding doit décrire les arguments réellement exécutés après toute
+transformation. Une mutation qui modifie cette action ne peut pas réutiliser
+silencieusement le permis ancien. Outil, version, ressource, méthode,
+destinataire, tenant, racine, mandat et identifiant d'opération doivent
+rester liés aux données effectivement utilisées.
+
+L'unicité doit être vérifiée dans le registre, avec une portée d'identifiant
+d'opération annoncée. Une nouvelle signature ou un nouveau jti ne doit pas
+créer une seconde exécution de la même opération déjà engagée. Une répétition
+strictement identique peut retourner l'état ou le résultat déjà connu ; une
+action différente sous la même identité d'opération produit CONFLICT.
+
+La libération d'une réservation doit être atomiquement conditionnée à un
+état réellement pré-commit et rendre impossible toute consommation future
+du permis correspondant. Un timeout, un jeton expiré ou une réponse perdue
+ne prouve pas l'absence d'effet. Une annulation ne doit pas supprimer un
+fait encore porté par une autre réservation ou par un effet déjà engagé.
+
+COMMITTED et UNKNOWN restent chargés une fois, coûts et faits compris.
+UNKNOWN n'autorise pas à réessayer sous une nouvelle identité pour obtenir
+un effet supplémentaire. L'absence d'accusé après un commit SQLite doit
+être distinguée d'une incertitude sur le résultat externe : la consultation
+du registre peut déjà établir COMMITTED, même si le client n'avait rien reçu.
+
+2.5. Frontière stricte et disponibilité
+
+Le texte doit nommer le point de linéarisation et ce qu'il protège. Les
+revocations, annulations et consommations doivent être ordonnées par le même
+contrat d'autorité. Un contrôle au niveau transport n'est pas automatiquement
+la dernière décision avant effet ; une file de travail, transformation ou
+délégation ultérieure peut déplacer cette frontière.
+
+Le fournisseur doit documenter comment son intégration lie le contrôle
+courant à la mutation protégée ou à son acceptation irrévocable. Une promesse
+générique d'atomicité distribuée ne suffit pas. Si l'autorité actuelle est
+inaccessible ou l'état indispensable est incomplet, le profil current-online
+doit suspendre/refuser, sans repli silencieux sur un droit acquis ou sur un
+cache dont la validité actuelle n'est pas établie.
+
+L'expiration est une condition à un point de décision précisément décrit,
+avec horloge et incertitude annoncées. Un contrôle effectué sous verrou ne
+prouve pas qu'un actionneur distant termine avant une échéance physique.
+Les horodatages d'appel/retour ne doivent pas être présentés comme les
+instants internes exacts des commits.
+
+3. FORME ET STATUT INTERNET-DRAFT
+
+3.1. Statut individuel et nom
+
+Un document individuel peut être écrit sans adoption par un groupe de
+travail. RFC 7221 distingue les noms individuels draft-<auteur>-... des noms
+draft-ietf-<groupe>-... de documents adoptés. Il faut conserver un identifiant
+proposé tel que draft-messaoudene-zti-mcp-00, sans numéro RFC et sans groupe
+ou sponsor inventé. « Intended status: Experimental » exprime un objectif
+éditorial ; il ne signifie pas publication ou approbation. [S01, S02]
+
+Un draft individuel de la filière IETF ne doit pas être confondu avec
+l'Independent Submission Stream. Dans RFCXML, submissionType désigne une
+filière de publication ; independent ne signifie pas simplement qu'un auteur
+travaille seul. Une note de statut locale doit rendre clair que cette copie
+n'a pas été déposée. [S03]
+
+3.2. BCP 14 et portée des obligations
+
+RFC 2119 et RFC 8174 constituent BCP 14. Les mots réservés en capitales ont
+leur sens normatif particulier ; les mots ordinaires en minuscules gardent
+leur sens courant. La présence de MUST ne rend pas le document officiel.
+Les exigences doivent être nécessaires à l'interopérabilité ou à la propriété
+de sécurité, avec acteur, condition et conséquence identifiables. Une
+implémentation ne doit pas pouvoir prétendre respecter un SHOULD sans que
+les conditions de dérogation importantes soient compréhensibles. [S04, S05]
+
+Le paragraphe BCP 14 standard doit renvoyer à RFC 2119 ET RFC 8174 ; citer
+seulement RFC 2119 omet la clarification des majuscules. Ces références sont
+normatives si leurs termes gouvernent le profil.
+
+3.3. Sections et boilerplate
+
+Les instructions officielles demandent Abstract, Status of This Memo,
+Copyright Notice, Introduction, Security Considerations, IANA Considerations,
+References et Authors' Addresses. Le statut et l'abstract ne sont pas des
+sections techniques numérotées. Les documents texte nécessitent aussi le
+traitement approprié du sommaire, de l'en-tête et de la pagination. [S06, S07]
+
+Le boilerplate standard de statut et les notices de droits doivent provenir
+des sources officielles ou d'un outil conforme, pas d'une reconstruction
+approximative présentée comme identique. La page Required content renvoie
+aux Trust Legal Provisions pour le texte exact. Une notice explicite de
+copie locale non soumise doit éviter que le texte de préparation soit lu
+comme une annonce de dépôt déjà effectué. Aucun envoi n'est nécessaire pour
+produire et relire cette version.
+
+La date locale du 31 octobre 2026 donne le 4 mai 2027 après ajout de 185 jours.
+La règle officielle fait courir normalement l'expiration après placement
+dans le dépôt, avec certaines exceptions de statut. Une date préparée dans
+le document n'est donc pas une expiration enregistrée par Datatracker. [S08]
+
+3.4. RFCXML et limites de validation locale
+
+RFC 7991 décrit le vocabulaire RFCXML v3, mais n'est pas à lui seul la preuve
+de l'état courant de tout l'outillage. Sa fiche indique une mise à jour par
+RFC 9920, consacré au modèle RFC Editor et aux responsabilités éditoriales.
+La documentation et les règles actuelles de l'outil restent pertinentes.
+Une réussite de parsing XML prouve que le fichier est bien formé ; elle ne
+prouve pas sa conformité à la grammaire RFCXML ni son acceptation par les
+outils de soumission. [S03, S09]
+
+Vérification locale de disponibilité : xml2rfc absent du runtime Python ;
+lxml 6.1.1 présent. Aucun paquet n'a été installé par ce rôle. S'il n'y a
+pas de passage dans un validateur conforme, il faut annoncer le niveau réel
+de contrôle et ne pas inventer un résultat idnits/xml2rfc.
+
+RFC 7994 prévoit notamment une limite de 72 caractères par ligne pour le
+texte. Les instructions propres aux I-D ajoutent des règles de présentation
+qui ne se confondent pas avec la seule lecture d'un RFC publié. [S07, S10]
+
+3.5. Références
+
+Une référence nécessaire pour comprendre ou implémenter le format, un
+algorithme ou une obligation est normative ; une référence de contexte ou
+d'antériorité est informative. Le statut de la source ne suffit pas à
+décider cette distinction. Une dépendance MCP doit indiquer sa version,
+et une référence à un Internet-Draft doit préciser sa révision et son
+statut de travail en cours. Ne pas traiter le draft individuel cité comme
+une norme adoptée. [S11]
+
+Les RFC JOSE/JWT/JCS effectivement nécessaires au profil sont des
+dépendances normatives. Les articles ZK, les comparaisons historiques et
+les premières expériences sont des références informatives, sauf décision
+explicite de dépendre d'un mécanisme qu'elles définissent.
+
+3.6. IANA
+
+RFC 8126 et le guide IANA expliquent comment formuler la section. Une
+absence d'action doit être explicite ; la simple absence de section n'est
+pas une déclaration suffisante. Toute demande de registre ou d'attribution
+doit être présentée comme proposée, avec les informations nécessaires ;
+aucun identifiant n'est attribué par l'écriture locale du document. [S12, S13]
+
+Le choix annoncé par le coordinateur est une révision privée de profil,
+avec typ convenus hors bande, Content-Type externe application/json et
+identifiant MCP appartenant à l'exploitant. Le texte doit préciser que les
+typ zti-ict+jwt et zti-mandate+jwt ne sont pas des types média enregistrés,
+et que l'exemple org.example/zti-mcp n'est pas un espace de nom revendiqué
+pour un déploiement public. Une future normalisation publique peut nécessiter
+des demandes d'enregistrement distinctes ; aucune n'est exécutée ici.
+
+RFC 7515, section 4.1.9, décrit typ comme une indication de type média
+traitée par l'application et prévoit d'autres valeurs que JOSE. Il précise
+l'interprétation avec le préfixe application/ lorsque la valeur ne comporte
+pas de barre oblique ; cette syntaxe ne constitue pas un enregistrement.
+RFC 7519, section 4.3, permet des noms de claims privés par accord, avec
+un risque de collision. Le profil doit donc présenter zti et zti_mandate
+comme des claims privés et ses typ comme des identifiants non enregistrés,
+sans revendiquer une dispense universelle d'enregistrement futur. [S14, S15]
+
+4. PRÉCONTRAT P2 ET POINTS À CONTRÔLER AVANT LE GEL
+
+CONTRACT_PROPOSAL.txt et CASES_PROPOSED.txt ont été relus avant tout essai
+annoncé. Le précontrat conserve correctement une seule architecture courante,
+des réservations concurrentes partagées, des signatures réelles à vérifier,
+un effet SQLite observé et des erreurs opérationnelles distinctes des refus.
+
+Les divergences signalées au coordinateur ont conduit à la clarification
+de l'interface centrale : budgets et forbidden_sets de racine seulement,
+restriction enfant par action et UNKNOWN seulement après COMMITTED. Le
+contrat final devra reproduire ces choix avant d'être approuvé et gelé.
+
+Une attention particulière a été signalée au sous-ensemble JCS. Le tri
+standard des clés Python par points de code peut différer du tri UTF-16
+exigé par JCS pour des clés non-BMP. « Objets à clés chaînes et entiers
+sûrs » ne définit pas à lui seul un sous-ensemble correctement canonisé.
+Il faut un tri conforme ou une restriction explicite et vérifiée des clés,
+par exemple aux clés ASCII des fixtures. Cette observation sera confrontée
+au code réel ; elle ne présume pas qu'un défaut a déjà été exécuté.
+
+La revue du contrat final vérifiera aussi : témoins positifs, états et faits
+observés au-delà des verdicts, vrai chevauchement des processus lorsqu'il est
+annoncé, mutant qui retire effectivement le contrôle visé, et aucune
+réécriture des attendus pour dissimuler un défaut.
+
+5. SOURCES PRIMAIRES VÉRIFIÉES AU 31 OCTOBRE 2026
+
+[S01] RFC 7221, Informational, avril 2014, sections sur documents individuels
+et noms de groupes : https://datatracker.ietf.org/doc/html/rfc7221
+Référence de lecture : turn93view0. N'accorde aucun statut à ZTI-MCP.
+
+[S02] IETF, Internet-Drafts, page institutionnelle courante :
+https://www.ietf.org/participate/ids/
+Référence : turn88search6. Rôle des drafts et absence d'adoption automatique.
+
+[S03] RFC 7991, Informational, décembre 2016, vocabulaire v3, section 2.45
+et annexe A.2 sur submissionType :
+https://www.rfc-editor.org/rfc/rfc7991.html
+Références : turn92view1, turn93view2, turn93view3.
+Fiche de statut : https://www.rfc-editor.org/info/rfc7991/
+
+[S04] RFC 2119, BCP 14, mars 1997 :
+https://www.rfc-editor.org/rfc/rfc2119.html
+Référence : turn87view2. Niveaux et usage des exigences.
+
+[S05] RFC 8174, BCP 14, mai 2017 :
+https://www.rfc-editor.org/rfc/rfc8174.html
+Référence : turn87view1. Clarification des mots en capitales.
+
+[S06] IETF Authors, Required content, métadonnées du 24 juin 2025,
+page vivante consultée : https://authors.ietf.org/en/required-content
+Copie d'origine lisible :
+https://github.com/ietf/authors.ietf.org/blob/main/required-content.md
+Références : turn84search0, turn92view3, turn93view4. Le site rendu ne
+retournait parfois qu'un élément d'analyse ; le dépôt officiel a été lu.
+
+[S07] IETF Authors, Drafting in plaintext, page courante :
+https://authors.ietf.org/en/drafting-in-plaintext
+Référence : turn84search7. Exigences de présentation des I-D texte.
+
+[S08] IETF Authors, Submitting your Internet-Draft, page courante :
+https://github.com/ietf/authors.ietf.org/blob/main/submitting-your-internet-draft.md
+Références : turn92view4, turn93view5. Expiration normale 185 jours après
+placement, avec exceptions de statut ; aucune soumission faite ici.
+
+[S09] RFC 9920, Informational, 2026, RFC Editor Model (Version 3) :
+https://www.rfc-editor.org/info/rfc9920/
+Référence : turn87view0. Met à jour notamment RFC 7991 et remplace RFC 9280 ;
+ne constitue pas un test de conformité du XML produit localement.
+
+[S10] RFC 7994, Informational, décembre 2016, section 4.3 :
+https://www.rfc-editor.org/rfc/rfc7994.html
+Références : turn92view2, turn93view7. Format texte, notamment largeur.
+
+[S11] RFC 3967, BCP 97, décembre 2004, section 1.1 :
+https://www.rfc-editor.org/rfc/rfc3967.html
+Références : turn88search3, turn93view1. Distinction normative/informative ;
+ne vaut pas examen exhaustif des procédures actuelles de publication.
+
+[S12] RFC 8126, BCP 26, juin 2017 :
+https://www.rfc-editor.org/rfc/rfc8126.html
+Référence : turn92view0. Guide des sections IANA Considerations.
+
+[S13] IANA, Guidance for RFC Authors, révision du 13 juillet 2026 :
+https://www.iana.org/help/protocol-registration
+Références : turn92view5, turn93view6. Exigences de registre et déclaration
+explicite d'absence d'action. Aucune demande n'a été adressée à IANA.
+
+[S14] RFC 7515, Standards Track, mai 2015, section 4.1.9 :
+https://www.rfc-editor.org/rfc/rfc7515.html
+Référence : turn108view0. Portée du paramètre typ et interprétation du
+préfixe application/ ; aucune allocation spécifique à ZTI n'en découle.
+
+[S15] RFC 7519, Standards Track, mai 2015, section 4.3 :
+https://www.rfc-editor.org/rfc/rfc7519.html
+Référence : turn108view1. Claims privés convenus entre producteur et
+consommateur, susceptibles de collisions.
+
+6. REVUE INTÉGRALE DE LA SOURCE DU DRAFT
+
+Source lue : draft_source.json, douze sections et sous-sections, ainsi que
+ses métadonnées et références. Empreinte de la version initialement relue :
+9d66d7994f935d936952d24c6bcabf7b7ac802b4e81718f9d71e06efc9ab009b.
+L'interface centrale relue porte l'empreinte :
+d1f65528e27d40cfbe913402cf9fc781a5db502de3640d9d30194139eebeb895.
+La relecture précède le gel du contrat expérimental final ; elle ne vaut
+donc pas encore approbation d'exécution ni validation des fichiers rendus.
+
+6.1. Éléments correctement établis
+
+Le draft reste sur une architecture current-online unique. R09 et R10
+imposent une véritable frontière fournisseur et excluent explicitement
+l'équivalence erronée entre contrôle réseau et effet distant atomique.
+L'acceptation irrévocable est distinguée de l'achèvement ; elle n'est pas
+une file annulable ni une simple promesse locale de transmission.
+
+R03, R07, R17 et R18 sont cohérents avec la politique racine : atténuation
+des listes et caps, coûts consommés plus réservés, faits possibles des
+réservations, et absence de double compte à la consommation. R11 et R12
+conservent la charge après commit et distinguent UNKNOWN d'une annulation.
+R19 et R20 rendent explicite l'ordre commun des révocations et effets.
+
+R14 et le tableau sub lient effectivement l'invocateur authentifié au
+delegatee du mandat. Ce point est plus explicite que dans l'interface
+préliminaire et résout l'observation sur un simple succès d'authentification.
+La séparation des types de jeton, des destinataires et de l'état courant
+est correctement exigée. La preuve de signature ne devient pas une preuve
+d'intention ni une preuve que le fournisseur a exécuté le bon contenu.
+
+Le périmètre global est borné à une racine administrée. Les racines
+indépendantes, les accès administratifs non médiés et les classifications
+erronées sont des limites annoncées. Les garanties conditionnelles de la
+section 5.2 ne sont pas présentées comme une certification du monde réel.
+Les limites des preuves locales, du JCS restreint, de l'interopérabilité et
+de la validation institutionnelle sont conservées dans la section 10.
+
+La section IANA ne revendique ni enregistrement ni attribution. Le statut
+individuel, non soumis, et le statut envisagé Experimental sont explicites.
+Le document ne se présente pas comme Independent Submission Stream, comme
+RFC accepté ou comme amendement officiel de MCP. Le rendu final doit encore
+apporter son front matter, références séparées et coordonnées d'auteur.
+
+6.2. Corrections ou précisions demandées au coordinateur
+
+F01 — portée des identifiants, nécessaire avant gel : préciser la clé
+exacte d'unicité et de lookup d'operation_id et la portée de reservation_id.
+La formule stable operation identity seule ne dit pas si la clé comprend
+tenant, racine et/ou émetteur. Le texte, le schéma et la contrainte SQL
+doivent employer le même contrat. La portée racine ne doit pas être
+présentée ensuite comme une protection cumulative entre racines.
+
+F02 — erreur de portée normative à corriger : en section 8.3, remplacer
+l'obligation générique An error response par une obligation visant les
+erreurs définies par ZTI. Les erreurs MCP existantes gardent leur contrat ;
+l'ajout de status et d'une référence ZTI ne doit pas être exigé d'un pair
+qui produit une erreur native ou n'a pas négocié cette extension.
+
+F03 — génération de jti : préciser que la génération avec au moins
+128 bits d'aléa relève de l'émetteur, ou définir un autre mécanisme
+d'unicité explicite. La seule chaîne reçue ne permet pas au vérificateur
+de démontrer une quantité d'entropie. L'unicité en registre et la prévention
+de double effet restent nécessaires indépendamment de cette génération.
+
+F04 — épuisement d'epoch : l'interdiction de débordement de R04 et
+l'incrément exigé à révocation de R20 doivent avoir un cas terminal sûr.
+À la valeur maximale, désactiver/suspendre la racine sans remise à zéro ;
+ne pas simplement refuser la révocation en laissant l'autorité active.
+Un texte sur ce bord ne serait pas une preuve d'un cas non exécuté.
+
+Ces points ont été transmis. Aucun changement au draft n'a été fait par
+Reviewer2 ; le coordinateur conserve la source normative unique.
+
+6.3. Résolution dans la source révisée, avant résultats du banc
+
+Empreinte de la source relue à cette étape :
+b42dd0f1c563db2414e314d80be5cded77e0fee8dd08abf9d2ae7073010b3152.
+
+La relecture ciblée confirme F01–F04 résolus : les deux clés sont définies
+par tenant/racine/identifiant, la génération de jti incombe à l'émetteur,
+error.data est exigé seulement pour les erreurs ZTI -31001, et l'épuisement
+d'epoch ou de révision ne permet aucun retour à zéro ni maintien abusif
+d'une autorité révoquée. La déduplication est expressément bornée à
+Operation_Key, sans détection universelle de doublons sémantiques.
+
+La section 8.2 ajoutée précise cinq méthodes de contrôle (register, reserve,
+lookup, cancel, revoke), leurs paramètres, résultats et rôles habilités.
+R28 distingue authentification et autorisation ; le seul identifiant ou
+une copie publique signée n'accorde aucun accès de contrôle. Le contrat
+n'introduit pas de commit transférable indépendant de l'effet fournisseur.
+Les méthodes de contrôle sont explicitement exemptes d'ICT tout en restant
+authentifiées/autorisées, ce qui supprime une dépendance circulaire.
+
+La validation de mandat est désormais explicitement distincte, avec ses
+champs exacts, dates et destinataire de registre ; la durée maximale de
+60 secondes concerne seulement l'ICT. Un proxy avec une identité aval
+différente reçoit un enfant atténué. Les préconditions pertinentes sont
+dans l'enveloppe engagée, directement ou par référence/digest immuable,
+puis résolues et vérifiées à AtomicEffect.
+
+Aucun nouveau blocage identifié dans ces changements. La présence d'une
+obligation dans le texte n'établit pas qu'elle est exécutée dans le banc :
+les RPC de contrôle sur MCP, la saturation des états et les mécanismes
+distribués doivent rester clairement distingués de la couverture observée.
+
+7. CONTRAT ET ORACLES P2 AVANT EXÉCUTION
+
+CONTRACT.txt, cases.json, CENTRAL_SOURCE_SNAPSHOT.txt et le manifeste ont
+été lus avant toute exécution annoncée. Les trois empreintes du manifeste
+ont été recalculées et correspondaient aux fichiers. Version 1 relue :
+contrat 32a8deec560ba97f1e3cb67b086491533381731142dbe721a6d4964c5bd26f15 ;
+cas 9a64060be1bf22e87963a9a4d1e8598e18e35850b05000f3c11829b141e86176 ;
+source centrale 92142d024125863de42f9a1e39b97c65aafa5d170b012e4c42ed84075f86a40b.
+
+Le contrat choisit les clés (tenant, racine, identifiant), distingue identité
+authentifiée de son fixture, exige la lignée entière et les vrais ES256, et
+déclare correctement le sous-ensemble JCS à clés ASCII. UNKNOWN est bien
+post-COMMITTED, chargé une fois. L'expiration d'un permis ne libère pas une
+réservation par magie. Les révocations avant et après consommation ont des
+ordres attendus distincts. Les coûts/faits viennent du catalogue de confiance.
+
+Les 40 scénarios ont été lus individuellement. Les témoins comprennent un
+coût égal au budget, un enfant atténué valide, deux admissions concurrentes
+autorisées si le budget vaut 4, une action de fait isolée, l'export après
+annulation sûre, une profondeur de huit autorisée et neuf rejetée, et une
+seconde signature valide du même jeton qui ne doit pas créer d'effet.
+Les observations attendues comprennent les charges, faits et lignes d'effet,
+pas seulement les verdicts. La perte d'accusé utilise un commit réel puis
+un lookup ; la finalité externe inconnue demeure un fixture distinct.
+
+Une clarification d'oracle a été demandée avant GO d'exécution : C23
+contenait des listes vides committed_facts/possible_facts et une disjonction
+facts_one_of. Il faut exiger que les deux ensembles observés soient égaux au
+même gagnant autorisé, et ne pas conserver des attentes vides contradictoires.
+Les verdicts des admissions concurrentes C20/C23/C37 doivent être définis
+comme un multiensemble pour cette phase, puis les effets comme une phase
+distincte ; un tri de présentation n'est pas une chronologie d'exécution.
+Ce point ne change pas les résultats de sûreté attendus avant les essais.
+Aucun autre blocage architectural du contrat n'a été identifié.
+
+Clarification reçue et vérifiée avant exécution dans
+experiment/ORACLE_INTERPRETATION.txt, empreinte :
+2456351f0e14038b35cd41d603e2b4949ab1d1fde62a7741ee038a7038ccde8d.
+Les quatre entrées du prémanifest correspondent aux fichiers. Contrat et
+cas originaux restent inchangés. GO d'exécution transmis au coordinateur
+et à P2 après cette lecture. Il autorise l'examen empirique borné proposé ;
+il ne présume aucun résultat et ne certifie pas l'implémentation à venir.
+
+Les six scénarios annoncés avec processus distincts ne sont pas six preuves
+d'une exploration exhaustive des courses. Notamment la perte d'accusé est
+un scénario de processus/récupération, et les deux ordres dirigés annulation
+contre commit restent des traces choisies. Le compte des scénarios ne sera
+pas présenté comme un taux de protection ni comme toute la conformité R1–R28.
+
+8. PREMIÈRE RELECTURE DU CODE, AVANT RÉSULTATS
+
+authority.py a été lu intégralement alors qu'aucun résultat n'était encore
+annoncé. Empreinte observée de cette première version :
+98515b0c5e57b36daf9552e72368ed8ebb27d82e0f1e5a3d9ae6772f4d87d0c6.
+
+Les chemins critiques existent effectivement : cryptography vérifie le JWS
+sur les segments reçus, ES256 utilise un vrai P-256 et r||s de 64 octets,
+le parseur refuse les clés dupliquées, le sous-ensemble de canonisation
+vérifie les clés ASCII, et les quantités sont des chaînes exactes bornées.
+La lignée entière est parcourue avec signatures, empreintes et atténuation.
+reserve et commit utilisent BEGIN IMMEDIATE ; l'effet SQLite et le changement
+COMMITTED font partie de la même transaction. Les clés de réservation et
+d'opération sont composites tenant/racine/identifiant.
+
+Défauts concrets transmis pour correction avant exécution :
+
+K01 — revoke incrémentait l'epoch puis levait OVERFLOW au maximum. Le
+rollback annulait également l'inactivation, contrairement au cas terminal
+sûr ajouté au draft. La révocation doit rester effective sans wrap.
+
+K02 — les faits du permis étaient comparés au catalogue courant, mais pas
+explicitement aux faits de la réservation. La consommation doit exiger la
+même empreinte de faits dans les trois sources ; un changement de catalogue
+ne doit pas permettre l'effet sous l'ancienne réservation.
+
+K03 — aggregate ignorait les états inconnus. Un état non reconnu ne doit
+pas devenir une libération implicite des coûts/faits ; l'état obligatoire
+incomplet ou non compris doit suspendre/refuser la nouvelle consommation.
+
+K04 — les défauts via tools or TOOLS et policy_override or ... pouvaient
+transformer un ensemble vide en droits par défaut. Le défaut doit s'appliquer
+seulement à None. Les ensembles permis vides sont valides et n'accordent
+aucun droit selon le draft ; les objets de politique malformés sont rejetés.
+
+K05 — le catalogue initial utilisait method=invoke. Les exemples normatifs
+de tools/call doivent utiliser cette méthode ; une abstraction locale ne
+doit pas être importée telle quelle dans un message de binding MCP.
+
+La description des preuves doit aussi garder la portée exacte des mutants.
+M2 peut admettre deux réservations incompatibles puis faire refuser la seconde
+consommation, car son code conserve les faits déjà COMMITTED. Un oracle qui
+le détecte prouve alors une violation du contrat des réservations possibles,
+sans nécessairement montrer deux effets incompatibles réellement commis.
+De même, un témoin de délégation qui s'arrête à l'émission montre un
+élargissement accepté, pas automatiquement un effet exécuté sous ce droit.
+
+Ces constatations précèdent les résultats : aucune issue attendue n'a été
+changée pour rendre le code initial conforme. Relecture des corrections et
+observations à venir ; aucune conclusion de réussite n'est anticipée.
+
+8.1. Corrections vérifiées et code exécuté
+
+Les cinq points K01–K05 ont été corrigés avant le premier batch. La première
+source non exécutée est conservée dans experiment/pre_run_review/ et
+PRE_RUN_CORRECTIONS.txt expose les changements. Les cas/oracles gelés n'ont
+pas été réécrits pour rendre les résultats favorables.
+
+Source corrigée relue et exécutée :
+authority.py 0489bf76fc482558051e65ac3517aab9189109bc3d1647724e54211b623aa11f
+run_r4.py 56e382fa65a079ee8b24b03aa5a9d0874a09938400442a9c707cd54fa0394741
+
+La lecture complète du runner confirme que seuls les Fault attendus sont
+transformés en statuts métier. Les erreurs inattendues, timeouts et décès
+de processus interrompent le batch et produisent FAILURE.json. La perte
+d'accusé C36 intervient explicitement après commit réel ; elle ne représente
+pas un crash à un point arbitraire de la transaction.
+
+9. OBSERVATIONS ET RELECTURE INDÉPENDANTE DU STOCKAGE
+
+9.1. Premier batch et reconstruction
+
+Le premier batch conservé dans experiment/runs/initial rapporte 40 scénarios
+conformes à leurs observations attendues et trois mutants détectés, avec
+13 processus enfants distincts et zéro erreur opérationnelle. Le script
+review/readback_r4.py a ouvert ses 43 bases SQLite en mode lecture seule,
+sans importer authority.py ni lancer d'acteur.
+
+Ce readback reconstruit les charges consommées/réservées, les faits et les
+lignes d'effet depuis les tables. Il vérifie l'unicité des opérations et
+consommations, l'égalité action/empreinte et effet/réservation, la présence
+d'un audit COMMITTED correspondant et l'atténuation des mandats stockés.
+Il applique les oracles de faits de C23 tels que précisés avant exécution.
+
+Résultat : 43 stockages cohérents ; 40 états normaux correspondant aux
+oracles ; les trois états mutants divergents. Les invariants de budget
+et de faits possibles sont respectés dans les 40 scénarios normaux lus.
+Les statuts textuels proviennent des traces ; l'état quantitatif, les faits
+et les effets sont reconstruits indépendamment. Une relecture du stockage
+ne reconstitue pas des événements jamais enregistrés et ne prouve pas
+la complétude de l'historique du monde extérieur.
+
+Artefacts :
+review/readback_r4.py
+  a65507d7216102e351e2d3f213e2a92f3539cf1179a553ca708b1ff337a75615
+review/READBACK_R4_INITIAL.json
+  51b5dd902fa3645b6e9b85aa9a157fff623a119e56ec4f01aaa108ed25e296db
+
+9.2. Portée exacte de la concurrence et des mutants
+
+C20/C23/C37 libèrent deux processus d'admission depuis une même barrière.
+Les consommations suivantes sont effectuées après cette phase ; elles ne
+sont pas présentées comme deux effets physiques simultanés. C25/C26 font
+vivre deux processus, mais le second appel attend le retour du premier :
+ils établissent les deux ordres imposés annulation/consommation, et non une
+mesure de contention effective entre ces deux transactions.
+
+ORACLE_INTERPRETATION.txt annonçait des timestamps individuels qui ne sont
+pas présents dans les traces. L'audit conserve un ordre séquentiel, et les
+messages gardent PID, phase et résultat. OBSERVATION_ERRATA.txt corrige
+expressément cette promesse et la portée de C25/C26 sans changer les
+attendus. Aucun chevauchement temporel précis n'est inféré de ces données.
+
+M1 skip_ancestors : le runner poursuit effectivement la délégation élargie
+acceptée jusqu'à un effet. Le stockage contient un enfant qui dépasse la
+liste parent et un effet read_sensitive, alors que le témoin normal refuse
+l'élargissement avant cet effet.
+
+M2 ignore_reserved_facts : deux réservations sont admises. Un effet est
+commis, le second commit est FORBIDDEN, et une réservation demeure. L'union
+des faits possibles contient les deux labels incompatibles, alors que les
+faits consommés n'en contiennent qu'un. Ce mutant révèle bien un défaut du
+contrat de réservation ; il ne montre pas deux effets incompatibles achevés.
+
+M3 release_unknown : le stockage conserve deux effets de coût 2, soit une
+charge brute réelle de 4 contre un budget de 3. L'oracle ne réutilise pas
+l'agrégation affaiblie du mutant pour juger ce résultat.
+
+9.3. Sept diagnostics issus des défauts identifiés
+
+Le fichier review/targeted_probe_r4.py a fixé sept attendus, écrits dans
+review/probes/PREDECLARED_ORACLES.json avant d'exécuter les fixtures. Ces
+diagnostics ne sont pas ajoutés au compte des quarante scénarios originaux.
+Ils utilisent de nouvelles bases locales sous review/probes/, sans worker
+concurrent supplémentaire ni réseau.
+
+P01 : un permis émis à epoch uint64 maximal ne survit pas à la révocation ;
+la racine reste révoquée, l'epoch ne revient pas à zéro et aucun effet ne
+se produit. P02 : un fait stocké incohérent produit FACT_BINDING sans effet.
+P03 : un état de registre inconnu bloque nouvelle admission et consommation.
+P04 : une liste d'outils vide demeure vide et n'accorde aucun droit.
+P05–P07 : politique, budget ou caps vides malformés sont refusés, sans racine
+enregistrée ni effet. Les sept diagnostics correspondent à leurs attendus.
+
+P02/P03 introduisent volontairement une incohérence avec un accès privilégié
+de fixture. Ce sont des tests de détection d'incohérence, pas la démonstration
+qu'un client distant peut écrire dans le registre. Leurs limites sont
+enregistrées dans TARGETED_PROBE_RESULTS.json.
+
+Artefacts et empreintes :
+review/targeted_probe_r4.py
+  508fbe4237e5692cf7bcb5972fa9f154d61e02fd89181e74b908ad5419ee6455
+review/probes/PREDECLARED_ORACLES.json
+  d81b388687bb5e3c3c194b54ff414efb25913518e3c3ff9ceed378b80a4ccbe8
+review/probes/TARGETED_PROBE_RESULTS.json
+  2c5a8927ec4b5c451e71b7a704e55d53029e0b3c9c56a9b3688fe3c3b350d818
+
+9.4. Reproduction par le coordinateur et fin des essais
+
+Le coordinateur a exécuté une reproduction complète distincte dans
+experiment/runs/root_final. Son SUMMARY.json a été lu : mêmes empreintes
+de sources et d'entrées, 40/40 observations, 3/3 mutants, 13 enfants et
+zéro erreur. Reviewer2 n'a pas relancé un troisième batch et ne présente
+pas le readback du premier comme une relecture intégrale du second.
+
+experiment/README.txt et COVERAGE_R4.txt ont été relus. La matrice R01–R28
+distingue les sous-ensembles exercés des règles non implémentées : API MCP,
+ACL réelles, import idempotent de mandats, négociation, reçu authentifié,
+horloges distribuées, gestion complète du cycle de vie et contraintes de
+ressources. Les retours Python locaux ne sont pas les réponses complètes
+des RPC documentaires. Le reçu exporté est une projection offline du cas
+C02 ; il ne devient pas une réponse MCP réellement observée.
+
+10. FORME FINALE ET VERDICT DE REVUE
+
+La source anglaise, le front matter TXT et la structure XML locale ont été
+examinés. Le XML est bien formé sous lxml, avec catégorie exp, source IETF
+et note individuelle non soumise. Cela ne vaut pas validation de schéma
+RFCXML ni passage dans xml2rfc/idnits. Les références normatives/informatives
+sont séparées ; les coordonnées d'auteur et la section IANA sont présentes.
+
+Le TXT annonce une échéance prospective, pas un enregistrement IETF. Ses
+notices de revue ne se prétendent pas le boilerplate officiel généré avant
+soumission. Il doit rester présenté comme copie de revue, même lorsque le
+contenu technique est complet. Un titre initial dépassait 72 caractères
+(77) ; le repli a été signalé au coordinateur. La vérification visuelle
+du PDF et le dernier rendu éditorial lui appartiennent.
+
+VERDICT : aucun blocage matériel restant pour livrer ce candidat individuel
+comme spécification proposée accompagnée de preuves locales bornées et
+de ses limites. Ce verdict n'est pas une conformité complète ZTI-MCP/MCP,
+une preuve de transaction distante, un résultat de sécurité universelle,
+une validation IETF, une certification indépendante ou une garantie d'adoption.
+Les défauts découverts, corrections, écarts d'observation et fonctions non
+implémentées restent visibles dans le dossier. La boucle locale de revue
+est close ; aucun nouvel essai optionnel n'est recommandé pour ce lot.
+
+FIN — 31 octobre 2026. Aucun ancien dossier modifié, aucune soumission
+ni communication externe exécutée par ce rôle.
+
+ADDENDUM DE LIVRAISON, DISTINCT DES ESSAIS DE SÉCURITÉ
+
+À la demande du coordinateur, xml2rfc 3.35.0 a été installé dans un venv
+/tmp après autorisation automatique de l'installation depuis PyPI officiel.
+Une copie de l'XML courant a été résolue avec dix références déjà locales,
+puis convertie avec --no-network. Le formateur a terminé avec code 0,
+sans warning/error, en produisant 38 pages TXT de largeur maximale 72.
+Les fichiers de faisabilité et empreintes sont dans review/toolchain/.
+Aucun livrable existant n'a été modifié ; la conversion du document final
+avec annexes appartient au coordinateur. idnits n'a pas été exécuté et
+aucune soumission IETF n'a eu lieu. Cette vérification de livraison ne
+change pas les résultats ni les limites des essais décrits ci-dessus.
+
+Les libellés de examples/wire/README.txt et MANIFEST.json ont également
+été relus : ils distinguent correctement enveloppes assemblées offline,
+objets signés C02 copiés, reçu documentaire projeté depuis l'audit et
+révisions de contrôle illustratives. Aucun échange, authentification
+réseau ou validation complète supplémentaire n'est inféré de ces exemples.

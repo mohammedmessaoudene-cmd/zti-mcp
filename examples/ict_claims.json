@@ -1,0 +1,34 @@
+{
+  "aud": "urn:lab:executor",
+  "exp": 1793404860,
+  "iat": 1793404800,
+  "iss": "https://authority.example.invalid",
+  "jti": "ict-e1864e019f191d6a3fc9a5f1e3411d6b",
+  "nbf": 1793404800,
+  "sub": "agent-b",
+  "zti": {
+    "action_hash": "ac7ef8806238fbe1b9a156927e98701772d068adfd04ba4e59340c1f11550611",
+    "authority_epoch": "0",
+    "correlation_id": "corr-b63802c8b203a7d92fe8580f0f157b21",
+    "cost_bounds": {
+      "bytes": {
+        "amount": "0",
+        "unit": "byte"
+      },
+      "ops": {
+        "amount": "1",
+        "unit": "operation"
+      }
+    },
+    "facts": [],
+    "mandate_hash": "fea93f16825c413fa08e8d458f45fea58beb50dc400904adc385326258467ed5",
+    "mandate_id": "child-964917085ccc1da032f2b3d63fbcc2db",
+    "mode": "current-online",
+    "operation_id": "operation-1",
+    "policy_hash": "32cdc6266f90955706728bccf9c2f1d3680749154de671ac219ea4d297f3b90c",
+    "profile": "zti-mcp/0.1",
+    "reservation_id": "r-7ac035f3202b180f33db64aa6875ee01",
+    "root_mandate_id": "root-596ad77dd6298ee578c1077594e869f7",
+    "tenant_id": "lab-tenant"
+  }
+}

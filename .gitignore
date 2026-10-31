@@ -1,0 +1,9 @@
+.venv/
+work/
+__pycache__/
+*.pyc
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.log
+.DS_Store

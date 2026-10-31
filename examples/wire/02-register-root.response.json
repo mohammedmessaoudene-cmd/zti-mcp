@@ -1,0 +1,20 @@
+{
+  "jsonrpc": "2.0",
+  "id": "wire-02",
+  "result": {
+    "resultType": "complete",
+    "status": "ACTIVE",
+    "tenant_id": "lab-tenant",
+    "root_mandate_id": "root-596ad77dd6298ee578c1077594e869f7",
+    "mandate_id": "root-596ad77dd6298ee578c1077594e869f7",
+    "mandate_hash": "13a76b70a1b892ec3302d6d49f0342adbb08b7c112ebc4f1fb8604cf7a495ff8",
+    "policy_hash": "32cdc6266f90955706728bccf9c2f1d3680749154de671ac219ea4d297f3b90c",
+    "state_revision": "0",
+    "_meta": {
+      "io.modelcontextprotocol/serverInfo": {
+        "name": "zti-offline-documentary-service",
+        "version": "0.1"
+      }
+    }
+  }
+}

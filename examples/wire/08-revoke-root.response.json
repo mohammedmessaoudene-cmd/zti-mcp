@@ -1,0 +1,19 @@
+{
+  "jsonrpc": "2.0",
+  "id": "wire-08",
+  "result": {
+    "resultType": "complete",
+    "status": "REVOKED",
+    "tenant_id": "lab-tenant",
+    "root_mandate_id": "root-596ad77dd6298ee578c1077594e869f7",
+    "mandate_id": "root-596ad77dd6298ee578c1077594e869f7",
+    "authority_epoch": "1",
+    "state_revision": "3",
+    "_meta": {
+      "io.modelcontextprotocol/serverInfo": {
+        "name": "zti-offline-documentary-service",
+        "version": "0.1"
+      }
+    }
+  }
+}

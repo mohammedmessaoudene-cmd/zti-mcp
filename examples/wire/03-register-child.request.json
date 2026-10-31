@@ -1,0 +1,25 @@
+{
+  "jsonrpc": "2.0",
+  "id": "wire-03",
+  "method": "org.example/zti-mcp.register",
+  "params": {
+    "mandate": "eyJhbGciOiJFUzI1NiIsImtpZCI6InB1YmxpYy1sYWJvcmF0b3J5LXAyNTYta2V5IiwidHlwIjoienRpLW1hbmRhdGUrand0In0.eyJhdWQiOiJ1cm46bGFiOnJlZ2lzdHJ5IiwiZXhwIjoxNzkzNDA4NDAwLCJpYXQiOjE3OTM0MDQ4MDAsImlzcyI6Imh0dHBzOi8vYXV0aG9yaXR5LmV4YW1wbGUuaW52YWxpZCIsImp0aSI6Im0tMDMxNDEyNzM5MmQwMGIxYmU0OWIyZmMxMGJlYTcyMzMiLCJuYmYiOjE3OTM0MDQ4MDAsInN1YiI6ImFnZW50LWIiLCJ6dGlfbWFuZGF0ZSI6eyJjb25zdHJhaW50cyI6eyJhY3Rpb25fY2FwcyI6eyJieXRlcyI6eyJhbW91bnQiOiI1IiwidW5pdCI6ImJ5dGUifSwib3BzIjp7ImFtb3VudCI6IjEiLCJ1bml0Ijoib3BlcmF0aW9uIn19LCJhbGxvd2VkX2V4ZWN1dG9ycyI6WyJ1cm46bGFiOmV4ZWN1dG9yIl0sImFsbG93ZWRfbWV0aG9kcyI6WyJ0b29scy9jYWxsIl0sImFsbG93ZWRfcmVzb3VyY2VzIjpbInVybjpsYWI6cmVzb3VyY2UiXSwiYWxsb3dlZF90b29scyI6WyJsYWIuY29tcHV0ZSJdfSwiY29ycmVsYXRpb25faWQiOiJjb3JyLWI2MzgwMmM4YjIwM2E3ZDkyZmU4NTgwZjBmMTU3YjIxIiwiZGVsZWdhdGVlX2lkIjoiYWdlbnQtYiIsIm1hbmRhdGVfaWQiOiJjaGlsZC05NjQ5MTcwODVjY2MxZGEwMzJmMmIzZDYzZmJjYzJkYiIsInBhcmVudF9oYXNoIjoiMTNhNzZiNzBhMWI4OTJlYzMzMDJkNmQ0OWYwMzQyYWRiYjA4YjdjMTEyZWJjNGYxZmI4NjA0Y2Y3YTQ5NWZmOCIsInBhcmVudF9pZCI6InJvb3QtNTk2YWQ3N2RkNjI5OGVlNTc4YzEwNzc1OTRlODY5ZjciLCJwb2xpY3lfaGFzaCI6IjMyY2RjNjI2NmY5MDk1NTcwNjcyOGJjY2Y5YzJmMWQzNjgwNzQ5MTU0ZGU2NzFhYzIxOWVhNGQyOTdmM2I5MGMiLCJwcmluY2lwYWxfaWQiOiJwcmluY2lwYWwtcm9vdCIsInByb2ZpbGUiOiJ6dGktbWNwLzAuMSIsInJvb3RfbWFuZGF0ZV9pZCI6InJvb3QtNTk2YWQ3N2RkNjI5OGVlNTc4YzEwNzc1OTRlODY5ZjciLCJyb290X3BvbGljeSI6bnVsbCwidGVuYW50X2lkIjoibGFiLXRlbmFudCIsInZhbGlkX2Zyb20iOjE3OTM0MDQ4MDAsInZhbGlkX3VudGlsIjoxNzkzNDA4NDAwfX0.5yplhRgU_fpUZtK88YwfbEAb7KCyifduHCXlo_qFuxbeZEpnKeyFdoIAzswtEe9v9vLVvBrCSUNxdmFhLIecjw",
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientInfo": {
+        "name": "zti-offline-documentary-client",
+        "version": "0.1"
+      },
+      "io.modelcontextprotocol/clientCapabilities": {
+        "extensions": {
+          "org.example/zti-mcp": {
+            "revision": "0.1",
+            "profile": "zti-mcp/0.1",
+            "mode": "current-online",
+            "effect_coupling": "required"
+          }
+        }
+      }
+    }
+  }
+}

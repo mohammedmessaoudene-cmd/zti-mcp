@@ -1,0 +1,19 @@
+OBSERVATION LIMITS IDENTIFIED DURING REVIEW — 31 OCTOBER 2026
+
+The frozen contract and oracle files are retained byte-for-byte. Two statements
+need narrower interpretation in the evidence delivered by this implementation:
+
+1. ORACLE_INTERPRETATION.txt promised individual worker timestamps. The trace
+   contains original worker messages, PIDs, barriers/events, exit codes and the
+   SQLite audit sequence, but no per-worker timestamps. No timestamp measurement
+   or exact wall-clock overlap/commit instant is claimed. The deterministic
+   registry clock serves token validity tests, not performance measurement.
+
+2. C25/C26 use two live child processes but explicitly release the second call
+   only after the first returns. They exercise cancel-first and commit-first
+   serialization orders, not measured cancel/commit lock contention. C20/C23/C37
+   do release two admission processes from one barrier against shared SQLite.
+   No finite set of these runs proves every interleaving or distributed atomicity.
+
+These observations do not change any expected verdict, effect or accounting
+oracle. They limit what can be inferred from the preserved traces.

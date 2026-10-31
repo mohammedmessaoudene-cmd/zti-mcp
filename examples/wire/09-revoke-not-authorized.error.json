@@ -1,0 +1,13 @@
+{
+  "jsonrpc": "2.0",
+  "id": "wire-09",
+  "error": {
+    "code": -31001,
+    "message": "The caller is not authorized for this control operation.",
+    "data": {
+      "profile": "zti-mcp/0.1",
+      "reason": "NOT_AUTHORIZED",
+      "status": "REFUSED"
+    }
+  }
+}

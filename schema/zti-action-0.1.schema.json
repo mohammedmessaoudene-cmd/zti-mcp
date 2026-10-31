@@ -1,0 +1,55 @@
+{
+  "$comment": "Actual arguments after transformations. Hash/JCS, equality and authorization rules are outside JSON Schema.",
+  "$id": "zti-action-0.1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "arguments": {
+      "type": "object"
+    },
+    "executor_id": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "mandate_id": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "method": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "operation_id": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "profile": {
+      "const": "zti-mcp/0.1"
+    },
+    "resource_id": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "root_mandate_id": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "tenant_id": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "tool_name": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/identifier"
+    },
+    "tool_revision": {
+      "$ref": "zti-common-0.1.schema.json#/$defs/uint64"
+    }
+  },
+  "required": [
+    "tenant_id",
+    "root_mandate_id",
+    "mandate_id",
+    "operation_id",
+    "executor_id",
+    "resource_id",
+    "method",
+    "tool_name",
+    "profile",
+    "tool_revision",
+    "arguments"
+  ],
+  "type": "object"
+}

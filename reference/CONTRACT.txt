@@ -1,0 +1,120 @@
+R4 FINAL EXECUTION CONTRACT FOR PRE-RUN REVIEW — 31 OCTOBER 2026
+Version 1. Forty frozen scenarios and three selected mutants. No run yet.
+
+SOURCE AND SCOPE
+ARCHITECTURE_DECISIONS.txt is root's central interface. A snapshot/hash is saved
+with the test inputs. Root's clarifications fix: root-only cumulative budgets
+and forbidden_sets, child per-action caps, depth eight including root, UNKNOWN
+only after COMMITTED, and authority_epoch changing on authority decisions, not
+ordinary reservation/consumption/cancellation bookkeeping.
+One current-online architecture only. No acquired-right fallback. No real MCP
+server, external provider, network call, model call, download or offensive action.
+SQLite effect rows are the protected local effect/acceptance boundary; completion
+of an unrelated external action is not implied. No full JCS conformance claim.
+
+KEYS AND AUTHENTICATED IDENTITIES
+One configured authority selects the issuer/key relationship; issuer is never
+an arbitrary URL to fetch. Within it:
+  Operation_Key = (tenant_id, root_mandate_id, operation_id)
+  Reservation_Key = (tenant_id, root_mandate_id, reservation_id).
+The issuer also records unique jti values, generated from 16 random bytes. The
+verifier does not pretend to measure identifier entropy from a received token.
+Same operation and exact action returns existing state; changed action is a
+conflict. A valid signature with different bytes does not create a new operation.
+Tenant, correlation, subject, exact audience, mandate, root and command binding
+must equal the immutable reservation values. The authenticated invoker must be
+the leaf's authorized delegatee; the principal stays in the mandate. A proxy
+needs its own child mandate and must not rewrite sub. Authentication itself is
+a trusted fixture input, not an implemented OAuth server.
+
+SIGNED OBJECTS AND IMMUTABLE LINEAGE
+Global_Mandate body and ICT use the exact fields from the central source.
+Root policy is {budgets,forbidden_sets}; children have root_policy:null and the
+same policy_hash. Every ancestor is resolved, signature-verified, hash-bound,
+current and constraint-checked. Parent and mandate hashes are SHA256 of the
+canonical zti_mandate BODY, not the JWS string. policy_hash covers the root_policy
+object. Different ECDSA signatures of identical claims do not change these hashes.
+Mandate contents are immutable. Status/revocation and counters are separate.
+Creation of a child cannot widen any allowed set, action cap or validity window.
+It cannot add/remove a root forbidden_set or create independent cumulative credit.
+
+NUMERIC AND CANONICAL SUBSET
+Quantity shape is {unit,amount}; dimensions exactly match the root. amount,
+authority_epoch and revision values are canonical decimal uint64 STRINGS.
+Dates are nonnegative safe JSON integers. Unit mismatch, negative/noncanonical
+quantity, bool, missing dimension, unsupported shape and overflow are rejected.
+SQLite stores quantities as TEXT/JSON, never floating SUM; arithmetic is exact
+Python integer arithmetic with an explicit uint64 bound.
+The executable canonicalizer supports ASCII object keys, valid strings, JSON
+arrays/objects, null/booleans where allowed, and safe integer JSON numbers. It
+rejects unsupported inputs. This is a documented JCS-compatible example subset,
+not a full RFC8785 implementation or general JSON interoperability claim.
+
+ES256
+Use installed cryptography P-256/SHA256 with true 64-byte JOSE r||s signatures.
+Verify the received header.payload segments, not reserialized JSON. Exact header
+fields alg/kid/typ, fixed trusted key, distinct zti-mandate+jwt and zti-ict+jwt.
+The private key is public laboratory material, never deployment key custody.
+ICT standard/nested claims, audience and 60-second TTL are checked. Hash links
+alone are not called signatures. Hashes and JWS signing bytes have distinct roles.
+
+TRUSTED CATALOG AND GATE
+Harmless fixture methods derive exact symbolic operations/bytes costs and facts
+from the command actually executed after transformations. No LLM risk score or
+client-declared harmlessness is trusted. Facts read_sensitive/export_external
+are labels only: no real data access/export occurs.
+At T_initial, BEGIN IMMEDIATE serializes one root ledger. Enforce all ancestor
+per-action caps and the root condition D + R + candidate <= budgets, where D
+includes COMMITTED/COMPLETED/UNKNOWN and R includes RESERVED. The fact set is
+committed facts UNION all outstanding reservation facts UNION candidate facts.
+Reject if a root forbidden_set is a subset of that set. Unknown rules/state fail
+closed. This includes sibling reservations that have not yet produced effects.
+
+ATOMIC CONSUMPTION / CURRENT AUTHORITY
+At T_revalidate, verify signature, every ancestor, authenticated identity,
+destination, current epoch, time and exact stored action/cost/facts. The already
+reserved command is NOT added a second time to D+R. Its own reservation is already
+included. In one SQLite transaction, check current state, consume RESERVED and
+write the local effect row as COMMITTED. No separate authorize-then-write gap.
+If revocation is committed first, no effect. If effect is committed first, later
+revocation does not erase the effect or its charge. A separate network validation
+does not establish this property for an unrelated provider; that integration is
+outside the executed scope and requires its own closure contract.
+
+STATES AND CANCELLATION
+RESERVED -> COMMITTED -> COMPLETED or UNKNOWN.
+COMMITTED, COMPLETED and UNKNOWN remain charged exactly once; their facts remain.
+UNKNOWN denotes uncertain final outcome AFTER protected acceptance. It does not
+mean an arbitrary RESERVED request is assumed to have executed.
+Cancellation is allowed only while RESERVED and must atomically set CANCELLED,
+preventing every later consumption before cost/facts are released. Cancellation
+and effect commit race through the same writer transaction. If commit wins,
+cancellation cannot free it. UNKNOWN cannot be blindly cancelled/refunded/retried.
+A token expiry/refusal alone does not erase a held reservation. Explicit safe
+EXPIRED/REVOKED cleanup is a separate authoritative transition; not every cleanup
+path is exercised here. Lost client acknowledgement after a real SQLite commit
+is resolved by authenticated lookup, not a new effect.
+
+EXPECTED OBSERVATIONS AND EXECUTION
+cases.json fixes independent expected verdict sequences, actual effect rows,
+consumed/held vectors and committed/possible facts before running code. Some
+scenarios contain several directed steps; this is forty scenarios, not a claimed
+number of independent attacks. Concurrent budget/fact and cancel/commit cases use
+real local processes and explicit barriers/events. The trusted test clock is a
+deterministic registry clock; these are not clock-synchronization measurements.
+Database errors, broken barriers or crashes are errors, not successful denials.
+One case deliberately drops an acknowledgement AFTER commit and observes lookup.
+
+MUTATIONS
+M1 omit required ancestor attenuation checks, using the widening witness.
+M2 ignore outstanding reservation facts, using the concurrent forbidden pair.
+M3 release UNKNOWN consumed charge/facts, using the retained-budget witness.
+The existing oracles must detect each. Do not alter expected outputs to hide a
+failure. Preserve first execution, any corrections, and a separate root rerun.
+
+EXIT / NON-CLAIMS
+Contract/interface approval -> implementation -> execution -> targeted cross-
+review -> corrections -> affected checks/root rerun -> stable dossier. Stop then.
+No certification, universal intent inference, full JCS/JOSE conformance, real MCP
+interoperability, production key trust, global hidden-workflow guarantee, remote
+irreversible-effect atomicity, legal clearance or standard adoption is established.
