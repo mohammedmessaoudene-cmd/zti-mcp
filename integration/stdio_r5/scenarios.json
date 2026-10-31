@@ -1,0 +1,2983 @@
+{
+  "format": "zti-r5-scenario-contract/1",
+  "artifact_status": "PREIMPLEMENTATION_EXPECTATIONS_NOT_EXECUTED",
+  "approval": "The preparing director approves this initial implementation contract in review/PREPARATION_REVIEW.md. Codex freezes both contract hashes before implementation. A later amendment requires explicit versioned review through the permitted director channel or the honestly labeled local fallback; never fabricate a director GO. These are expectations, not execution results.",
+  "baseline": {
+    "repository": "https://github.com/mohammedmessaoudene-cmd/zti-mcp",
+    "commit": "fc350b219f4f8ed452a6e59784ea69ea68fbaf07",
+    "preserve_directory": "reference/",
+    "source_sha256": {
+      "reference/authority.py": "0489bf76fc482558051e65ac3517aab9189109bc3d1647724e54211b623aa11f",
+      "reference/run_r4.py": "56e382fa65a079ee8b24b03aa5a9d0874a09938400442a9c707cd54fa0394741"
+    }
+  },
+  "counts": {
+    "scenarios": 8,
+    "normal_variants": 20,
+    "targeted_integration_mutants": 2,
+    "normal_executions_per_full_run": 20,
+    "mutant_executions_per_full_run": 2,
+    "historical_r4_separate": {
+      "scenarios": 40,
+      "mutants": 3
+    },
+    "interpretation": "Specified corpus size, not observed passes or independent security proofs."
+  },
+  "runtime_candidate": {
+    "python": "3.12",
+    "distribution": "mcp",
+    "version": "2.3.0",
+    "release_commit": "2118f14f8a19bc158d8a1cf90af58d85d187f849",
+    "compatibility": "TO_BE_OBSERVED",
+    "transport": "stdio",
+    "protocol_version": "2026-07-28",
+    "public_sdk_apis_only": true,
+    "in_memory_transport_accepted": false,
+    "legacy_fallback_accepted": false
+  },
+  "wire_contract": {
+    "extension_id": "org.example/zti-mcp",
+    "profile": "zti-mcp/0.1",
+    "capability": {
+      "revision": "0.1",
+      "profile": "zti-mcp/0.1",
+      "mode": "current-online",
+      "effect_coupling": "required"
+    },
+    "control_methods": [
+      "org.example/zti-mcp.register",
+      "org.example/zti-mcp.reserve",
+      "org.example/zti-mcp.lookup",
+      "org.example/zti-mcp.cancel",
+      "org.example/zti-mcp.revoke"
+    ],
+    "discovery_method": "server/discover",
+    "protected_method": "tools/call",
+    "request_meta": {
+      "io.modelcontextprotocol/protocolVersion": "2026-07-28",
+      "io.modelcontextprotocol/clientCapabilities": {
+        "extensions": {
+          "org.example/zti-mcp": {
+            "revision": "0.1",
+            "profile": "zti-mcp/0.1",
+            "mode": "current-online",
+            "effect_coupling": "required"
+          }
+        }
+      }
+    },
+    "action_metadata_exact_members": [
+      "revision",
+      "operation_id",
+      "ict"
+    ],
+    "action_binding_exact_members": [
+      "profile",
+      "tenant_id",
+      "root_mandate_id",
+      "mandate_id",
+      "operation_id",
+      "executor_id",
+      "resource_id",
+      "method",
+      "tool_name",
+      "tool_revision",
+      "arguments"
+    ],
+    "receipt_exact_members": [
+      "profile",
+      "tenant_id",
+      "root_mandate_id",
+      "mandate_id",
+      "operation_id",
+      "reservation_id",
+      "action_hash",
+      "effect_boundary",
+      "status",
+      "state_revision"
+    ],
+    "effect_boundary": "resource-mutation",
+    "selected_receipt_status": "COMMITTED",
+    "control_schema": "schema/zti-control-0.1.schema.json",
+    "method_specific_dispatch_required": true,
+    "receipt_in_tool_result": "result._meta[EXT_ID]",
+    "receipt_in_control_result": "result.receipt",
+    "jsonrpc_ids": "Observe SDK values. Within-session duplicate call uses a different observed id; after restart the number may repeat. Durable operation identity never changes because of a new request.",
+    "error_schema": "-31001 with exact profile/reason/status and optional authorized operation_ref; no token material or undefined data members.",
+    "infra_failure_is_successful_refusal": false
+  },
+  "fixture_contract": {
+    "identity_model": "Trusted launch-time principal and role for each stdio channel, never clientInfo, _meta, arguments or token sub by itself.",
+    "tenant_id": "r5-lab-tenant",
+    "principal_id": "urn:r5:principal",
+    "issuer": "https://authority.example.invalid",
+    "registry_id": "urn:r5:registry",
+    "executor_id": "urn:r5:executor",
+    "resource_id": "urn:r5:resource",
+    "endpoint_principals": {
+      "admin": "urn:r5:admin",
+      "agent_a": "urn:r5:agent-a",
+      "agent_b": "urn:r5:agent-b",
+      "intruder": "urn:r5:intruder"
+    },
+    "roles": {
+      "admin": [
+        "register_this_tenant_root",
+        "register_attenuated_child_as_parent_delegatee_or_admin",
+        "lookup_this_tenant_history",
+        "cancel_this_tenant_reservation",
+        "revoke_this_tenant_mandate"
+      ],
+      "agent": [
+        "reserve_own_leaf",
+        "invoke_as_bound_principal",
+        "lookup_own_recorded_operation",
+        "cancel_own_unused_reservation"
+      ],
+      "intruder": []
+    },
+    "one_logical_provider": true,
+    "separate_stdio_endpoint_processes": true,
+    "shared_local_provider_sqlite": true,
+    "initial_test_clock": 1793404800,
+    "mandate_valid_from": 1793404800,
+    "mandate_valid_until": 1793408400,
+    "ict_lifetime_seconds": 60,
+    "root_initial_authority_epoch": "0",
+    "root_initial_state_revision": "1",
+    "root_budget": {
+      "ops": {
+        "unit": "operation",
+        "amount": "10"
+      },
+      "bytes": {
+        "unit": "byte",
+        "amount": "1024"
+      }
+    },
+    "action_caps": {
+      "ops": {
+        "unit": "operation",
+        "amount": "10"
+      },
+      "bytes": {
+        "unit": "byte",
+        "amount": "1024"
+      }
+    },
+    "root_forbidden_sets": [
+      [
+        "read_sensitive",
+        "export_external"
+      ]
+    ],
+    "default_registered_leaves": [
+      "agent_a"
+    ],
+    "default_endpoints": [
+      "admin",
+      "agent_a"
+    ],
+    "default_actions": {
+      "op_a": {
+        "delegatee": "agent_a",
+        "tool_name": "lab.compute",
+        "tool_revision": "1",
+        "method": "tools/call",
+        "arguments": {
+          "units": "2",
+          "payload": ""
+        }
+      }
+    },
+    "catalog": {
+      "ops": "canonical uint64 arguments.units",
+      "bytes": "UTF-8 byte length of arguments.payload",
+      "facts_by_tool": {
+        "lab.compute": [],
+        "lab.read_sensitive": [
+          "read_sensitive"
+        ],
+        "lab.export_external": [
+          "export_external"
+        ]
+      },
+      "actual_effect": "One SQLite business row storing the final action; no real sensitive read/external export."
+    },
+    "bootstrap": [
+      "Fresh empty database and configured endpoint processes.",
+      "Actual SDK discovery on control/bootstrap channels.",
+      "Admin .register signed root over wire.",
+      "Admin .register signed child or children over wire.",
+      "Actual agent discovery before ordinary protected requests; listed negative requests are intentional exceptions."
+    ],
+    "fixture_identifiers": "Resolve root/mandate/correlation/operation aliases once per fresh variant; record exact values and preserve on restart. jti and reservation IDs use >=128 random bits, without an entropy inference by verifier.",
+    "signatures": "Actual ES256 JWS; received segments verified; public lab material only.",
+    "canonical_subset": "ASCII object keys, valid Unicode values, safe JSON integers, canonical uint64 strings; reject floats and unsupported final objects. Reject duplicate keys in received JWS protected headers/payloads parsed by the profile. No claim of detecting duplicate MCP wire keys already normalized by the SDK; bind and execute the same final object. No full JCS claim.",
+    "override_rules": "Replace named defaults. actions replaces the action map; additional_actions extends it. A replacement action inherits method tools/call and tool_revision 1 unless explicitly changed.",
+    "test_controls": "Trusted harness IPC/startup configuration only. No public fault, clock or barrier method and no application-selected test hook."
+  },
+  "state_contract": {
+    "operation_key": [
+      "tenant_id",
+      "root_mandate_id",
+      "operation_id"
+    ],
+    "reservation_key": [
+      "tenant_id",
+      "root_mandate_id",
+      "reservation_id"
+    ],
+    "D_states": [
+      "COMMITTED",
+      "COMPLETED",
+      "UNKNOWN"
+    ],
+    "R_states": [
+      "RESERVED"
+    ],
+    "released_states": [
+      "CANCELLED",
+      "EXPIRED",
+      "REVOKED"
+    ],
+    "normal_variants_release_automatically_on_expiry_or_revocation": false,
+    "authority_epoch": "Changes only with authority decision/revocation, not reserve/consume/cancel/lookup.",
+    "state_revision": "Root-scoped uint64; new root 1; advance once for a persisted new child/reservation/consumption/effective cancellation/new revocation; not refusal, lookup or identical retry.",
+    "receipt_revision": "Immutable revision of consumption transaction. Outer lookup revision is current root revision and may be newer.",
+    "atomic_unit": [
+      "reload_current_authority_and_time",
+      "verify_final_action_and_held_reservation",
+      "check_current_footprint_and_cumulative_state",
+      "insert_actual_business_effect",
+      "consume_reservation_once",
+      "increment_root_revision",
+      "persist_exact_receipt",
+      "persist_transition_record"
+    ],
+    "lost_reply": "Client uncertainty only; do not infer authoritative UNKNOWN from timeout/EOF.",
+    "restart": "Preserve same database, root, operation, reservation, clock and principal. Never bootstrap a replacement root to claim recovery."
+  },
+  "step_semantics": {
+    "mcp_request": "Send method through the real public SDK session. Construct method-specific params from aliases and add required _meta. controls never call internal Authority methods directly from the harness.",
+    "register": "mandate_ref resolves to an actual compact signed root/child JWS.",
+    "reserve": "action_ref resolves to the full Action Binding. Use {\"action\": full_action}.",
+    "call": "Use name/arguments from action_ref, and exact revision/operation_id/ict under params._meta[EXT_ID]. ict_from references the earlier reserve result.",
+    "lookup": "operation_ref resolves to tenant/root/operation IDs.",
+    "cancel": "Use tenant/root/operation plus reservation ID from reservation_from.",
+    "revoke": "mandate_ref resolves to the root or leaf ID, with tenant/root IDs.",
+    "async_start": "Start actual SDK request and retain its pending future. Continue harness only until the explicit await step.",
+    "concurrent_mcp_requests": "Launch all listed real SDK requests without awaiting their results and return a pending request group. Do not await or release the barrier in this step. The following explicit await_barrier, release_barrier and await_requests steps own those actions exactly once; endpoints have distinct provider PIDs.",
+    "mcp_call_each_admitted_once": "Only RESERVED responses drive subsequent calls; frozen admission and database oracles still judge whether those admissions were correct.",
+    "independent_readback_checkpoint": "No writers active. Read actual base tables read-only using the independent reader, not provider summaries.",
+    "references": "Fixture/output aliases are data references, not executable code. Record all resolved values.",
+    "same_receipt_as": "Compare full stored/wire receipt objects exactly. Do not generate an expected receipt solely offline.",
+    "revision_unchanged": "This named request does not advance the root revision; a prior explicit request may already have advanced it.",
+    "multiset": "Ignore order only for the concurrent admission outcome bag. Preserve result-to-operation associations and actual event order.",
+    "same_winner_relation": "Every listed field must match the SAME winning operation and its single fact set. Different allowed winners for different fields fail.",
+    "missing_state_keys": "A field not stated in an expected checkpoint is not assigned a new fixture value. Global invariants still apply. Explicit zero/empty values are actual assertions."
+  },
+  "global_oracles": [
+    "Freeze expected values before implementation. No gold labels/expected outcome/private oracle enters provider inputs.",
+    "Independent reader uses actual SQLite base tables and imports no provider/controller/gate/aggregate helpers.",
+    "Before first run record base-table/column mapping and plain reader SQL; never map a provider PASS summary as an effect or durable receipt.",
+    "Read actual business rows, receipts, reservation states, D/R sums, fact unions and cross-linked exact action digests. Messages alone are insufficient.",
+    "Each consumed operation in this corpus has exactly one business row and one stored receipt; their identities/actions match its reservation.",
+    "Include every outstanding reservation in costs and possible facts. Include consumed/UNKNOWN rows once. Reject unrecognized states instead of silently treating them as free.",
+    "Verify root revision transitions and immutable receipt revision; ordinary operation changes do not invalidate siblings by incrementing epoch.",
+    "Record actual provider PIDs, endpoint instances and raw stdio frames. Barriers prove pending overlap; elapsed-time thresholds do not.",
+    "Before-commit failure rolls back effect, consumption, receipt and revision together; after-commit lost reply preserves them together.",
+    "Positive controls must execute required actual effects. No-op handlers, blanket refusal, timeouts, swallowed exceptions or SQLite lock errors cannot pass.",
+    "Normal and mutant runs use fresh separate directories/databases. Preserve first failures and do not edit expected outcomes to match observations."
+  ],
+  "scenarios": [
+    {
+      "id": "S01",
+      "title": "Discovery, signed import, positive effect and same-session idempotence",
+      "variants": [
+        {
+          "id": "nominal",
+          "required_observations": [
+            "Root and child imports occurred through real signed .register requests in bootstrap.",
+            "call and call_retry have distinct observed SDK JSON-RPC IDs in the SAME connection, but the same operation_id.",
+            "The only effect stores the exact final action, with one linked consumed reservation and one stored receipt."
+          ],
+          "steps": [
+            {
+              "id": "discover",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "server/discover"
+            },
+            {
+              "id": "register_identical_leaf",
+              "kind": "mcp_request",
+              "endpoint": "admin",
+              "method": "org.example/zti-mcp.register",
+              "mandate_ref": "agent_a"
+            },
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "reserve_retry",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "call",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            },
+            {
+              "id": "call_retry",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            },
+            {
+              "id": "lookup",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.lookup",
+              "operation_ref": "op_a"
+            },
+            {
+              "id": "reserve_consumed",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "discover",
+              "protocol_version": "2026-07-28",
+              "capability": "exact_required_capability"
+            },
+            {
+              "step": "register_identical_leaf",
+              "resultType": "complete",
+              "status": "ACTIVE",
+              "same_mandate_hash": true,
+              "revision_unchanged": true
+            },
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "reserve_retry",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "same_ict_as": "reserve",
+              "same_reservation_as": "reserve",
+              "revision_unchanged": true
+            },
+            {
+              "step": "call",
+              "resultType": "complete",
+              "receipt_status": "COMMITTED",
+              "receipt_equals_stored_for": "op_a"
+            },
+            {
+              "step": "call_retry",
+              "resultType": "complete",
+              "receipt_status": "COMMITTED",
+              "receipt_equals_stored_for": "op_a",
+              "same_receipt_as": "call",
+              "revision_unchanged": true
+            },
+            {
+              "step": "lookup",
+              "resultType": "complete",
+              "status": "COMMITTED",
+              "receipt_equals_stored_for": "op_a"
+            },
+            {
+              "step": "reserve_consumed",
+              "resultType": "complete",
+              "status": "COMMITTED",
+              "receipt_equals_stored_for": "op_a",
+              "ict_present": false,
+              "revision_unchanged": true
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 1,
+            "durable_receipt_rows": 1,
+            "reservation_states": {
+              "op_a": "COMMITTED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "S02",
+      "title": "Mandatory support, per-request revision and execution ICT",
+      "variants": [
+        {
+          "id": "missing_server_profile",
+          "fixture_overrides": {
+            "agent_a_server_advertises_extension": false
+          },
+          "expected_recorded_frames": {
+            "agent_a_after_discovery": {
+              "tools/call": 0,
+              "org.example/zti-mcp.reserve": 0
+            }
+          },
+          "required_observations": [
+            "Admin bootstrap uses a separate supported endpoint. Measure absence of protected requests in the actual pipe transcript, not a synthetic counter.",
+            "agent_a_server_advertises_extension=false configures the server announcement on the agent_a endpoint. It does not remove the SDK client capability or change the admin bootstrap channel."
+          ],
+          "steps": [
+            {
+              "id": "discover",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "server/discover"
+            },
+            {
+              "id": "client_preflight",
+              "kind": "client_profile_gate",
+              "on_missing_support": "stop_before_reserve_or_tools_call"
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "discover",
+              "protocol_version": "2026-07-28",
+              "extension_present": false
+            },
+            {
+              "step": "client_preflight",
+              "client_outcome": "PROFILE_UNSUPPORTED",
+              "is_wire_error": false
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 0,
+            "durable_receipt_rows": 0,
+            "reservation_states": {},
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": []
+          }
+        },
+        {
+          "id": "missing_ict",
+          "expected_recorded_frames": {
+            "agent_a": {
+              "tools/call": 1
+            }
+          },
+          "required_observations": [
+            "Valid protocol/capability metadata and operation_id remain. The actual missing-ICT request reaches the provider."
+          ],
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "call_without_ict",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve",
+              "request_mutation": {
+                "omit_action_metadata_member": "ict"
+              }
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "call_without_ict",
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "INVALID_TOKEN",
+                "status": "REFUSED"
+              },
+              "receipt_absent": true
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 0,
+            "durable_receipt_rows": 0,
+            "reservation_states": {
+              "op_a": "RESERVED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": []
+          }
+        },
+        {
+          "id": "incompatible_request_revision",
+          "required_observations": [
+            "Keep the valid signed ICT and all action arguments unchanged. No permissive fallback.",
+            "Only params._meta[EXT_ID].revision is changed to 0.2. The configured SDK client capability remains 0.1 and the captured frame must confirm both values. This tests the action-envelope revision, not two independent capability checks; do not overwrite SDK-managed clientCapabilities or modify SDK internals."
+          ],
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "call_bad_revision",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve",
+              "request_mutation": {
+                "action_metadata_revision": "0.2"
+              }
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "call_bad_revision",
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "PROFILE_UNSUPPORTED",
+                "status": "REFUSED"
+              },
+              "receipt_absent": true
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 0,
+            "durable_receipt_rows": 0,
+            "reservation_states": {
+              "op_a": "RESERVED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": []
+          },
+          "expected_recorded_frames": {
+            "call_bad_revision": {
+              "action_metadata_revision": "0.2",
+              "client_extension_revision": "0.1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "S03",
+      "title": "Final post-SDK action, signature and channel principal",
+      "variants": [
+        {
+          "id": "post_parse_argument_change",
+          "fixture_overrides": {
+            "actions": {
+              "op_a": {
+                "delegatee": "agent_a",
+                "tool_name": "lab.compute",
+                "arguments": {
+                  "units": "2",
+                  "payload": "alpha"
+                }
+              }
+            }
+          },
+          "expected_values": {
+            "reserved_payload": "alpha",
+            "wire_payload": "alpha",
+            "final_effect_argument_payload": "bravo",
+            "reserved_cost": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "5"
+              }
+            },
+            "attempted_cost": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "5"
+              }
+            },
+            "reserved_and_final_action_hash_equal": false
+          },
+          "required_observations": [
+            "Record both exact action objects and independently computed digests. The transformation is a trusted test fixture, not request-selected."
+          ],
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "arm_transform",
+              "kind": "trusted_test_hook",
+              "endpoint": "agent_a",
+              "hook": "after_sdk_validation_before_final_action",
+              "operation_ref": "op_a",
+              "transform": {
+                "field": "arguments.payload",
+                "from": "alpha",
+                "to": "bravo"
+              }
+            },
+            {
+              "id": "call_changed",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "call_changed",
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "BINDING_MISMATCH",
+                "status": "REFUSED"
+              },
+              "receipt_absent": true
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 0,
+            "durable_receipt_rows": 0,
+            "reservation_states": {
+              "op_a": "RESERVED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "5"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": []
+          }
+        },
+        {
+          "id": "invalid_es256_signature",
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "call_bad_signature",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve",
+              "request_mutation": {
+                "decoded_jws_signature_xor": {
+                  "byte_offset": 0,
+                  "mask": 1
+                },
+                "preserve_header_payload_and_signature_length": true
+              }
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "call_bad_signature",
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "INVALID_TOKEN",
+                "status": "REFUSED"
+              },
+              "receipt_absent": true
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 0,
+            "durable_receipt_rows": 0,
+            "reservation_states": {
+              "op_a": "RESERVED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": []
+          }
+        },
+        {
+          "id": "wrong_trusted_principal",
+          "fixture_overrides": {
+            "additional_endpoints": [
+              "intruder"
+            ]
+          },
+          "expected_values": {
+            "token_sub": "urn:r5:agent-a",
+            "trusted_channel_principal": "urn:r5:intruder"
+          },
+          "required_observations": [
+            "Token signature, intended action and audience remain valid. Only the independently configured channel principal differs."
+          ],
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "call_as_intruder",
+              "kind": "mcp_request",
+              "endpoint": "intruder",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "call_as_intruder",
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "NOT_AUTHORIZED",
+                "status": "REFUSED"
+              },
+              "receipt_absent": true
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 0,
+            "durable_receipt_rows": 0,
+            "reservation_states": {
+              "op_a": "RESERVED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "S04",
+      "title": "Current authority and injected time at the effect boundary",
+      "variants": [
+        {
+          "id": "revoke_before_effect",
+          "required_event_order": [
+            "call:pause_before_transaction",
+            "revoke:commit",
+            "revoke:response_received",
+            "call:pause_released",
+            "call:refusal"
+          ],
+          "required_observations": [
+            "The paused call holds no SQLite write transaction. Revocation does not automatically refund the pending reservation."
+          ],
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "arm_pause",
+              "kind": "trusted_test_hook",
+              "endpoint": "agent_a",
+              "hook": "before_atomic_effect_transaction",
+              "operation_ref": "op_a",
+              "behavior": "pause"
+            },
+            {
+              "id": "call",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve",
+              "async_start": true
+            },
+            {
+              "id": "await_pause",
+              "kind": "await_hook_arrival",
+              "hook_ref": "arm_pause"
+            },
+            {
+              "id": "revoke",
+              "kind": "mcp_request",
+              "endpoint": "admin",
+              "method": "org.example/zti-mcp.revoke",
+              "mandate_ref": "root"
+            },
+            {
+              "id": "release_pause",
+              "kind": "release_hook",
+              "hook_ref": "arm_pause"
+            },
+            {
+              "id": "await_call",
+              "kind": "await_request",
+              "request_ref": "call"
+            },
+            {
+              "id": "lookup",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.lookup",
+              "operation_ref": "op_a"
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "revoke",
+              "resultType": "complete",
+              "status": "REVOKED",
+              "authority_epoch": "1"
+            },
+            {
+              "step": "call",
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "REVOKED",
+                "status": "REFUSED"
+              },
+              "receipt_absent": true
+            },
+            {
+              "step": "lookup",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "receipt_present": false
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 0,
+            "durable_receipt_rows": 0,
+            "reservation_states": {
+              "op_a": "RESERVED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": [],
+            "root_active": false,
+            "authority_epoch": "1"
+          }
+        },
+        {
+          "id": "ict_expiry_before_effect",
+          "required_observations": [
+            "Clock equals exp exactly and is reread inside the transaction. Mandates remain valid. No refresh, reissue or automatic refund."
+          ],
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "arm_pause",
+              "kind": "trusted_test_hook",
+              "endpoint": "agent_a",
+              "hook": "before_atomic_effect_transaction",
+              "operation_ref": "op_a",
+              "behavior": "pause"
+            },
+            {
+              "id": "call",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve",
+              "async_start": true
+            },
+            {
+              "id": "await_pause",
+              "kind": "await_hook_arrival",
+              "hook_ref": "arm_pause"
+            },
+            {
+              "id": "advance_clock",
+              "kind": "trusted_clock_set",
+              "value_ref": "reserve.verified_ict_claims.exp"
+            },
+            {
+              "id": "release_pause",
+              "kind": "release_hook",
+              "hook_ref": "arm_pause"
+            },
+            {
+              "id": "await_call",
+              "kind": "await_request",
+              "request_ref": "call"
+            },
+            {
+              "id": "reserve_expired_retry",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "lookup",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.lookup",
+              "operation_ref": "op_a"
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "call",
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "EXPIRED",
+                "status": "REFUSED"
+              },
+              "receipt_absent": true
+            },
+            {
+              "step": "reserve_expired_retry",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": false,
+              "receipt_present": false,
+              "revision_unchanged": true
+            },
+            {
+              "step": "lookup",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "receipt_present": false
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 0,
+            "durable_receipt_rows": 0,
+            "reservation_states": {
+              "op_a": "RESERVED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": [],
+            "root_active": true,
+            "authority_epoch": "0"
+          }
+        },
+        {
+          "id": "sibling_revocation_stales_epoch",
+          "fixture_overrides": {
+            "registered_leaves": [
+              "agent_a",
+              "agent_b"
+            ]
+          },
+          "expected_values": {
+            "issued_token_epoch": "0",
+            "current_root_epoch": "1",
+            "agent_a_lineage_revoked": false,
+            "agent_b_revoked": true
+          },
+          "required_observations": [
+            "The executing lineage remains active: refusal must reflect the stale authority epoch, not an unrelated ancestor revocation."
+          ],
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "revoke_unused_sibling",
+              "kind": "mcp_request",
+              "endpoint": "admin",
+              "method": "org.example/zti-mcp.revoke",
+              "mandate_ref": "agent_b"
+            },
+            {
+              "id": "call_stale",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            },
+            {
+              "id": "reserve_stale_retry",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "lookup",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.lookup",
+              "operation_ref": "op_a"
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "revoke_unused_sibling",
+              "resultType": "complete",
+              "status": "REVOKED",
+              "authority_epoch": "1"
+            },
+            {
+              "step": "call_stale",
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "REVOKED",
+                "status": "REFUSED"
+              },
+              "receipt_absent": true
+            },
+            {
+              "step": "reserve_stale_retry",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": false,
+              "receipt_present": false,
+              "revision_unchanged": true
+            },
+            {
+              "step": "lookup",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "receipt_present": false
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 0,
+            "durable_receipt_rows": 0,
+            "reservation_states": {
+              "op_a": "RESERVED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": [],
+            "root_active": true,
+            "authority_epoch": "1"
+          }
+        },
+        {
+          "id": "revoke_after_commit",
+          "required_event_order": [
+            "call:commit",
+            "call:response_received",
+            "revoke:commit",
+            "lookup:response_received"
+          ],
+          "required_observations": [
+            "The immutable COMMITTED receipt, effect and consumed charge survive subsequent revocation."
+          ],
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "call",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            },
+            {
+              "id": "revoke",
+              "kind": "mcp_request",
+              "endpoint": "admin",
+              "method": "org.example/zti-mcp.revoke",
+              "mandate_ref": "root"
+            },
+            {
+              "id": "lookup",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.lookup",
+              "operation_ref": "op_a"
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "call",
+              "resultType": "complete",
+              "receipt_status": "COMMITTED",
+              "receipt_equals_stored_for": "op_a"
+            },
+            {
+              "step": "revoke",
+              "resultType": "complete",
+              "status": "REVOKED",
+              "authority_epoch": "1"
+            },
+            {
+              "step": "lookup",
+              "resultType": "complete",
+              "status": "COMMITTED",
+              "same_receipt_as": "call",
+              "outer_revision_greater_than_receipt_revision": true
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 1,
+            "durable_receipt_rows": 1,
+            "reservation_states": {
+              "op_a": "COMMITTED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": [],
+            "root_active": false,
+            "authority_epoch": "1"
+          }
+        }
+      ]
+    },
+    {
+      "id": "S05",
+      "title": "Actual overlapping admissions to one shared budget",
+      "variants": [
+        {
+          "id": "budget_3_two_cost_2",
+          "fixture_overrides": {
+            "registered_leaves": [
+              "agent_a",
+              "agent_b"
+            ],
+            "additional_endpoints": [
+              "agent_b"
+            ],
+            "root_budget": {
+              "ops": {
+                "unit": "operation",
+                "amount": "3"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "1024"
+              }
+            },
+            "additional_actions": {
+              "op_b": {
+                "delegatee": "agent_b",
+                "tool_name": "lab.compute",
+                "arguments": {
+                  "units": "2",
+                  "payload": ""
+                }
+              }
+            }
+          },
+          "checkpoints": {
+            "after_admission": {
+              "business_effect_rows": 0,
+              "durable_receipt_rows": 0,
+              "D": {
+                "ops": {
+                  "unit": "operation",
+                  "amount": "0"
+                },
+                "bytes": {
+                  "unit": "byte",
+                  "amount": "0"
+                }
+              },
+              "R": {
+                "ops": {
+                  "unit": "operation",
+                  "amount": "2"
+                },
+                "bytes": {
+                  "unit": "byte",
+                  "amount": "0"
+                }
+              },
+              "committed_facts": [],
+              "possible_facts": [],
+              "reservation_state_multiset": [
+                "RESERVED"
+              ],
+              "reservation_rows": 1,
+              "operation_membership": {
+                "allowed": [
+                  "op_a",
+                  "op_b"
+                ],
+                "count": 1,
+                "effects_and_receipts_match_admitted_operations": true
+              }
+            }
+          },
+          "required_observations": [
+            "Both provider processes receive their wire requests before the pretransaction barrier is released. The losing request creates no reservation. No winning PID is prescribed."
+          ],
+          "steps": [
+            {
+              "id": "arm_barrier",
+              "kind": "trusted_reservation_barrier",
+              "endpoints": [
+                "agent_a",
+                "agent_b"
+              ],
+              "hook": "before_reservation_transaction",
+              "arrivals_required": 2
+            },
+            {
+              "id": "admissions",
+              "kind": "concurrent_mcp_requests",
+              "requests": [
+                {
+                  "id": "reserve_a",
+                  "kind": "mcp_request",
+                  "endpoint": "agent_a",
+                  "method": "org.example/zti-mcp.reserve",
+                  "action_ref": "op_a"
+                },
+                {
+                  "id": "reserve_b",
+                  "kind": "mcp_request",
+                  "endpoint": "agent_b",
+                  "method": "org.example/zti-mcp.reserve",
+                  "action_ref": "op_b"
+                }
+              ]
+            },
+            {
+              "id": "both_arrived",
+              "kind": "await_barrier",
+              "barrier_ref": "arm_barrier",
+              "distinct_provider_pids": 2
+            },
+            {
+              "id": "release_barrier",
+              "kind": "release_barrier",
+              "barrier_ref": "arm_barrier"
+            },
+            {
+              "id": "await_admissions",
+              "kind": "await_requests",
+              "request_group_ref": "admissions"
+            },
+            {
+              "id": "after_admission",
+              "kind": "independent_readback_checkpoint"
+            },
+            {
+              "id": "execute_admitted",
+              "kind": "mcp_call_each_admitted_once",
+              "admission_group_ref": "admissions",
+              "use_original_endpoint": true
+            }
+          ],
+          "expected_wire": [
+            {
+              "step_group": "admissions",
+              "compare": "multiset",
+              "outcomes": [
+                "RESERVED",
+                "REFUSED:CUMULATIVE_VIOLATION"
+              ],
+              "refusal_code": -31001
+            },
+            {
+              "step_group": "execute_admitted",
+              "receipt_status_multiset": [
+                "COMMITTED"
+              ],
+              "receipts_equal_stored": true
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 1,
+            "durable_receipt_rows": 1,
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": [],
+            "reservation_state_multiset": [
+              "COMMITTED"
+            ],
+            "reservation_rows": 1,
+            "operation_membership": {
+              "allowed": [
+                "op_a",
+                "op_b"
+              ],
+              "count": 1,
+              "effects_and_receipts_match_admitted_operations": true
+            }
+          }
+        },
+        {
+          "id": "budget_4_two_cost_2",
+          "fixture_overrides": {
+            "registered_leaves": [
+              "agent_a",
+              "agent_b"
+            ],
+            "additional_endpoints": [
+              "agent_b"
+            ],
+            "root_budget": {
+              "ops": {
+                "unit": "operation",
+                "amount": "4"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "1024"
+              }
+            },
+            "additional_actions": {
+              "op_b": {
+                "delegatee": "agent_b",
+                "tool_name": "lab.compute",
+                "arguments": {
+                  "units": "2",
+                  "payload": ""
+                }
+              }
+            }
+          },
+          "checkpoints": {
+            "after_admission": {
+              "business_effect_rows": 0,
+              "durable_receipt_rows": 0,
+              "D": {
+                "ops": {
+                  "unit": "operation",
+                  "amount": "0"
+                },
+                "bytes": {
+                  "unit": "byte",
+                  "amount": "0"
+                }
+              },
+              "R": {
+                "ops": {
+                  "unit": "operation",
+                  "amount": "4"
+                },
+                "bytes": {
+                  "unit": "byte",
+                  "amount": "0"
+                }
+              },
+              "committed_facts": [],
+              "possible_facts": [],
+              "reservation_state_multiset": [
+                "RESERVED",
+                "RESERVED"
+              ],
+              "reservation_rows": 2,
+              "operation_membership": {
+                "allowed": [
+                  "op_a",
+                  "op_b"
+                ],
+                "count": 2,
+                "effects_and_receipts_match_admitted_operations": true
+              }
+            }
+          },
+          "required_observations": [
+            "Both admitted operations must perform their actual effect. Lock failures, crashes, timeouts, missing tasks or blanket refusal fail this positive control."
+          ],
+          "steps": [
+            {
+              "id": "arm_barrier",
+              "kind": "trusted_reservation_barrier",
+              "endpoints": [
+                "agent_a",
+                "agent_b"
+              ],
+              "hook": "before_reservation_transaction",
+              "arrivals_required": 2
+            },
+            {
+              "id": "admissions",
+              "kind": "concurrent_mcp_requests",
+              "requests": [
+                {
+                  "id": "reserve_a",
+                  "kind": "mcp_request",
+                  "endpoint": "agent_a",
+                  "method": "org.example/zti-mcp.reserve",
+                  "action_ref": "op_a"
+                },
+                {
+                  "id": "reserve_b",
+                  "kind": "mcp_request",
+                  "endpoint": "agent_b",
+                  "method": "org.example/zti-mcp.reserve",
+                  "action_ref": "op_b"
+                }
+              ]
+            },
+            {
+              "id": "both_arrived",
+              "kind": "await_barrier",
+              "barrier_ref": "arm_barrier",
+              "distinct_provider_pids": 2
+            },
+            {
+              "id": "release_barrier",
+              "kind": "release_barrier",
+              "barrier_ref": "arm_barrier"
+            },
+            {
+              "id": "await_admissions",
+              "kind": "await_requests",
+              "request_group_ref": "admissions"
+            },
+            {
+              "id": "after_admission",
+              "kind": "independent_readback_checkpoint"
+            },
+            {
+              "id": "execute_admitted",
+              "kind": "mcp_call_each_admitted_once",
+              "admission_group_ref": "admissions",
+              "use_original_endpoint": true
+            }
+          ],
+          "expected_wire": [
+            {
+              "step_group": "admissions",
+              "compare": "multiset",
+              "outcomes": [
+                "RESERVED",
+                "RESERVED"
+              ]
+            },
+            {
+              "step_group": "execute_admitted",
+              "receipt_status_multiset": [
+                "COMMITTED",
+                "COMMITTED"
+              ],
+              "receipts_equal_stored": true
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 2,
+            "durable_receipt_rows": 2,
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "4"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": [],
+            "reservation_state_multiset": [
+              "COMMITTED",
+              "COMMITTED"
+            ],
+            "reservation_rows": 2,
+            "operation_membership": {
+              "allowed": [
+                "op_a",
+                "op_b"
+              ],
+              "count": 2,
+              "effects_and_receipts_match_admitted_operations": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "S06",
+      "title": "Reserved fact union and separate single-action positives",
+      "variants": [
+        {
+          "id": "concurrent_forbidden_pair",
+          "fixture_overrides": {
+            "registered_leaves": [
+              "agent_a",
+              "agent_b"
+            ],
+            "additional_endpoints": [
+              "agent_b"
+            ],
+            "root_budget": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "1024"
+              }
+            },
+            "actions": {
+              "op_read": {
+                "delegatee": "agent_a",
+                "tool_name": "lab.read_sensitive",
+                "arguments": {
+                  "units": "1",
+                  "payload": ""
+                }
+              },
+              "op_export": {
+                "delegatee": "agent_b",
+                "tool_name": "lab.export_external",
+                "arguments": {
+                  "units": "1",
+                  "payload": ""
+                }
+              }
+            }
+          },
+          "checkpoints": {
+            "after_admission": {
+              "business_effect_rows": 0,
+              "durable_receipt_rows": 0,
+              "D": {
+                "ops": {
+                  "unit": "operation",
+                  "amount": "0"
+                },
+                "bytes": {
+                  "unit": "byte",
+                  "amount": "0"
+                }
+              },
+              "R": {
+                "ops": {
+                  "unit": "operation",
+                  "amount": "1"
+                },
+                "bytes": {
+                  "unit": "byte",
+                  "amount": "0"
+                }
+              },
+              "reservation_state_multiset": [
+                "RESERVED"
+              ],
+              "reservation_rows": 1,
+              "same_winner_relation": {
+                "allowed_operations": [
+                  "op_read",
+                  "op_export"
+                ],
+                "exactly_one_operation_exists": true,
+                "allowed_common_fact_sets": [
+                  [
+                    "read_sensitive"
+                  ],
+                  [
+                    "export_external"
+                  ]
+                ],
+                "must_equal_the_same_set": [
+                  "possible_facts",
+                  "reservation.facts"
+                ],
+                "fact_set_matches_winning_tool": true
+              },
+              "committed_facts": []
+            }
+          },
+          "required_observations": [
+            "Budget permits both costs. Outstanding sibling facts must prevent the pair.",
+            "All winner-dependent fields refer to one SAME operation and fact set; independent memberships with inconsistent winners fail."
+          ],
+          "steps": [
+            {
+              "id": "arm_barrier",
+              "kind": "trusted_reservation_barrier",
+              "endpoints": [
+                "agent_a",
+                "agent_b"
+              ],
+              "hook": "before_reservation_transaction",
+              "arrivals_required": 2
+            },
+            {
+              "id": "admissions",
+              "kind": "concurrent_mcp_requests",
+              "requests": [
+                {
+                  "id": "reserve_a",
+                  "kind": "mcp_request",
+                  "endpoint": "agent_a",
+                  "method": "org.example/zti-mcp.reserve",
+                  "action_ref": "op_read"
+                },
+                {
+                  "id": "reserve_b",
+                  "kind": "mcp_request",
+                  "endpoint": "agent_b",
+                  "method": "org.example/zti-mcp.reserve",
+                  "action_ref": "op_export"
+                }
+              ]
+            },
+            {
+              "id": "both_arrived",
+              "kind": "await_barrier",
+              "barrier_ref": "arm_barrier",
+              "distinct_provider_pids": 2
+            },
+            {
+              "id": "release_barrier",
+              "kind": "release_barrier",
+              "barrier_ref": "arm_barrier"
+            },
+            {
+              "id": "await_admissions",
+              "kind": "await_requests",
+              "request_group_ref": "admissions"
+            },
+            {
+              "id": "after_admission",
+              "kind": "independent_readback_checkpoint"
+            },
+            {
+              "id": "execute_admitted",
+              "kind": "mcp_call_each_admitted_once",
+              "admission_group_ref": "admissions",
+              "use_original_endpoint": true
+            }
+          ],
+          "expected_wire": [
+            {
+              "step_group": "admissions",
+              "compare": "multiset",
+              "outcomes": [
+                "RESERVED",
+                "REFUSED:CUMULATIVE_VIOLATION"
+              ],
+              "refusal_code": -31001
+            },
+            {
+              "step_group": "execute_admitted",
+              "receipt_status_multiset": [
+                "COMMITTED"
+              ],
+              "receipts_equal_stored": true
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 1,
+            "durable_receipt_rows": 1,
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "1"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "reservation_state_multiset": [
+              "COMMITTED"
+            ],
+            "reservation_rows": 1,
+            "same_winner_relation": {
+              "allowed_operations": [
+                "op_read",
+                "op_export"
+              ],
+              "exactly_one_operation_exists": true,
+              "allowed_common_fact_sets": [
+                [
+                  "read_sensitive"
+                ],
+                [
+                  "export_external"
+                ]
+              ],
+              "must_equal_the_same_set": [
+                "committed_facts",
+                "possible_facts",
+                "effect.facts",
+                "reservation.facts"
+              ],
+              "fact_set_matches_winning_tool": true
+            }
+          }
+        },
+        {
+          "id": "read_alone",
+          "fixture_overrides": {
+            "root_budget": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "1024"
+              }
+            },
+            "actions": {
+              "op_a": {
+                "delegatee": "agent_a",
+                "tool_name": "lab.read_sensitive",
+                "arguments": {
+                  "units": "1",
+                  "payload": ""
+                }
+              }
+            }
+          },
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "call",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "call",
+              "resultType": "complete",
+              "receipt_status": "COMMITTED",
+              "receipt_equals_stored_for": "op_a"
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 1,
+            "durable_receipt_rows": 1,
+            "reservation_states": {
+              "op_a": "COMMITTED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "1"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [
+              "read_sensitive"
+            ],
+            "possible_facts": [
+              "read_sensitive"
+            ]
+          }
+        },
+        {
+          "id": "export_alone",
+          "fixture_overrides": {
+            "root_budget": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "1024"
+              }
+            },
+            "actions": {
+              "op_a": {
+                "delegatee": "agent_a",
+                "tool_name": "lab.export_external",
+                "arguments": {
+                  "units": "1",
+                  "payload": ""
+                }
+              }
+            }
+          },
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "call",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "call",
+              "resultType": "complete",
+              "receipt_status": "COMMITTED",
+              "receipt_equals_stored_for": "op_a"
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 1,
+            "durable_receipt_rows": 1,
+            "reservation_states": {
+              "op_a": "COMMITTED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "1"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [
+              "export_external"
+            ],
+            "possible_facts": [
+              "export_external"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "S07",
+      "title": "Lost reply, transaction rollback and restart without new authority",
+      "variants": [
+        {
+          "id": "lost_reply_after_commit",
+          "checkpoints": {
+            "after_crash": {
+              "business_effect_rows": 1,
+              "durable_receipt_rows": 1,
+              "reservation_states": {
+                "op_a": "COMMITTED"
+              },
+              "D": {
+                "ops": {
+                  "unit": "operation",
+                  "amount": "2"
+                },
+                "bytes": {
+                  "unit": "byte",
+                  "amount": "0"
+                }
+              },
+              "R": {
+                "ops": {
+                  "unit": "operation",
+                  "amount": "0"
+                },
+                "bytes": {
+                  "unit": "byte",
+                  "amount": "0"
+                }
+              },
+              "committed_facts": [],
+              "possible_facts": []
+            }
+          },
+          "required_observations": [
+            "A real durable receipt exists before the lost response. The endpoint process changes on restart; root, database, operation and reservation do not.",
+            "The old ICT remains time-valid under unchanged test clock. The connection/attempt identity changes, but RPC numeric ID may repeat legitimately across connections.",
+            "No retry creates a second effect, receipt or charge."
+          ],
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "arm_fault",
+              "kind": "trusted_fault",
+              "endpoint": "agent_a",
+              "operation_ref": "op_a",
+              "point": "after_commit_return_before_response_write",
+              "behavior": "terminate_endpoint_without_graceful_commit"
+            },
+            {
+              "id": "call_lost",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            },
+            {
+              "id": "await_exit",
+              "kind": "await_endpoint_exit",
+              "endpoint": "agent_a"
+            },
+            {
+              "id": "after_crash",
+              "kind": "independent_readback_checkpoint"
+            },
+            {
+              "id": "restart",
+              "kind": "restart_endpoint",
+              "endpoint": "agent_a",
+              "preserve_database_root_clock_and_principal": true,
+              "disable_fault": true
+            },
+            {
+              "id": "rediscover",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "server/discover"
+            },
+            {
+              "id": "lookup",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.lookup",
+              "operation_ref": "op_a"
+            },
+            {
+              "id": "reserve_retry",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "call_retry",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            },
+            {
+              "id": "reserve_changed_same_operation",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a",
+              "action_mutation": {
+                "arguments.payload": "x",
+                "preserve_operation_id": true
+              }
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "call_lost",
+              "transport_outcome": "CONNECTION_CLOSED_WITHOUT_VALID_RESULT",
+              "policy_refusal_claimed": false
+            },
+            {
+              "step": "rediscover",
+              "protocol_version": "2026-07-28",
+              "capability": "exact_required_capability"
+            },
+            {
+              "step": "lookup",
+              "resultType": "complete",
+              "status": "COMMITTED",
+              "receipt_equals_stored_for": "op_a"
+            },
+            {
+              "step": "reserve_retry",
+              "resultType": "complete",
+              "status": "COMMITTED",
+              "receipt_equals_stored_for": "op_a",
+              "ict_present": false,
+              "revision_unchanged": true
+            },
+            {
+              "step": "call_retry",
+              "resultType": "complete",
+              "receipt_status": "COMMITTED",
+              "receipt_equals_stored_for": "op_a",
+              "revision_unchanged": true
+            },
+            {
+              "step": "reserve_changed_same_operation",
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "OPERATION_CONFLICT",
+                "status": "REFUSED"
+              },
+              "receipt_absent": true
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 1,
+            "durable_receipt_rows": 1,
+            "reservation_states": {
+              "op_a": "COMMITTED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": []
+          }
+        },
+        {
+          "id": "crash_before_atomic_commit",
+          "checkpoints": {
+            "after_crash": {
+              "business_effect_rows": 0,
+              "durable_receipt_rows": 0,
+              "reservation_states": {
+                "op_a": "RESERVED"
+              },
+              "D": {
+                "ops": {
+                  "unit": "operation",
+                  "amount": "0"
+                },
+                "bytes": {
+                  "unit": "byte",
+                  "amount": "0"
+                }
+              },
+              "R": {
+                "ops": {
+                  "unit": "operation",
+                  "amount": "2"
+                },
+                "bytes": {
+                  "unit": "byte",
+                  "amount": "0"
+                }
+              },
+              "committed_facts": [],
+              "possible_facts": []
+            }
+          },
+          "required_observations": [
+            "The precommit fault is reached after effect, consumption, receipt and revision writes were staged in the same transaction. It is not a fault before any work.",
+            "All staged writes roll back; the original held reservation persists. The later normal call executes once without a new operation or token."
+          ],
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "arm_fault",
+              "kind": "trusted_fault",
+              "endpoint": "agent_a",
+              "operation_ref": "op_a",
+              "point": "after_effect_consumption_receipt_staged_before_commit",
+              "behavior": "terminate_endpoint_without_graceful_commit"
+            },
+            {
+              "id": "call_interrupted",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            },
+            {
+              "id": "await_exit",
+              "kind": "await_endpoint_exit",
+              "endpoint": "agent_a"
+            },
+            {
+              "id": "after_crash",
+              "kind": "independent_readback_checkpoint"
+            },
+            {
+              "id": "restart",
+              "kind": "restart_endpoint",
+              "endpoint": "agent_a",
+              "preserve_database_root_clock_and_principal": true,
+              "disable_fault": true
+            },
+            {
+              "id": "rediscover",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "server/discover"
+            },
+            {
+              "id": "lookup_reserved",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.lookup",
+              "operation_ref": "op_a"
+            },
+            {
+              "id": "reserve_retry",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "call_retry",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "call_interrupted",
+              "transport_outcome": "CONNECTION_CLOSED_WITHOUT_VALID_RESULT",
+              "policy_refusal_claimed": false
+            },
+            {
+              "step": "rediscover",
+              "protocol_version": "2026-07-28",
+              "capability": "exact_required_capability"
+            },
+            {
+              "step": "lookup_reserved",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "receipt_present": false
+            },
+            {
+              "step": "reserve_retry",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "same_ict_as": "reserve",
+              "same_reservation_as": "reserve",
+              "revision_unchanged": true
+            },
+            {
+              "step": "call_retry",
+              "resultType": "complete",
+              "receipt_status": "COMMITTED",
+              "receipt_equals_stored_for": "op_a"
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 1,
+            "durable_receipt_rows": 1,
+            "reservation_states": {
+              "op_a": "COMMITTED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "S08",
+      "title": "Two imposed cancel/consume orders, with no contention claim",
+      "variants": [
+        {
+          "id": "cancel_before_call",
+          "checkpoints": {
+            "after_cancel": {
+              "business_effect_rows": 0,
+              "durable_receipt_rows": 0,
+              "reservation_states": {
+                "op_a": "CANCELLED"
+              },
+              "D": {
+                "ops": {
+                  "unit": "operation",
+                  "amount": "0"
+                },
+                "bytes": {
+                  "unit": "byte",
+                  "amount": "0"
+                }
+              },
+              "R": {
+                "ops": {
+                  "unit": "operation",
+                  "amount": "0"
+                },
+                "bytes": {
+                  "unit": "byte",
+                  "amount": "0"
+                }
+              },
+              "committed_facts": [],
+              "possible_facts": []
+            }
+          },
+          "required_event_order": [
+            "cancel:commit",
+            "cancel:response_received",
+            "call_cancelled:request_sent"
+          ],
+          "required_observations": [
+            "Only unused authority is released. The old reservation becomes unexercisable atomically; the root is not revoked."
+          ],
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "cancel",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.cancel",
+              "operation_ref": "op_a",
+              "reservation_from": "reserve"
+            },
+            {
+              "id": "after_cancel",
+              "kind": "independent_readback_checkpoint"
+            },
+            {
+              "id": "call_cancelled",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            },
+            {
+              "id": "lookup",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.lookup",
+              "operation_ref": "op_a"
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "cancel",
+              "resultType": "complete",
+              "status": "CANCELLED",
+              "receipt_present": false
+            },
+            {
+              "step": "call_cancelled",
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "REVOKED",
+                "status": "REFUSED"
+              },
+              "receipt_absent": true
+            },
+            {
+              "step": "lookup",
+              "resultType": "complete",
+              "status": "CANCELLED",
+              "receipt_present": false
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 0,
+            "durable_receipt_rows": 0,
+            "reservation_states": {
+              "op_a": "CANCELLED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": [],
+            "root_active": true,
+            "authority_epoch": "0"
+          }
+        },
+        {
+          "id": "call_before_cancel",
+          "required_event_order": [
+            "call:commit",
+            "call:response_received",
+            "cancel_consumed:request_sent"
+          ],
+          "required_observations": [
+            "The chosen permitted wire behavior is unchanged COMMITTED plus its stored receipt, not ALREADY_CONSUMED. No refund or second effect."
+          ],
+          "steps": [
+            {
+              "id": "reserve",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.reserve",
+              "action_ref": "op_a"
+            },
+            {
+              "id": "call",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "tools/call",
+              "action_ref": "op_a",
+              "ict_from": "reserve"
+            },
+            {
+              "id": "cancel_consumed",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.cancel",
+              "operation_ref": "op_a",
+              "reservation_from": "reserve"
+            },
+            {
+              "id": "lookup",
+              "kind": "mcp_request",
+              "endpoint": "agent_a",
+              "method": "org.example/zti-mcp.lookup",
+              "operation_ref": "op_a"
+            }
+          ],
+          "expected_wire": [
+            {
+              "step": "reserve",
+              "resultType": "complete",
+              "status": "RESERVED",
+              "ict_present": true
+            },
+            {
+              "step": "call",
+              "resultType": "complete",
+              "receipt_status": "COMMITTED",
+              "receipt_equals_stored_for": "op_a"
+            },
+            {
+              "step": "cancel_consumed",
+              "resultType": "complete",
+              "status": "COMMITTED",
+              "same_receipt_as": "call",
+              "revision_unchanged": true
+            },
+            {
+              "step": "lookup",
+              "resultType": "complete",
+              "status": "COMMITTED",
+              "receipt_equals_stored_for": "op_a"
+            }
+          ],
+          "expected_database": {
+            "business_effect_rows": 1,
+            "durable_receipt_rows": 1,
+            "reservation_states": {
+              "op_a": "COMMITTED"
+            },
+            "D": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "R": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "committed_facts": [],
+            "possible_facts": []
+          }
+        }
+      ]
+    }
+  ],
+  "integration_mutants": [
+    {
+      "id": "M01",
+      "base_scenario": "S02",
+      "base_variant": "missing_ict",
+      "change": "Replace only the missing-ICT refusal by retrieval of the stored ICT for the configured caller/named operation; then use the ordinary transactional path. All other controls remain active.",
+      "expected_counterexample": {
+        "business_effect_rows": 1,
+        "durable_receipt_rows": 1,
+        "reservation_states": {
+          "op_a": "COMMITTED"
+        },
+        "D": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "R": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "committed_facts": [],
+        "possible_facts": []
+      },
+      "normal_oracle_matches": false,
+      "detection_requires": [
+        "Actual missing-ICT frame reaches provider.",
+        "The fallback runs and creates the observed effect, not an infrastructure error.",
+        "The unchanged normal oracle rejects the effect/consumption."
+      ],
+      "not_claimed": "A compromise probability or proof that an unrelated unauthorized caller could exercise the same operation."
+    },
+    {
+      "id": "M02",
+      "base_scenario": "S04",
+      "base_variant": "revoke_before_effect",
+      "change": "Validate current authority in an earlier transaction and close it. Pause, let admin revoke and receive its response, then write consumption/effect/receipt from the cached decision in a second transaction without revalidation.",
+      "expected_counterexample": {
+        "business_effect_rows": 1,
+        "durable_receipt_rows": 1,
+        "reservation_states": {
+          "op_a": "COMMITTED"
+        },
+        "D": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "R": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "committed_facts": [],
+        "possible_facts": [],
+        "root_active": false,
+        "authority_epoch": "1"
+      },
+      "normal_oracle_matches": false,
+      "required_event_order": [
+        "call:validation_transaction_finished",
+        "call:pause_after_validation",
+        "revoke:commit",
+        "revoke:response_received",
+        "call:pause_released",
+        "call:effect_commit"
+      ],
+      "detection_requires": [
+        "The actual effect occurs after acknowledged revocation.",
+        "Readback links the receipt/effect to the operation whose token had the previous epoch.",
+        "The unchanged normal oracle fails for that stale effect, not a lock error/crash/timeout."
+      ],
+      "not_claimed": "A comparison against a correctly coupled strong gateway; this is a deliberately broken integration."
+    }
+  ],
+  "exit_gate": {
+    "normal_variants_match": 20,
+    "targeted_mutants_detected_semantically": 2,
+    "local_native_windows_on_final_merge_head_required": true,
+    "hosted_ci_windows_on_final_merge_head_required": true,
+    "hosted_ci_ubuntu_on_final_merge_head_required": true,
+    "actual_checkout_sha_recorded_for_each_required": true,
+    "historical_baseline_source_hashes_preserved": true,
+    "release_commit_equals_tested_commit": true,
+    "exact_workflow_jobs_steps": "Use director publication runbook; require actual non-skipped success, not only workflow text or job pending.",
+    "this_file_claims_no_run": true
+  },
+  "limitations": [
+    "Single selected SDK on both sides, not two-vendor interoperability.",
+    "Shared local provider SQLite, not remote atomicity or distributed consensus.",
+    "Process-crash points, not power-loss/corruption proof.",
+    "Trusted launch identity fixture, not OAuth/hostile-host protection.",
+    "Symbolic authoritative catalog, not hidden-intent inference.",
+    "Selected schedules, not exhaustive concurrency proof.",
+    "Reserved lab namespace, not standard adoption."
+  ]
+}
