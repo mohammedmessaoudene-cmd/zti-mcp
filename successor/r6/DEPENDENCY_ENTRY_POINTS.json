@@ -1,0 +1,199 @@
+{
+  "archives_imported_or_executed": false,
+  "format": "zti-r6-dependency-entry-points/1",
+  "generated_at_utc": "2026-11-01T18:20:18.343026+00:00",
+  "python": {
+    "cryptography": {
+      "archives": [
+        {
+          "archive_sha256": "630ebfea3bf689d075f82316324ff7433dc447fe6bc1bfc76524b74b4a9567d2",
+          "archive_size": 4719841,
+          "entry_sha256": "9ad86e52b4dde0544e0a9518ad322a863cfab3a4fd763019ad5ee7675a0c9b6a",
+          "entry_size": 364,
+          "filename": "cryptography-50.0.2-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+          "official_metadata_response_sha256": "7423990cc0948676ef47a71ea62a476ece4c76245e6bebd1c3a71f03c4ffc0f4",
+          "official_metadata_url": "https://pypi.org/pypi/cryptography/50.0.2/json",
+          "url": "https://files.pythonhosted.org/packages/21/69/64cef1f702bf6657e0cc186ed1a2891d50d29fb41586b254e1c07adea261/cryptography-50.0.2-cp311-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+          "verified_against_frozen_pypi_provenance": true,
+          "verified_against_live_official_metadata": true,
+          "verified_against_locked_sha256": true
+        },
+        {
+          "archive_sha256": "4061c0079120205fb760c58acab6443e217307dcf05e3702cf970e0689972856",
+          "archive_size": 4753050,
+          "entry_sha256": "9ad86e52b4dde0544e0a9518ad322a863cfab3a4fd763019ad5ee7675a0c9b6a",
+          "entry_size": 364,
+          "filename": "cryptography-50.0.2-cp311-abi3-manylinux_2_28_x86_64.whl",
+          "official_metadata_response_sha256": "7423990cc0948676ef47a71ea62a476ece4c76245e6bebd1c3a71f03c4ffc0f4",
+          "official_metadata_url": "https://pypi.org/pypi/cryptography/50.0.2/json",
+          "url": "https://files.pythonhosted.org/packages/1a/f1/b474e930c4d910328780e3940da76f5aa5cbc48ce1fc14e44d239d9ea9db/cryptography-50.0.2-cp311-abi3-manylinux_2_28_x86_64.whl",
+          "verified_against_frozen_pypi_provenance": true,
+          "verified_against_live_official_metadata": true,
+          "verified_against_locked_sha256": true
+        },
+        {
+          "archive_sha256": "9dab55f57c74c3cad24c323bacbbd04be4705ba6eb0d92e920b1fc4837ed5079",
+          "archive_size": 4752576,
+          "entry_sha256": "9ad86e52b4dde0544e0a9518ad322a863cfab3a4fd763019ad5ee7675a0c9b6a",
+          "entry_size": 364,
+          "filename": "cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl",
+          "official_metadata_response_sha256": "7423990cc0948676ef47a71ea62a476ece4c76245e6bebd1c3a71f03c4ffc0f4",
+          "official_metadata_url": "https://pypi.org/pypi/cryptography/50.0.2/json",
+          "url": "https://files.pythonhosted.org/packages/d3/69/2c833a049475e0a3444e94c7d0aca0aa51d166374a449b09e92ac98138de/cryptography-50.0.2-cp311-abi3-manylinux_2_34_x86_64.whl",
+          "verified_against_frozen_pypi_provenance": true,
+          "verified_against_live_official_metadata": true,
+          "verified_against_locked_sha256": true
+        },
+        {
+          "archive_sha256": "7afa5a6602a9f29af1f3a2965f831bae7c9d5d597b7cbb716d41ab3b7d89879c",
+          "archive_size": 3824692,
+          "entry_sha256": "9ad86e52b4dde0544e0a9518ad322a863cfab3a4fd763019ad5ee7675a0c9b6a",
+          "entry_size": 364,
+          "filename": "cryptography-50.0.2-cp311-abi3-win_amd64.whl",
+          "official_metadata_response_sha256": "7423990cc0948676ef47a71ea62a476ece4c76245e6bebd1c3a71f03c4ffc0f4",
+          "official_metadata_url": "https://pypi.org/pypi/cryptography/50.0.2/json",
+          "url": "https://files.pythonhosted.org/packages/9a/4f/adfc442765721292fff86d314ce385d3249d22db42295c0dd057727b60f3/cryptography-50.0.2-cp311-abi3-win_amd64.whl",
+          "verified_against_frozen_pypi_provenance": true,
+          "verified_against_live_official_metadata": true,
+          "verified_against_locked_sha256": true
+        },
+        {
+          "archive_sha256": "ee247f5c245c9a2fe7c8e2214e295918838e44e00a45a6718451e4004219e767",
+          "archive_size": 4749145,
+          "entry_sha256": "9ad86e52b4dde0544e0a9518ad322a863cfab3a4fd763019ad5ee7675a0c9b6a",
+          "entry_size": 364,
+          "filename": "cryptography-50.0.2-cp39-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+          "official_metadata_response_sha256": "7423990cc0948676ef47a71ea62a476ece4c76245e6bebd1c3a71f03c4ffc0f4",
+          "official_metadata_url": "https://pypi.org/pypi/cryptography/50.0.2/json",
+          "url": "https://files.pythonhosted.org/packages/bf/f1/1c1f6874e8550cfddd4b688ceb38cefb6ed15ceed224d56f133f3d88c214/cryptography-50.0.2-cp39-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+          "verified_against_frozen_pypi_provenance": true,
+          "verified_against_live_official_metadata": true,
+          "verified_against_locked_sha256": true
+        },
+        {
+          "archive_sha256": "f21e8a22c8605750c7af886bab299a363721264061b4ac0a30efb73cfd58efc5",
+          "archive_size": 4781387,
+          "entry_sha256": "9ad86e52b4dde0544e0a9518ad322a863cfab3a4fd763019ad5ee7675a0c9b6a",
+          "entry_size": 364,
+          "filename": "cryptography-50.0.2-cp39-abi3-manylinux_2_28_x86_64.whl",
+          "official_metadata_response_sha256": "7423990cc0948676ef47a71ea62a476ece4c76245e6bebd1c3a71f03c4ffc0f4",
+          "official_metadata_url": "https://pypi.org/pypi/cryptography/50.0.2/json",
+          "url": "https://files.pythonhosted.org/packages/4f/87/ef344a9e616871f2519c22d6afcda79ddd5d35e9592d95eb6e677608d055/cryptography-50.0.2-cp39-abi3-manylinux_2_28_x86_64.whl",
+          "verified_against_frozen_pypi_provenance": true,
+          "verified_against_live_official_metadata": true,
+          "verified_against_locked_sha256": true
+        },
+        {
+          "archive_sha256": "1981f1db4630889b9ef7803fadef12b056f428cb6b85c27ba57b774793b6093c",
+          "archive_size": 4780973,
+          "entry_sha256": "9ad86e52b4dde0544e0a9518ad322a863cfab3a4fd763019ad5ee7675a0c9b6a",
+          "entry_size": 364,
+          "filename": "cryptography-50.0.2-cp39-abi3-manylinux_2_34_x86_64.whl",
+          "official_metadata_response_sha256": "7423990cc0948676ef47a71ea62a476ece4c76245e6bebd1c3a71f03c4ffc0f4",
+          "official_metadata_url": "https://pypi.org/pypi/cryptography/50.0.2/json",
+          "url": "https://files.pythonhosted.org/packages/40/cf/6b5c8e2fd9202d98988ab7cb5cc5c991704c4ad55f492ff408e4969f83f1/cryptography-50.0.2-cp39-abi3-manylinux_2_34_x86_64.whl",
+          "verified_against_frozen_pypi_provenance": true,
+          "verified_against_live_official_metadata": true,
+          "verified_against_locked_sha256": true
+        },
+        {
+          "archive_sha256": "4e81d95e5bafc2d6e34e4bed780e53e4d5b9a2f928573428aa4d35fbec1eb0de",
+          "archive_size": 3854095,
+          "entry_sha256": "9ad86e52b4dde0544e0a9518ad322a863cfab3a4fd763019ad5ee7675a0c9b6a",
+          "entry_size": 364,
+          "filename": "cryptography-50.0.2-cp39-abi3-win_amd64.whl",
+          "official_metadata_response_sha256": "7423990cc0948676ef47a71ea62a476ece4c76245e6bebd1c3a71f03c4ffc0f4",
+          "official_metadata_url": "https://pypi.org/pypi/cryptography/50.0.2/json",
+          "url": "https://files.pythonhosted.org/packages/f6/b6/a1faf3a27ae9405fb34b1713cc73b2d8a26b04d5c561578fa2e6ef3e5bb9/cryptography-50.0.2-cp39-abi3-win_amd64.whl",
+          "verified_against_frozen_pypi_provenance": true,
+          "verified_against_live_official_metadata": true,
+          "verified_against_locked_sha256": true
+        }
+      ],
+      "distribution": "cryptography",
+      "entry_bytes_identical_across_inspected_archives": true,
+      "entry_sha256": "9ad86e52b4dde0544e0a9518ad322a863cfab3a4fd763019ad5ee7675a0c9b6a",
+      "entry_sha256s": [
+        "9ad86e52b4dde0544e0a9518ad322a863cfab3a4fd763019ad5ee7675a0c9b6a"
+      ],
+      "module_entry": "cryptography/__init__.py",
+      "python_scope": "CPython3.12 x86_64 on Windows or glibc Linux; pure-Python SDK wheels are platform independent.",
+      "version": "50.0.2"
+    },
+    "mcp": {
+      "archives": [
+        {
+          "archive_sha256": "dd0c44c089d16453e8ae31a3877a0054d7a2314caaa81f5e0541b9b1734b2377",
+          "archive_size": 368664,
+          "entry_sha256": "c989b67127034c5979af20fa4a298f9dbd03b13c522a1954bc8d59aefb084f9a",
+          "entry_size": 3719,
+          "filename": "mcp-2.3.0-py3-none-any.whl",
+          "official_metadata_response_sha256": "d9348a2813cdf05df82f7852afb9f13d8a8035d62c3a5e07fb9657bc5382aad7",
+          "official_metadata_url": "https://pypi.org/pypi/mcp/2.3.0/json",
+          "url": "https://files.pythonhosted.org/packages/20/d7/4a2878f128df729db3ca04e71bfce26405cc2e0c9ebe19c592feeb4c61b9/mcp-2.3.0-py3-none-any.whl",
+          "verified_against_frozen_pypi_provenance": true,
+          "verified_against_live_official_metadata": true,
+          "verified_against_locked_sha256": true
+        }
+      ],
+      "distribution": "mcp",
+      "entry_bytes_identical_across_inspected_archives": true,
+      "entry_sha256": "c989b67127034c5979af20fa4a298f9dbd03b13c522a1954bc8d59aefb084f9a",
+      "entry_sha256s": [
+        "c989b67127034c5979af20fa4a298f9dbd03b13c522a1954bc8d59aefb084f9a"
+      ],
+      "module_entry": "mcp/__init__.py",
+      "python_scope": "CPython3.12 x86_64 on Windows or glibc Linux; pure-Python SDK wheels are platform independent.",
+      "version": "2.3.0"
+    },
+    "mcp_types": {
+      "archives": [
+        {
+          "archive_sha256": "968efdbdaedfab06adae40d378a34395f1090c5921d4be3c9cde283aaf76d91d",
+          "archive_size": 69108,
+          "entry_sha256": "791de752e5f95ca93c380499561ccb3b6b787627bd34e62a3e9f32176258392f",
+          "entry_size": 11548,
+          "filename": "mcp_types-2.3.0-py3-none-any.whl",
+          "official_metadata_response_sha256": "9df9fb5f5ca5d2ca3c74b2d9fc1b1e9d753e84ab22be14f177a1cbed5e94c419",
+          "official_metadata_url": "https://pypi.org/pypi/mcp-types/2.3.0/json",
+          "url": "https://files.pythonhosted.org/packages/ce/48/32583066b155bb5d4507e7887dc88ee23118cc4de8e2a12870c49719e2a8/mcp_types-2.3.0-py3-none-any.whl",
+          "verified_against_frozen_pypi_provenance": true,
+          "verified_against_live_official_metadata": true,
+          "verified_against_locked_sha256": true
+        }
+      ],
+      "distribution": "mcp-types",
+      "entry_bytes_identical_across_inspected_archives": true,
+      "entry_sha256": "791de752e5f95ca93c380499561ccb3b6b787627bd34e62a3e9f32176258392f",
+      "entry_sha256s": [
+        "791de752e5f95ca93c380499561ccb3b6b787627bd34e62a3e9f32176258392f"
+      ],
+      "module_entry": "mcp_types/__init__.py",
+      "python_scope": "CPython3.12 x86_64 on Windows or glibc Linux; pure-Python SDK wheels are platform independent.",
+      "version": "2.3.0"
+    }
+  },
+  "scope": "Fingerprints of selected SDK entry files, not a hash of every installed dependency file. Exact archive digests bind the examined upstream distribution bytes; this is not external execution attestation.",
+  "source_inputs": {
+    "npm_runtime_lock_sha256": "798047f8ab6393f2119b5a670cd8ba0cc508021f73dc78484d0d543c9b0b9c64",
+    "pypi_provenance_sha256": "cc2c8993b5c76a5e4ff1f665af18fe24877e946fb49f386dcec6be4f585b626e",
+    "python_lock_sha256": "970bcea8e960f2ed3f26d351849e685f6a4c85955fcdbef5ef88763ae7378dc0"
+  },
+  "status": "VERIFIED_FROM_PINNED_OFFICIAL_ARCHIVES",
+  "typescript": {
+    "archive_sha256": "55c36d1e1ee68f34b614f6f75cc1f5d9a3c6506faa0ab1ced833745244170de7",
+    "archive_sha512": "2e0ac3d8ea611ee1b5daf7ca14acfa48e9eaedb287426846248018743f8c6419f69e91c4cabcbab83f33be4b6876d97909033ce4c3b46a75320fd2709949b1c3",
+    "archive_size": 1753645,
+    "archive_url": "https://registry.npmjs.org/@modelcontextprotocol/client/-/client-2.4.0.tgz",
+    "entry_sha256": "b78923b9b9d342109f4fc2a03a9dcea7241fbb89bb2943ec4c9f05a23891b1cf",
+    "entry_size": 79439,
+    "locked_integrity": "sha512-LgrD2OphHuG12vfKFKz6SOnq7bKHQmhGJIAYdD+MZBn2npHEyry6uD8zvktodtl5CQM85MO0anUyD9JwmUmxww==",
+    "module_entry": "package/dist/index.mjs",
+    "official_metadata_response_sha256": "29a5c76d3c9faa91069233ebe1baa2ef3aebf7d5bafeb61f96429cafc84261ad",
+    "official_metadata_url": "https://registry.npmjs.org/@modelcontextprotocol%2fclient/2.4.0",
+    "package": "@modelcontextprotocol/client",
+    "verified_against_live_official_metadata": true,
+    "verified_against_locked_sha512": true,
+    "version": "2.4.0"
+  }
+}

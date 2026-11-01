@@ -1,0 +1,73 @@
+{
+  "author_distinct_design_review": {
+    "kind": "Same-team AI-assisted author-distinct packaging delta review, not runtime qualification or outside human attestation",
+    "review_report_sha256": "2d1d43e14413f200ad193bd06452acf27bb9cdfe1c000df340824b32ef79da0d"
+  },
+  "auxiliary_binding_vectors": 4,
+  "baseline_commit": "3b5b696fe6837e99bad9526c69aa253366d503f5",
+  "baseline_tree": "fe168db32699cfa0d23a342681c359d7e73eeaf4",
+  "counts": {
+    "base_executions": 40,
+    "base_histories": 20,
+    "binding_auxiliary_diagnostics": 4,
+    "binding_auxiliary_executions": 8,
+    "binding_vectors": 24,
+    "causal_plans": 12,
+    "causal_replays": 48,
+    "date_diagnostics": 8,
+    "date_executions": 16,
+    "no_security_score_sum": true,
+    "raw_jws_negative_inputs": 1,
+    "raw_jws_positive_controls": 1,
+    "raw_jws_sdk_executions": 0,
+    "selected_mutants": 6,
+    "synthetic_discovery": 3,
+    "synthetic_signature_effect_accounting": 3
+  },
+  "director_correction_response": "POST-R5-S1-0001-REVIEW-01",
+  "expectation_origin": "Scientific fixtures, goldens, keys, dates, costs and expected states remain byte-identical to FREEZE-002. FREEZE-003 changes only npm NOTICE inclusion and packaging erratum/procedure, not observed provider expectations.",
+  "files": {
+    "API.md": "07a8a2b7aa56400605252c0e26be75b6145f96ece357f0217fa73c64968de879",
+    "CONTRACT.md": "1ca6c63c67637271be5e88e5786073e7044e3a65cc3fb91ac384ff92f2f17de9",
+    "DISTRIBUTION.md": "0a70b5ad4b28ca27b25eda588f46ccf2cd71d2dcaffb9468ad2bbd7518bab8e0",
+    "ERRATUM_S1.json": "a678f0bd80352f9ededd8085923eb7cbaa5d025a7f8c1d066f67b5fec125855b",
+    "PRESERVED_BASELINE.json": "876a1ff287a597c686fca8f53073930947a1605078126bbca2bea6c06a997337",
+    "S0_COVERAGE.json": "c2ae16a44541168e5314cc2a3f76f6063dd5c27eef9f18928b045831a1489a24",
+    "SDK_PROVENANCE.json": "ad22f35e67189e425d63205d24aaefb3a6109d76e2cd9208eddab65b77b3bc00",
+    "clients/package.json": "472fcce0c2005b67b13fcf81f036d3023d1b4b6ff10269d025147bb439aabbcc",
+    "clients/runtime-lock.json": "798047f8ab6393f2119b5a670cd8ba0cc508021f73dc78484d0d543c9b0b9c64",
+    "fixtures/raw_jws.json": "54f040e9d7a9b89b378b5b7db8a81c8cc34a627de072f240befd7226a1044d77",
+    "fixtures/scenarios.json": "c14a9245396b1c22712615f12b7ded4f8479f56291d150e54efed82b610b235a",
+    "issuer/issuer.py": "4841ef6ec91e51dd750860bceb0e0452dab3d232bcaec991c50bc2a5e3f48fec",
+    "locks/pypi_provenance.json": "cc2c8993b5c76a5e4ff1f665af18fe24877e946fb49f386dcec6be4f585b626e",
+    "locks/requirements.lock": "970bcea8e960f2ed3f26d351849e685f6a4c85955fcdbef5ef88763ae7378dc0"
+  },
+  "format": "zti-r6-preexecution-v1",
+  "freeze_id": "R6-S1-FREEZE-003",
+  "golden_counts": {
+    "canonical_only_tool_revision_refusal": 1,
+    "canonical_vectors": 17,
+    "invalid_vectors": 7,
+    "tool_domain_accept_vectors": 16
+  },
+  "observations_before_freeze": {
+    "SDK_echo_capability_preflight": true,
+    "dependency_hash_installation_preflight": true,
+    "development_global_failure_preserved": true,
+    "development_scope": "Dirty-source collection, retained M02 witness and WAL packaging failures; not H/M qualification.",
+    "full_R6_development_collection": true,
+    "full_R6_qualification_campaign": false,
+    "synthetic_oracle_sensitivity_probes": true,
+    "targeted_provider_development_unit_tests": true
+  },
+  "packaging_only_revision": true,
+  "previous_freeze": {
+    "id": "R6-S1-FREEZE-002",
+    "preexecution_sha256": "d3694c3b3ea775d04e9dfde643239938264c1076b02eb162ad7719fdcf7a6195",
+    "preserved": true
+  },
+  "raw_jws_inputs": 2,
+  "sealed_at_utc": "2026-11-01T18:00:15.461297+00:00",
+  "separate_oracle_implementation_seal_required": "oracle-implementation-seal.json",
+  "status": "FROZEN_BEFORE_FIRST_R6_FULL_QUALIFICATION"
+}

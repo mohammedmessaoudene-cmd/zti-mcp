@@ -6,6 +6,20 @@ The repository includes an English draft, a French engineering note, schemas, re
 
 The design, code, documentation and internal reviews were prepared with AI assistance under the author's direction. No independent human or institutional review is claimed.
 
+## Installed tools and Python/TypeScript clients (R6)
+
+The separate [R6 successor](successor/r6/README.md) adds a reusable local
+`ToolSpec` provider, a separately installed consumer, real official Python and
+TypeScript SDK clients, and an independently written crypto/wire/SQLite/state
+reader. Its frozen contract separates ordinary executions, selected causal
+schedules, binding/date diagnostics, synthetic evidence and six injected
+defects. The guide provides one-command reproduction and data-only audit.
+
+R6 uses a local SQLite business effect and trusted launch/plugins. It is a
+research implementation with AI-assisted team review. Actual qualified commits,
+run IDs and downloadable evidence are recorded with its research release;
+the workflow file and source alone are not proof of those results.
+
 ## Actual local MCP stdio integration (R5)
 
 The separate [R5 demonstration](integration/stdio_r5/README.md) uses the official

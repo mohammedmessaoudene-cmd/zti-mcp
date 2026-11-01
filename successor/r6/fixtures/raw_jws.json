@@ -1,0 +1,29 @@
+{
+  "format": "zti-r6-raw-jws-diagnostic-v1",
+  "header": {
+    "alg": "ES256",
+    "kid": "r6-KI",
+    "typ": "zti-mandate+jwt"
+  },
+  "context": {
+    "tenant_id": "r6-lab-tenant",
+    "admin_principal": "urn:r6:admin",
+    "registry_id": "urn:r6:registry",
+    "executor_id": "urn:r6:executor",
+    "resource_id": "urn:r6:resource",
+    "mandate_issuer": "urn:r6:mandate-issuer",
+    "mandate_kid": "r6-KI",
+    "permit_issuer": "urn:r6:permit-issuer",
+    "permit_kid": "r6-KP"
+  },
+  "positive_payload_template": "{\"iss\":\"urn:r6:mandate-issuer\",\"sub\":\"urn:r6:agent-a\",\"aud\":\"urn:r6:registry\",\"iat\":0,\"nbf\":0,\"exp\":1000,\"jti\":\"raw-control\",\"zti_mandate\":{}}",
+  "negative_payload_template": "{\"iss\":\"urn:r6:mandate-issuer\",\"iss\":\"urn:r6:mandate-issuer\",\"sub\":\"urn:r6:agent-a\",\"aud\":\"urn:r6:registry\",\"iat\":0,\"nbf\":0,\"exp\":1000,\"jti\":\"raw-control\",\"zti_mandate\":{}}",
+  "signing": "ES256 over exact ASCII compact JWS protected-base64url + dot + raw-payload-base64url; no JSON dict roundtrip of negative input",
+  "expect": {
+    "positive_signature": "VALID",
+    "positive_raw_verifier": "ACCEPT",
+    "negative_signature": "VALID",
+    "negative_raw_verifier": "REJECT_DUPLICATE_KEY"
+  },
+  "scope": "Raw JWS structural/context/signature reader diagnostic, not a complete mandate acceptance test or SDK/provider execution."
+}

@@ -1,0 +1,2 @@
+# Preserve the original frozen npm lock bytes on every checkout platform.
+clients/runtime-lock.json -text -eol whitespace=cr-at-eol
