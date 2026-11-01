@@ -16,6 +16,7 @@ The reader corrections and code seal are in
 | Distributions before execution | Wheels and npm archives are inspected against verified source before own-package installation/import or client execution. Altered-source, path-control, notice and entry-point probes are rejected. Runtime observations link the actual inspection, build and distribution hashes. |
 | Upstream entry identities | Selected SDK entry hashes derive from locked, hash-verified upstream archives. DEPENDENCY_ENTRY_POINTS.json covers three Python entries and the TypeScript client entry. It does not hash every dependency file or attest to an outside runner. |
 | POSIX virtual-environment launcher | Keep the executable's absolute invocation path. Resolving its symlink starts the base interpreter and loses the installed wheels. The first Ubuntu head run stopped at client identity before any scenario; its failure is retained and the corrected head requires fresh qualification. |
+| Hosted checkout ancestry | Both R6 workflow checkouts fetch full history. A shallow build recorded no parent while the native checkout recorded the real parent, so the unchanged attribution gate rejected the second head despite passing semantic cases. That failed run is retained. A new exact head and distribution set require all three qualifications; no old result is relabeled. |
 
 These finite checks and team reviews are AI-assisted. Release evidence must
 identify the actual clean head, merge commit, installed artifacts, native/hosted

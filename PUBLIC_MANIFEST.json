@@ -1,7 +1,7 @@
 {
   "files": {
     ".gitattributes": "db77453173e80696a1e92d983c9aa55c2f978b48dabda2ec35057b3b96937308",
-    ".github/workflows/portable-r6.yml": "f049973bfb749898d3a93f4cfd3316723d39d69124713af459b00a7af68064af",
+    ".github/workflows/portable-r6.yml": "10397a07eeeabea9cc1d5e4984f09aa418ae90324d8256ceb6b623de135ad466",
     ".github/workflows/reproduce.yml": "a08051ca2ee59571cd9612d05bbdb2b98dafb45458e1176b396a3b5d01eb1eb3",
     ".github/workflows/stdio-r5.yml": "04b33b8ef16f87f427f71b37d644a91d36a2f94cb28da82d9be836b979b4e11d",
     ".gitignore": "e4da27d8348f6f24aa9b6bc32c543184e31bd54644ce24c0ba827392cd61396e",
@@ -114,7 +114,7 @@
     "successor/r6/DEPENDENCY_ENTRY_POINTS.json": "bb3f64fe7b158e0588078119cbadefffb500302399e7364d63d71b3ff7132bbe",
     "successor/r6/DISTRIBUTION.md": "0a70b5ad4b28ca27b25eda588f46ccf2cd71d2dcaffb9468ad2bbd7518bab8e0",
     "successor/r6/ERRATUM_S1.json": "a678f0bd80352f9ededd8085923eb7cbaa5d025a7f8c1d066f67b5fec125855b",
-    "successor/r6/IMPLEMENTATION_NOTES.md": "fd80d508697502c608eae22264015085f7b8215274f3b082dce70f93f4efb99d",
+    "successor/r6/IMPLEMENTATION_NOTES.md": "28ce4ab51bc47b92d4c72e0295c7c7f90392e2efadd474d3e969425481ba235c",
     "successor/r6/ORACLE_IMPLEMENTATION_ERRATA.json": "f7a051b9d12167d8ece8a6b966cf61bc92297b283dd25fe57246d4fdb00ddb2c",
     "successor/r6/PACKAGING.md": "05fe8df0e390b5378258cf072d40728cc9771728a95b25a9542429e9a753f6eb",
     "successor/r6/PRESERVED_BASELINE.json": "876a1ff287a597c686fca8f53073930947a1605078126bbca2bea6c06a997337",
