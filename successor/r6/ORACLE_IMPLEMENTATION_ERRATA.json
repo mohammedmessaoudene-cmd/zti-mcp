@@ -1,0 +1,88 @@
+{
+  "format": "zti-r6-oracle-implementation-errata/1",
+  "scope": "Corrections to the newly implemented independent reader before its first exact-commit qualification. Frozen scientific inputs and expected outcomes are not relaxed.",
+  "scientific_expectations_changed": false,
+  "development_observations_used_to_choose_expected_values": false,
+  "review_kind": "Same-team AI-assisted author-distinct code/data review and sensitivity probes; not outside human attestation.",
+  "prior_failures": "Original development collections and failing sensitivity probes remain preserved. Later corrections do not turn those original failed packages into PASS.",
+  "corrections": [
+    {
+      "id": "OR6-E01",
+      "property": "Current authority state and closed signed claims",
+      "finding": "Early model accepted a stale epoch after sibling revocation, extra signed common claims, or an unknown transition event.",
+      "correction": "Reconstruct root epoch and active lineage at each admission/commit; enforce closed claims and transition vocabulary.",
+      "verification": "Author-distinct synthetic state probes rejected the same counterexamples after correction and retained a valid positive control."
+    },
+    {
+      "id": "OR6-E02",
+      "property": "Protocol identity and durable data",
+      "finding": "Early readback missed changed response reservation/lookup identifiers, an unprescribed exit86, and JSON-only checkpoint substitution.",
+      "correction": "Check closed response shapes and request/SQL identities; require the selected actual crash and real SQLite checkpoint files.",
+      "verification": "Author-distinct wire/data probes rejected the original substitutions after correction."
+    },
+    {
+      "id": "OR6-E03",
+      "property": "Discriminating negative input",
+      "finding": "A generic invalid-signature substitution could satisfy an early reader in place of a prescribed role or context experiment.",
+      "correction": "Reconstruct frozen requests, exact headers/claims and key-role experiments independently, with mathematical validity under the announced key where required.",
+      "verification": "Seven substituted negatives were rejected and the seven prescribed controls accepted by the corrected input reader."
+    },
+    {
+      "id": "OR6-E04",
+      "property": "Selected causal orders",
+      "finding": "Early causal readback trusted unmatched commit PID, response indexes or checkpoint placement.",
+      "correction": "Correlate producer PID/request/record indexes with raw wire and contiguous coordinator events; anchor checkpoints to actual saved events and lost-reply/restart order.",
+      "verification": "Author-distinct copied-evidence probes rejected the altered causal records; valid selected development controls remained semantically accepted before their separate raw-main packaging check."
+    },
+    {
+      "id": "OR6-E05",
+      "property": "Post-INSERT rollback activation",
+      "finding": "A rollback result alone did not establish that the callback reached INSERT before the injected exception.",
+      "correction": "Require actual INSERT, arrival and raised records in provider order, tied to the real request, operation, reservation, table and row identifier; require rollback checkpoint before retry.",
+      "verification": "The original I18 positive capture passed this causal check; deleting its three activation records was rejected."
+    },
+    {
+      "id": "OR6-E06",
+      "property": "Quiescent raw SQLite packaging",
+      "finding": "Development checkpoints were valid backups but several final main files still depended on WAL because collection readers remained open.",
+      "correction": "Collector closes SQLite handles explicitly and records stopped-writer quiescence. Reader compares immutable final main tables to the final SQLite backup; exporter refuses nonempty WAL.",
+      "verification": "Original dependent main files are refused and preserved. Fresh corrected captures must pass before qualification."
+    },
+    {
+      "id": "OR6-E07",
+      "property": "Exact corpus inventory and actual SDK matrix",
+      "finding": "Directory IDs alone did not prove that history/plan/diagnostic selectors or isolated-fact selectors described the same frozen case.",
+      "correction": "Check path, category, selector, mutant witness, synthetic origin and isolated fact together. Check trusted principals and actual SDK role/generation, including the authority-changing actor and crash restart.",
+      "verification": "An altered-selector inventory probe is rejected. Full qualification also requires actual loaded-source identities and every frozen matrix member."
+    },
+    {
+      "id": "OR6-E08",
+      "property": "Mutant activation with valid infrastructure",
+      "finding": "A state violation could precede wire readback, allowing missing captures to go unnoticed by an early activation helper.",
+      "correction": "Require the unchanged ordinary semantic rejection plus complete wire/lifecycle/context and structural causal checks, final raw SQL consistency, frozen witness inputs and actual activation records. Missing wire is never DETECTED.",
+      "verification": "The copied missing-wire case is refused. The old M02 alpha! implementation remains a failed frozen witness; provider changes to the prescribed bravo mutation, with new-capture verification required."
+    },
+    {
+      "id": "OR6-E09",
+      "property": "Raw metadata is authoritative",
+      "finding": "An indexed request comparison removed _meta even though exact negative ICT experiments depend on it.",
+      "correction": "Compare the complete indexed request to the actual canonical raw request, including metadata, JSON-RPC ID and envelope.",
+      "verification": "All 117 retained real development captures pass the full wire comparison separately from their packaging verdict. An altered convenience index must be rejected."
+    },
+    {
+      "id": "OR6-E10",
+      "property": "Exact synthetic evidence deltas",
+      "finding": "An early synthetic helper compared SE01 SQL but could accept a restored valid wire token after a self-consistent inventory rehash.",
+      "correction": "Compare the prescribed transformation across raw frames/Base64, events, fixtures, observation/manifest views, SQLite tables/schema and unchanged files for all six copies. Inventories alone do not establish the intended delta.",
+      "verification": "The original source and failing copied counterexample are preserved. The same restored-wire substitution must be rejected; fresh complete qualification must also pass the positive synthetic controls."
+    },
+    {
+      "id": "OR6-E11",
+      "property": "Distribution and dependency provenance links",
+      "finding": "An early attribution check did not bind the TypeScript archive digest to the preinstall inspection receipt, and SDK names/versions alone did not validate their observed entry-file hashes.",
+      "correction": "Link the captured distribution guard to all three artifact hashes and the source manifest; check finalized BUILD source/final source when supplied. Compare SDK entry hashes with data derived from the independently hash-verified pinned upstream archives.",
+      "verification": "Qualification requires these linked receipts and official dependency fingerprints. They establish source/data consistency, not external runner authenticity or independent human execution."
+    }
+  ],
+  "qualification_rule": "Seal these reader source bytes and this erratum before the candidate campaign. Any later reader correction receives an explicit erratum and a new implementation seal; it does not rewrite frozen expected results or earlier evidence."
+}

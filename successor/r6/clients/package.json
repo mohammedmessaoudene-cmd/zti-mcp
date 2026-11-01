@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "@modelcontextprotocol/client": "2.4.0",
+    "zod": "4.6.7"
+  },
+  "description": "Selected public-SDK ZTI-MCP laboratory consumer clients; no production authentication claim.",
+  "engines": {
+    "node": ">=24.22.2"
+  },
+  "files": [
+    "client.ts",
+    "binding.ts",
+    "runtime-lock.json",
+    "README.md",
+    "NOTICE"
+  ],
+  "license": "Apache-2.0",
+  "name": "zti-r6-clients",
+  "private": true,
+  "type": "module",
+  "version": "0.3.0-research"
+}

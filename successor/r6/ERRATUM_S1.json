@@ -1,0 +1,67 @@
+{
+  "decision": "FIX_REQUIRED_BEFORE_QUALIFICATION",
+  "director_response_id": "POST-R5-S1-0001-REVIEW-01",
+  "expectations_changed_after_provider_qualification": false,
+  "findings": {
+    "S1-AUTH-01": {
+      "changes": [
+        "I05 bad KP signature and kidKP",
+        "I06 bad KI signature and kidKI"
+      ],
+      "closure": "Independent signature-only verification under the advertised key succeeds; normal provider refuses wrong role and valid role controls succeed."
+    },
+    "S1-CAUSAL-01": {
+      "changes": [
+        "C01-C04 + I12 simultaneous outstanding admission requests at reserve:before_transaction"
+      ],
+      "closure": "Both actual process/request-correlated arrivals precede first release; winner commit+RESERVED response before loser release; refusal/checkpoint follows."
+    },
+    "S1-COVERAGE-01": {
+      "changes": [
+        "I04 B presents A original ICT",
+        "I15 historical tools/call after revoke",
+        "I05 isolated typ/kid/iss/aud/signature faults",
+        "raw duplicate iss reader pair",
+        "SD03 missing modern versions",
+        "VA01-VA04 auxiliary decoded binding diagnostics"
+      ],
+      "closure": "Exact inputs frozen, ordinary independent checks and positive controls; separate counts."
+    },
+    "S1-PKG-01": {
+      "changes": [
+        "Archive application .ts extracted outside checkout/node_modules",
+        "lockcopy exact bytes and source identities recorded",
+        "Node24.22.2 native erasable syntax; no static checking claim"
+      ],
+      "closure": "Actual built tgz installation smoke on Windows/Ubuntu plus package/source hashes."
+    },
+    "S1-PROV-N01": {
+      "changes": [
+        "S2 private handoff includes exact preflight probe/wrapper/runner, readiness event source, runtime and installation receipts"
+      ],
+      "closure": "No new R5 replay; distinguish direct director observations from executor reports."
+    }
+  },
+  "format": "zti-r6-preexecution-erratum-v1",
+  "new_freeze": "R6-S1-FREEZE-002",
+  "packaging_addendum": {
+    "archive_postprocessing": false,
+    "full_R6_qualification_performed": false,
+    "id": "R6-PKG-NOTICE-01",
+    "minimal_correction": "Add NOTICE to package.json files; require exact LICENSE and NOTICE in preexecution distribution inspection.",
+    "new_freeze": "R6-S1-FREEZE-003",
+    "previous_freeze": "R6-S1-FREEZE-002",
+    "previous_preexecution_sha256": "d3694c3b3ea775d04e9dfde643239938264c1076b02eb162ad7719fdcf7a6195",
+    "prior_development_failures_preserved": true,
+    "runtime_lock_sha256_unchanged": "798047f8ab6393f2119b5a670cd8ba0cc508021f73dc78484d0d543c9b0b9c64",
+    "scenario_sha256_unchanged": "c14a9245396b1c22712615f12b7ded4f8479f56291d150e54efed82b610b235a",
+    "scientific_expectations_changed": false,
+    "trigger": "Inspection of development npm archive found project NOTICE absent because the frozen files list omitted it."
+  },
+  "preservation": "All previous frozen bytes and director archive retained in private immutable freeze001 snapshot. R4/R5 unchanged. No completed provider qualification result is reinterpreted.",
+  "previous_contract_sha256": "7cfcd52e014ee451c5b14c7ac02bf57587eca415c08b82288efb75cc5ef0d8ee",
+  "previous_freeze": "R6-S1-FREEZE-001",
+  "previous_preexecution_sha256": "b0b40bb6b2c4376f73f86897c177b6c8db1c7dc7f49491ce66282afd6461e3b3",
+  "previous_private_director_archive_sha256": "828821bfb18cf33097652fc0f7f8038fd810a4f2bc5f827d72c0bcaec038d5fc",
+  "previous_scenarios_sha256": "cc2677418110faf4666c92e8701e07f976498a467edb619538069d26d9ef37d4"
+}

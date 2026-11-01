@@ -1,0 +1,29 @@
+{
+  "files": {
+    "DEPENDENCY_ENTRY_POINTS.json": "bb3f64fe7b158e0588078119cbadefffb500302399e7364d63d71b3ff7132bbe",
+    "ORACLE_IMPLEMENTATION_ERRATA.json": "f7a051b9d12167d8ece8a6b966cf61bc92297b283dd25fe57246d4fdb00ddb2c",
+    "oracle/attribution.py": "2efbe7b1a30843b3f09e88d5aeca6466590e9077227202be37fb322a58c8cbc4",
+    "oracle/audit.py": "8a492f5f0c5156cbae20a57d427a125fb1de4558ba93c4b06e73e858022ec46a",
+    "oracle/causality.py": "2d159da7f7256e0b2a5d5603ba7c545ca75a99bb4270b4580559aef1efa7b300",
+    "oracle/evidence_io.py": "81d358db4fd58cd00be17f3264b6dac08929fb29817e7920731d1801893f0e34",
+    "oracle/input_contract.py": "4f4383b937102999c8f8f8ad825a4ce529f6a2cd3fd2a20d7719dd05e29ca291",
+    "oracle/mutants.py": "21ae70d8d914274ae4608692deeaaee96b62af4392b5f3c7dc57368a60edf150",
+    "oracle/primitives.py": "96cbadcfeafbe1c23b8bed07b19f6156d086ab823d8ac3f81b5cb9357fc7b859",
+    "oracle/projections.py": "3a887cc611a57f1d07aa8cb30ec09a38efe8bd52e332beb1e5099bfb7a572c41",
+    "oracle/raw_jws.py": "936229f2b695f834124185a0aee2df59994a3a8c9ff16cbde7f415d162bfea34",
+    "oracle/state.py": "a1e94999eab051b421d912cd0c75bee5f3f33d967d26499b59a6b2136ef2a2bf",
+    "oracle/synthetic.py": "b6576206512438c4835860a2dc378bb05aac00c49e211aeb0ae4d78248635b3d",
+    "oracle/vectors.py": "bdf2c618c4c5fa9c251a33914a40070c2dedab9fa75e00f3357a3cbd4cd5247c",
+    "oracle/wire.py": "0b55481d7b762a0400a89cf19572a7b953b715484bea5f6c70fbbb13ceaafa53"
+  },
+  "format": "zti-r6-oracle-implementation-seal/1",
+  "freeze_id": "R6-ORACLE-IMPLEMENTATION-FREEZE-001",
+  "notice": "Reader implementation integrity and an explicit erratum checkpoint, not runtime proof or outside human attestation. Actual clean H/M campaigns and R1/R2 remain required.",
+  "preexecution_freeze_id": "R6-S1-FREEZE-003",
+  "preexecution_sha256": "5a4789d608cee197e9d51e45c2165abad543c1f11adea3afa56374e765e3bc64",
+  "preparatory_author_distinct_review_sha256": "07bbad6d67e4eb7d0d4abad2adeb5f25b63bd8415292fddc00de5eb4b613d91c",
+  "qualification_started": false,
+  "scientific_expectations_changed": false,
+  "sealed_at_utc": "2026-11-01T18:26:51.201709+00:00",
+  "status": "FROZEN_BEFORE_QUALIFICATION"
+}

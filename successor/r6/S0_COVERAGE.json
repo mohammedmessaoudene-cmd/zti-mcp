@@ -1,0 +1,60 @@
+{
+  "format": "zti-r6-s0-to-concrete-v1",
+  "baseline": "3b5b696fe6837e99bad9526c69aa253366d503f5",
+  "scope": "Executable obligations and separately counted diagnostics, not execution results.",
+  "invariants": {
+    "current_authority": ["I04", "I07", "I14", "I15", "C07", "C08", "M05"],
+    "exact_final_action": ["I03", "I09", "V01-V24", "VA01-VA04", "SE02", "M01", "M02"],
+    "shared_budget_and_facts": ["I10", "I12", "C01-C04", "M06"],
+    "effect_charge_receipt": ["I01", "I11", "I13", "I18-I20", "SE02", "SE03", "M03", "M04"],
+    "immutable_history": ["I08", "I09", "I15", "I17", "I20", "C08", "C10", "C12", "M04"],
+    "key_roles_context_and_bytes": ["I05", "I06", "D01-D08", "raw_jws", "SE01"],
+    "fault_classification": ["I18-I20", "C11", "C12", "R01", "R02"],
+    "causality": ["I11-I14", "C01-C12", "M05", "M06"],
+    "oracle_separation": ["Independent reader imports no provider, binder, ToolSpec, driver fixtures or R5 helpers", "SD01-SD03", "SE01-SE03", "M01-M06"],
+    "installed_consumer_usability": ["I01", "I08", "DISTRIBUTION.md", "R1", "R2", "native Windows", "hosted Windows", "hosted Ubuntu"]
+  },
+  "twenty_stories": {
+    "I01": "Installed external ToolSpec, active discovery, exact tools/list schema, real business row/charge/receipt",
+    "I02": "Missing ICT refusal, unchanged held reservation",
+    "I03": "Changed final arguments with the original valid ICT, then valid control",
+    "I04": "Misleading announced identity at reserve and tools/call; fixed B cannot use A's valid ICT; trusted A succeeds",
+    "I05": "KP-signed and KP-advertised mandate is mathematically valid but wrong role; isolated typ/kid/iss/aud/signature controls; valid KI leafC afterward",
+    "I06": "KI-signed and KI-advertised ICT is mathematically valid but wrong role; original KP permit succeeds",
+    "I07": "Widened child refused, attenuated child used by its configured C principal",
+    "I08": "Other SDK retrieves committed reserve receipt and repeats original tool call without new effect",
+    "I09": "Same operation different reserve action conflicts; changed call binding refused",
+    "I10": "Ordered admissions exceed root budget; one admission and one effect",
+    "I11": "Two distinct tool-call RPCs overlap at before-transaction arrivals; two exact effects",
+    "I12": "Two admission RPCs overlap; prescribed red winner before blue refusal; isolated positives; cancellation allows later blue",
+    "I13": "Two overlapping tool-call RPCs for one operation; one callback/effect and identical receipts",
+    "I14": "Pending effect before transaction, committed revocation, checkpoint, release and refusal",
+    "I15": "Committed effect then revoke; identical historical tools/call and lookup retain receipt; new operation refused",
+    "I16": "Safe cancel before effect, old reservation unusable",
+    "I17": "Cancel after effect preserves charge/history",
+    "I18": "Exception after consumer INSERT rolls back all durable changes; valid retry succeeds",
+    "I19": "Actual precommit exit86, stopped-writer checkpoint, new process, one eventual effect",
+    "I20": "Actual postcommit exit86 before reply, durable effect checkpoint, restarted actor lookup/retry without duplication"
+  },
+  "selected_causal_plans": {
+    "C01-C02": "Both budget admissions in flight and arrived before release; opposite prescribed winners",
+    "C03-C04": "Both incompatible-fact admissions in flight and arrived before release; opposite prescribed winners; admission-only checkpoints",
+    "C05-C06": "Both same-operation tool calls in flight; opposite release/commit winners",
+    "C07-C08": "Revoke-before-effect and effect-before-revoke",
+    "C09-C10": "Cancel-before-effect and effect-before-cancel",
+    "C11-C12": "Before-commit and after-commit crash/recovery"
+  },
+  "separate_diagnostics": {
+    "binding_core": "24 vectors, 16 domain accepts plus one canonical-only revision refusal and seven invalid vectors; both independent binders",
+    "binding_auxiliary": "VA01 root binding, VA02 plus sign, VA03 decoded fraction, VA04 non-ASCII nested key; four through each binder",
+    "dates": "Eight signed-body date fixtures through each SDK, with six invalid body Booleans isolated from integer JWT dates",
+    "malformed_identifiers": "R01 list and R02 dict tool_name through both SDKs, then valid followup",
+    "raw_jws": "One exact duplicated-iss signed payload and a no-duplicate positive; signature-only proof separate from strict raw parsing; no SDK count",
+    "synthetic_discovery": "SD01 wrong modern versions, SD02 absent modern capabilities, SD03 absent modern versions; legacy compatible fields do not replace modern evidence",
+    "synthetic_other": "SE01 signature, SE02 real consumer effect, SE03 recomputed accounting amount",
+    "mutants": "Six activated defects with specific structural witnesses; an import error or timeout is never detection"
+  },
+  "remaining_gates": ["Author-distinct freeze002 delta review", "Complete installed campaign and retained failures", "R1 then R2", "Exact H native/hosted qualification", "Completed matching director S2 GO", "Expected-H merge", "One actual M distribution build qualified on all three environments", "Prerelease and anonymous byte readback", "Data audit and downloaded-installation smoke", "Director S3 READY_TO_CLOSE"],
+  "no_combined_security_score": true,
+  "external_outreach_is_not_a_gate": true
+}

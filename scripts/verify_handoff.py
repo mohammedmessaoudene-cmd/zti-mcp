@@ -41,7 +41,7 @@ REQUIRED={
     'schema/zti-ict-claims-0.1.schema.json','schema/zti-control-0.1.schema.json',
 }|{'docs/specification/'+n for n in ASSETS}|{'release_assets/'+n for n in ASSETS}
 IGNORED_TOP={'.git','.venv','work','__pycache__'}
-TEXT_SUFFIXES={'.py','.json','.md','.txt','.xml','.yml','.yaml','.ps1','.jwt'}
+TEXT_SUFFIXES={'.py','.json','.md','.txt','.xml','.yml','.yaml','.ps1','.jwt','.js','.mjs','.cjs','.ts','.toml','.lock'}
 
 def digest(path):
     h=hashlib.sha256()

@@ -1,0 +1,5218 @@
+{
+  "proposal_id": "CORPUS_PROPOSAL_R6_20261101",
+  "status": "FROZEN_BEFORE_QUALIFICATION",
+  "baseline_commit": "3b5b696fe6837e99bad9526c69aa253366d503f5",
+  "scope": "Concrete preexecution fixtures and admissible projections. No provider observation was used to choose these expectations.",
+  "counts": {
+    "base_histories": 20,
+    "base_executions": 40,
+    "binding_vectors": 24,
+    "causal_plans": 12,
+    "causal_replays": 48,
+    "date_diagnostics": 8,
+    "date_executions": 16,
+    "synthetic_discovery": 3,
+    "synthetic_signature_effect_accounting": 3,
+    "selected_mutants": 6,
+    "no_security_score_sum": true,
+    "binding_auxiliary_diagnostics": 4,
+    "binding_auxiliary_executions": 8,
+    "raw_jws_negative_inputs": 1,
+    "raw_jws_positive_controls": 1,
+    "raw_jws_sdk_executions": 0
+  },
+  "context": {
+    "profile": "zti-mcp/0.1",
+    "extension": "org.example/zti-mcp",
+    "protocol": "2026-07-28",
+    "tenant": "r6-lab-tenant",
+    "registry": "urn:r6:registry",
+    "executor": "urn:r6:executor",
+    "resource": "urn:r6:resource",
+    "clock": 2000000000,
+    "mandate_valid_until": 2000003600,
+    "ict_lifetime_seconds": 60,
+    "principals": {
+      "admin": "urn:r6:admin",
+      "A": "urn:r6:agent-a",
+      "B": "urn:r6:agent-b",
+      "C": "urn:r6:agent-c",
+      "intruder": "urn:r6:intruder"
+    },
+    "default_root_policy": {
+      "budgets": {
+        "ops": {
+          "unit": "operation",
+          "amount": "10"
+        },
+        "bytes": {
+          "unit": "byte",
+          "amount": "1024"
+        }
+      },
+      "forbidden_sets": [
+        [
+          "red",
+          "blue"
+        ]
+      ]
+    },
+    "default_caps": {
+      "ops": {
+        "unit": "operation",
+        "amount": "10"
+      },
+      "bytes": {
+        "unit": "byte",
+        "amount": "1024"
+      }
+    },
+    "bootstrap_revision": "3",
+    "keys": "ephemeralKI signsmandates;providerKP signsICT;role-separatedpublictrust",
+    "key_contexts": {
+      "tenant_id": "r6-lab-tenant",
+      "admin_principal": "urn:r6:admin",
+      "registry_id": "urn:r6:registry",
+      "executor_id": "urn:r6:executor",
+      "resource_id": "urn:r6:resource",
+      "mandate_issuer": "urn:r6:mandate-issuer",
+      "mandate_kid": "r6-KI",
+      "permit_issuer": "urn:r6:permit-issuer",
+      "permit_kid": "r6-KP"
+    },
+    "root_mandate_id": "root-00000000000000000000000000000001",
+    "mandate_ids": {
+      "A": "leaf-0000000000000000000000000000000a",
+      "B": "leaf-0000000000000000000000000000000b",
+      "C": "leaf-0000000000000000000000000000000c"
+    },
+    "initial_authority_epoch": "0",
+    "principal_id": "urn:r6:owner",
+    "correlation_id": "corr-00000000000000000000000000000001",
+    "mandate_valid_from": 1999999940
+  },
+  "tool": {
+    "name": "demo.add_record",
+    "revision": "1",
+    "arguments_exact_keys": [
+      "quantity",
+      "label",
+      "tags"
+    ],
+    "quantity": "canonicaldecimaluint64string0..18446744073709551615",
+    "label": "validUnicode scalar string UTF8<=256bytes",
+    "tags": "unique list <=8 strings subset red/blue/neutral; listorder bound; facts sortedset",
+    "costs": {
+      "ops": {
+        "unit": "operation",
+        "amount": "quantity"
+      },
+      "bytes": {
+        "unit": "byte",
+        "amount": "UTF8(label).length"
+      }
+    },
+    "facts": "sorted(tags)",
+    "business_table": "demo_records",
+    "business_columns": {
+      "row_id": "INTEGER PRIMARY KEY AUTOINCREMENT",
+      "tenant_id": "TEXT",
+      "root_mandate_id": "TEXT",
+      "mandate_id": "TEXT",
+      "operation_id": "TEXT NOT UNIQUE",
+      "reservation_id": "TEXT",
+      "quantity": "TEXT",
+      "label": "TEXT",
+      "tags_json": "TEXT",
+      "action_hash": "TEXT",
+      "provider_pid": "INTEGER"
+    },
+    "trusted_callback": "uses boundedWriter.insert; immutablecontext/args; no commit/newconn/network",
+    "input_schema": {
+      "type": "object",
+      "properties": {
+        "quantity": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$",
+          "maxLength": 20
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "At most 256 UTF-8 bytes; semantic validation enforces byte length."
+        },
+        "tags": {
+          "type": "array",
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "red",
+              "blue",
+              "neutral"
+            ]
+          }
+        }
+      },
+      "required": [
+        "quantity",
+        "label",
+        "tags"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "actions": {
+    "o1": {
+      "leaf": "A",
+      "quantity": "2",
+      "label": "alpha",
+      "tags": [
+        "neutral"
+      ]
+    },
+    "o2": {
+      "leaf": "B",
+      "quantity": "2",
+      "label": "bravo",
+      "tags": [
+        "neutral"
+      ]
+    },
+    "o3": {
+      "leaf": "A",
+      "quantity": "1",
+      "label": "next",
+      "tags": []
+    },
+    "oC": {
+      "leaf": "C",
+      "quantity": "2",
+      "label": "alpha",
+      "tags": [
+        "neutral"
+      ]
+    },
+    "red": {
+      "leaf": "A",
+      "quantity": "2",
+      "label": "alpha",
+      "tags": [
+        "red"
+      ]
+    },
+    "blue": {
+      "leaf": "B",
+      "quantity": "2",
+      "label": "bravo",
+      "tags": [
+        "blue"
+      ]
+    }
+  },
+  "story_conventions": {
+    "reserved_helper": "An expected error overrides RESERVED status; errors carry no success result. No success and error simultaneously.",
+    "committed_helper": "An expected error/expectedtransport overrides COMMITTED status; formal freeze normalizer must drop helper default status for errors.",
+    "step_ref": "reserve:<action> resolves first successfulreserve response for exactoperation; retry reusesstoredtoken andoperation",
+    "checkpoints": "actual SQLite backups withwriterspaused/noinflightwrites or stopped; oracle readsbase tables independently",
+    "rev": "allnewroot/child/reserve/commit/cancel/revoke transitionincrements; retries/refusals nochange",
+    "canonical_binding_vectors": "24 decoded-object tests; accepted canonical bytes/hash computed independently before qualification. Raw lexical rejection is not inferred after SDK normalization.",
+    "concurrent_refusal_unchanged_scope": "For requests dispatched before an unrelated winner commits, unchanged means no durable transition, reservation or business effect attributable to the rejected operation. Global SQL may advance due to the winner. The after-admission checkpoint and request-correlated transition/hook records distinguish these effects; never compare the whole pending RPC before/after revision as unchanged."
+  },
+  "histories": [
+    {
+      "id": "I01",
+      "title": "installed external consumer nominal",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "catalog",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/list",
+          "args": {},
+          "expect": {
+            "tool_name": "demo.add_record",
+            "input_schema": {
+              "type": "object",
+              "properties": {
+                "quantity": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)$",
+                  "maxLength": 20
+                },
+                "label": {
+                  "type": "string",
+                  "maxLength": 256,
+                  "description": "At most 256 UTF-8 bytes; semantic validation enforces byte length."
+                },
+                "tags": {
+                  "type": "array",
+                  "maxItems": 8,
+                  "uniqueItems": true,
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "red",
+                      "blue",
+                      "neutral"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "quantity",
+                "label",
+                "tags"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "c1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        },
+        {
+          "id": "l1",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.lookup",
+          "args": {
+            "operation_ref": "o1"
+          },
+          "expect": {
+            "status": "COMMITTED",
+            "receipt_equal": "c1"
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I02",
+      "title": "missing ICT",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "c1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "omit_ict": true
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "INVALID_TOKEN",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "4",
+        "reservation_states": {
+          "RESERVED": 1,
+          "COMMITTED": 0,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "business_rows": 0,
+        "receipts": 0,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I03",
+      "title": "arguments changed before final binding",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "bad",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "arguments_override": {
+              "quantity": "2",
+              "label": "bravo",
+              "tags": [
+                "neutral"
+              ]
+            },
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "BINDING_MISMATCH",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "good",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I04",
+      "title": "announced identity cannot choose channel principal",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {
+        "announced_client_name_by_channel": {
+          "intruder": "urn:r6:admin",
+          "A": "urn:r6:intruder"
+        }
+      },
+      "steps": [
+        {
+          "id": "bad",
+          "kind": "rpc",
+          "channel": "intruder",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1",
+            "client_info_override": {
+              "name": "urn:r6:admin",
+              "version": "1"
+            },
+            "claimed_principal": "urn:r6:agent-a",
+            "claimed_identity_placement": "SDK metadata only; not an unknown closed-method parameter"
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "NOT_AUTHORIZED",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "goodr",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "bad_executor_identity",
+          "kind": "rpc",
+          "channel": "B",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1",
+            "claimed_principal": "urn:r6:agent-a",
+            "claimed_identity_placement": "permitted SDK metadata only"
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "NOT_AUTHORIZED",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "goodc",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I05",
+      "title": "mandate signed with ICT key rejected",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "bad",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.register",
+          "args": {
+            "mandate_ref": "leafC",
+            "sign_with": "KP",
+            "typ": "zti-mandate+jwt",
+            "kid_role": "KP"
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "INVALID_TOKEN",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "bad_wrong_typ",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.register",
+          "args": {
+            "mandate_ref": "leafC",
+            "sign_with": "KI",
+            "header": {
+              "alg": "ES256",
+              "kid": "r6-KI",
+              "typ": "r6-wrong-mandate+jwt"
+            }
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "INVALID_TOKEN",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "bad_unknown_kid",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.register",
+          "args": {
+            "mandate_ref": "leafC",
+            "sign_with": "KI",
+            "header": {
+              "alg": "ES256",
+              "kid": "r6-UNKNOWN",
+              "typ": "zti-mandate+jwt"
+            }
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "INVALID_TOKEN",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "bad_wrong_iss",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.register",
+          "args": {
+            "mandate_ref": "leafC",
+            "sign_with": "KI",
+            "claims_overrides": {
+              "iss": "urn:r6:wrong-issuer"
+            }
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "INVALID_TOKEN",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "bad_wrong_aud",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.register",
+          "args": {
+            "mandate_ref": "leafC",
+            "sign_with": "KI",
+            "claims_overrides": {
+              "aud": "urn:r6:wrong-registry"
+            }
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "INVALID_TOKEN",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "bad_altered_signature",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.register",
+          "args": {
+            "mandate_ref": "leafC",
+            "sign_with": "KI",
+            "signature_xor": {
+              "byte_offset": 0,
+              "mask": 1
+            }
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "INVALID_TOKEN",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "good",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.register",
+          "args": {
+            "mandate_ref": "leafC",
+            "sign_with": "KI"
+          },
+          "expect": {
+            "status": "ACTIVE",
+            "state_revision": "4"
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "4",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 0,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 0,
+        "receipts": 0,
+        "authority_epoch": "0",
+        "mandates": 4
+      }
+    },
+    {
+      "id": "I06",
+      "title": "ICT signed with issuer key rejected",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "bad",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_mutation": {
+              "same_claims_as": "r1",
+              "sign_with": "KI",
+              "kid_role": "KI",
+              "typ": "zti-ict+jwt"
+            }
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "INVALID_TOKEN",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "good",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I07",
+      "title": "child attenuation",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "bad",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.register",
+          "args": {
+            "mandate_ref": "leafC",
+            "constraint_override": {
+              "allowed_tools": [
+                "demo.add_record",
+                "demo.other"
+              ]
+            }
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "CONSTRAINT_VIOLATION",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "good",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.register",
+          "args": {
+            "mandate_ref": "leafC",
+            "constraint_override": {
+              "action_caps": {
+                "ops": {
+                  "unit": "operation",
+                  "amount": "2"
+                },
+                "bytes": {
+                  "unit": "byte",
+                  "amount": "20"
+                }
+              }
+            }
+          },
+          "expect": {
+            "status": "ACTIVE"
+          }
+        },
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "C",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "oC"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "c1",
+          "kind": "rpc",
+          "channel": "C",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "oC",
+            "ict_from": "reserve:oC"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "6",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0",
+        "mandates": 4
+      }
+    },
+    {
+      "id": "I08",
+      "title": "retry same operation from other SDK",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "c1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        },
+        {
+          "id": "restart",
+          "kind": "restart_channel",
+          "channel": "A",
+          "new_client": "other_sdk",
+          "principal_unchanged": true
+        },
+        {
+          "id": "retryr",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "COMMITTED",
+            "state_unchanged": true,
+            "receipt_equal": "c1"
+          }
+        },
+        {
+          "id": "retryc",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED",
+            "receipt_equal": "c1",
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "lookup",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.lookup",
+          "args": {
+            "operation_ref": "o1"
+          },
+          "expect": {
+            "receipt_equal": "c1"
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I09",
+      "title": "same operation different action conflict",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "badreserve",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1",
+            "arguments_override": {
+              "quantity": "2",
+              "label": "bravo",
+              "tags": [
+                "neutral"
+              ]
+            }
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "OPERATION_CONFLICT",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "c1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        },
+        {
+          "id": "badcall",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "arguments_override": {
+              "quantity": "2",
+              "label": "bravo",
+              "tags": [
+                "neutral"
+              ]
+            }
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "BINDING_MISMATCH",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I10",
+      "title": "ordered admissions exceed shared budget",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {
+        "root_budget": {
+          "ops": {
+            "unit": "operation",
+            "amount": "3"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "1024"
+          }
+        }
+      },
+      "steps": [
+        {
+          "id": "rA",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "rB",
+          "kind": "rpc",
+          "channel": "B",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o2"
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "CUMULATIVE_VIOLATION",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "after_admission",
+          "kind": "checkpoint",
+          "writers_quiescent": true,
+          "expect": {
+            "state_revision": "4",
+            "reservation_states": {
+              "RESERVED": 1,
+              "COMMITTED": 0,
+              "CANCELLED": 0
+            },
+            "consumed": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "reserved": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "5"
+              }
+            },
+            "business_rows": 0,
+            "receipts": 0,
+            "authority_epoch": "0"
+          }
+        },
+        {
+          "id": "cA",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I11",
+      "title": "two distinct authorized tools calls overlap",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "rA",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "rB",
+          "kind": "rpc",
+          "channel": "B",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o2"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "calls",
+          "kind": "concurrent_group",
+          "arrive_before_release": true,
+          "event": "call:before_transaction",
+          "steps": [
+            {
+              "id": "cA",
+              "kind": "rpc",
+              "channel": "A",
+              "method": "tools/call",
+              "args": {
+                "action_ref": "o1",
+                "ict_from": "reserve:o1"
+              },
+              "expect": {
+                "status": "COMMITTED"
+              }
+            },
+            {
+              "id": "cB",
+              "kind": "rpc",
+              "channel": "B",
+              "method": "tools/call",
+              "args": {
+                "action_ref": "o2",
+                "ict_from": "reserve:o2"
+              },
+              "expect": {
+                "status": "COMMITTED"
+              }
+            }
+          ]
+        },
+        {
+          "id": "after_calls",
+          "kind": "checkpoint",
+          "writers_quiescent": true,
+          "expect": {
+            "state_revision": "7",
+            "reservation_states": {
+              "RESERVED": 0,
+              "COMMITTED": 2,
+              "CANCELLED": 0
+            },
+            "consumed": {
+              "ops": {
+                "unit": "operation",
+                "amount": "4"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "10"
+              }
+            },
+            "reserved": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "business_rows": 2,
+            "receipts": 2,
+            "authority_epoch": "0",
+            "committed_receipt_revisions_multiset": [
+              "6",
+              "7"
+            ]
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "7",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 2,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "4"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "10"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 2,
+        "receipts": 2,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I12",
+      "title": "forbidden fact composition with isolated positives",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {
+        "positive_isolated_databases": [
+          "red commit alone",
+          "blue commit alone"
+        ],
+        "separate_subruns_not_new_history_count": true
+      },
+      "steps": [
+        {
+          "id": "admission_overlap",
+          "kind": "concurrent_group",
+          "event": "reserve:before_transaction",
+          "arrive_before_any_release": true,
+          "release_order": [
+            "rRed",
+            "badBlue"
+          ],
+          "wait_response_before_next_release": true,
+          "steps": [
+            {
+              "id": "rRed",
+              "kind": "rpc",
+              "channel": "A",
+              "method": "org.example/zti-mcp.reserve",
+              "args": {
+                "action_ref": "red"
+              },
+              "expect": {
+                "status": "RESERVED"
+              }
+            },
+            {
+              "id": "badBlue",
+              "kind": "rpc",
+              "channel": "B",
+              "method": "org.example/zti-mcp.reserve",
+              "args": {
+                "action_ref": "blue"
+              },
+              "expect": {
+                "jsonrpc_error": {
+                  "code": -31001,
+                  "data": {
+                    "profile": "zti-mcp/0.1",
+                    "reason": "CUMULATIVE_VIOLATION",
+                    "status": "REFUSED"
+                  }
+                },
+                "no_additional_transition_or_effect_attributable_to_request": true
+              }
+            }
+          ],
+          "arrive_before_release": true
+        },
+        {
+          "id": "after_admission",
+          "kind": "checkpoint",
+          "writers_quiescent": true,
+          "expect": {
+            "state_revision": "4",
+            "reservation_states": {
+              "RESERVED": 1,
+              "COMMITTED": 0,
+              "CANCELLED": 0
+            },
+            "consumed": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "reserved": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "5"
+              }
+            },
+            "business_rows": 0,
+            "receipts": 0,
+            "authority_epoch": "0",
+            "possible_facts": [
+              "red"
+            ]
+          }
+        },
+        {
+          "id": "cancelRed",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.cancel",
+          "args": {
+            "operation_ref": "red",
+            "reservation_from": "rRed"
+          },
+          "expect": {
+            "status": "CANCELLED"
+          }
+        },
+        {
+          "id": "rBlue",
+          "kind": "rpc",
+          "channel": "B",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "blue"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "cBlue",
+          "kind": "rpc",
+          "channel": "B",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "blue",
+            "ict_from": "reserve:blue"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "7",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 1
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0",
+        "committed_facts": [
+          "blue"
+        ],
+        "possible_facts": [
+          "blue"
+        ]
+      },
+      "isolated_positive_subruns": [
+        {
+          "action": "red",
+          "channel": "A",
+          "expect": "one exact consumer row, one charge, one receipt, revision5"
+        },
+        {
+          "action": "blue",
+          "channel": "B",
+          "expect": "one exact consumer row, one charge, one receipt, revision5"
+        }
+      ]
+    },
+    {
+      "id": "I13",
+      "title": "two calls same operation invoke callback once",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "calls",
+          "kind": "concurrent_group",
+          "arrive_before_release": true,
+          "event": "call:before_transaction",
+          "same_principal_two_channels": true,
+          "steps": [
+            {
+              "id": "c1",
+              "kind": "rpc",
+              "channel": "A",
+              "method": "tools/call",
+              "args": {
+                "action_ref": "o1",
+                "ict_from": "reserve:o1"
+              },
+              "expect": {
+                "status": "COMMITTED"
+              }
+            },
+            {
+              "id": "c2",
+              "kind": "rpc",
+              "channel": "A2",
+              "method": "tools/call",
+              "args": {
+                "action_ref": "o1",
+                "ict_from": "reserve:o1"
+              },
+              "expect": {
+                "status": "COMMITTED"
+              }
+            }
+          ]
+        },
+        {
+          "id": "after_calls",
+          "kind": "checkpoint",
+          "writers_quiescent": true,
+          "expect": {
+            "state_revision": "5",
+            "reservation_states": {
+              "RESERVED": 0,
+              "COMMITTED": 1,
+              "CANCELLED": 0
+            },
+            "consumed": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "5"
+              }
+            },
+            "reserved": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "business_rows": 1,
+            "receipts": 1,
+            "authority_epoch": "0",
+            "receipt_equality": [
+              "c1",
+              "c2"
+            ],
+            "callback_insert_count": 1
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I14",
+      "title": "revoke committed before effect",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "arm",
+          "kind": "trusted_control",
+          "event": "call:before_transaction",
+          "operation_ref": "o1",
+          "behavior": "pause"
+        },
+        {
+          "id": "pending",
+          "kind": "start_async",
+          "step": {
+            "id": "c1",
+            "kind": "rpc",
+            "channel": "A",
+            "method": "tools/call",
+            "args": {
+              "action_ref": "o1",
+              "ict_from": "reserve:o1"
+            },
+            "expect": {
+              "jsonrpc_error": {
+                "code": -31001,
+                "data": {
+                  "profile": "zti-mcp/0.1",
+                  "reason": "REVOKED",
+                  "status": "REFUSED"
+                }
+              },
+              "no_additional_transition_or_effect_attributable_to_call": true
+            }
+          }
+        },
+        {
+          "id": "await",
+          "kind": "await_event",
+          "event": "call:before_transaction",
+          "stage": "arrived"
+        },
+        {
+          "id": "revoke",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.revoke",
+          "args": {
+            "mandate_ref": "leafA"
+          },
+          "expect": {
+            "status": "REVOKED"
+          }
+        },
+        {
+          "id": "after_revoke_before_release",
+          "kind": "checkpoint",
+          "writers_quiescent": true,
+          "expect": {
+            "state_revision": "5",
+            "reservation_states": {
+              "RESERVED": 1,
+              "COMMITTED": 0,
+              "CANCELLED": 0
+            },
+            "consumed": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "reserved": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "5"
+              }
+            },
+            "business_rows": 0,
+            "receipts": 0,
+            "authority_epoch": "1",
+            "leafA_revoked": true
+          }
+        },
+        {
+          "id": "release",
+          "kind": "release",
+          "rule_ref": "arm"
+        },
+        {
+          "id": "wait",
+          "kind": "await_request",
+          "request": "c1"
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 1,
+          "COMMITTED": 0,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "business_rows": 0,
+        "receipts": 0,
+        "authority_epoch": "1",
+        "leafA_revoked": true
+      }
+    },
+    {
+      "id": "I15",
+      "title": "revoke after effect preserves history",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "c1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        },
+        {
+          "id": "revoke",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.revoke",
+          "args": {
+            "mandate_ref": "leafA"
+          },
+          "expect": {
+            "status": "REVOKED"
+          }
+        },
+        {
+          "id": "historical_tool_retry",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED",
+            "receipt_equal": "c1",
+            "state_unchanged": true,
+            "no_new_callback": true
+          }
+        },
+        {
+          "id": "lookup",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.lookup",
+          "args": {
+            "operation_ref": "o1"
+          },
+          "expect": {
+            "receipt_equal": "c1"
+          }
+        },
+        {
+          "id": "badnew",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o3"
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "REVOKED",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "6",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "1",
+        "leafA_revoked": true
+      }
+    },
+    {
+      "id": "I16",
+      "title": "cancel before effect",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "cancel",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.cancel",
+          "args": {
+            "operation_ref": "o1",
+            "reservation_from": "r1"
+          },
+          "expect": {
+            "status": "CANCELLED"
+          }
+        },
+        {
+          "id": "bad",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "REVOKED",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 0,
+          "CANCELLED": 1
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 0,
+        "receipts": 0,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I17",
+      "title": "cancel after effect never refunds",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "c1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        },
+        {
+          "id": "cancel",
+          "kind": "rpc",
+          "channel": "admin",
+          "method": "org.example/zti-mcp.cancel",
+          "args": {
+            "operation_ref": "o1",
+            "reservation_from": "r1"
+          },
+          "expect": {
+            "status": "COMMITTED",
+            "receipt_equal": "c1",
+            "state_unchanged": true
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I18",
+      "title": "exception after business INSERT rolls back everything",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "arm",
+          "kind": "trusted_control",
+          "event": "call:business_inserted",
+          "operation_ref": "o1",
+          "behavior": "raise"
+        },
+        {
+          "id": "bad",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "jsonrpc_error": {
+              "code": -31001,
+              "data": {
+                "profile": "zti-mcp/0.1",
+                "reason": "EXECUTION_FAILED",
+                "status": "REFUSED"
+              }
+            },
+            "state_unchanged": true
+          }
+        },
+        {
+          "id": "after_rollback",
+          "kind": "checkpoint",
+          "writers_quiescent": true,
+          "expect": {
+            "state_revision": "4",
+            "reservation_states": {
+              "RESERVED": 1,
+              "COMMITTED": 0,
+              "CANCELLED": 0
+            },
+            "consumed": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "reserved": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "5"
+              }
+            },
+            "business_rows": 0,
+            "receipts": 0,
+            "authority_epoch": "0"
+          }
+        },
+        {
+          "id": "good",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I19",
+      "title": "crash precommit then retry",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "arm",
+          "kind": "trusted_control",
+          "event": "call:staged_before_commit",
+          "operation_ref": "o1",
+          "behavior": "crash"
+        },
+        {
+          "id": "crash",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "transport_outcome": "EXPECTED_PROCESS_EXIT",
+            "exitcode": 86,
+            "no_response": true
+          }
+        },
+        {
+          "id": "stop",
+          "kind": "stop_all_writers"
+        },
+        {
+          "id": "after_crash",
+          "kind": "checkpoint",
+          "writers_quiescent": true,
+          "expect": {
+            "state_revision": "4",
+            "reservation_states": {
+              "RESERVED": 1,
+              "COMMITTED": 0,
+              "CANCELLED": 0
+            },
+            "consumed": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "reserved": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "5"
+              }
+            },
+            "business_rows": 0,
+            "receipts": 0,
+            "authority_epoch": "0"
+          }
+        },
+        {
+          "id": "restart",
+          "kind": "restart_channel",
+          "channel": "A",
+          "same_db": true
+        },
+        {
+          "id": "good",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      }
+    },
+    {
+      "id": "I20",
+      "title": "crash after commit before response then lookup/retry",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "bootstrap": "root+leafA+leafB via actual SDK register; revision3",
+      "fixture_overrides": {},
+      "steps": [
+        {
+          "id": "r1",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.reserve",
+          "args": {
+            "action_ref": "o1"
+          },
+          "expect": {
+            "status": "RESERVED"
+          }
+        },
+        {
+          "id": "arm",
+          "kind": "trusted_control",
+          "event": "call:after_commit",
+          "operation_ref": "o1",
+          "behavior": "crash"
+        },
+        {
+          "id": "crash",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "transport_outcome": "EXPECTED_PROCESS_EXIT",
+            "exitcode": 86,
+            "no_response": true
+          }
+        },
+        {
+          "id": "stop",
+          "kind": "stop_all_writers"
+        },
+        {
+          "id": "after_crash",
+          "kind": "checkpoint",
+          "writers_quiescent": true,
+          "expect": {
+            "state_revision": "5",
+            "reservation_states": {
+              "RESERVED": 0,
+              "COMMITTED": 1,
+              "CANCELLED": 0
+            },
+            "consumed": {
+              "ops": {
+                "unit": "operation",
+                "amount": "2"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "5"
+              }
+            },
+            "reserved": {
+              "ops": {
+                "unit": "operation",
+                "amount": "0"
+              },
+              "bytes": {
+                "unit": "byte",
+                "amount": "0"
+              }
+            },
+            "business_rows": 1,
+            "receipts": 1,
+            "authority_epoch": "0"
+          }
+        },
+        {
+          "id": "restart",
+          "kind": "restart_channel",
+          "channel": "A",
+          "same_db": true
+        },
+        {
+          "id": "lookup",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "org.example/zti-mcp.lookup",
+          "args": {
+            "operation_ref": "o1"
+          },
+          "expect": {
+            "status": "COMMITTED"
+          }
+        },
+        {
+          "id": "retry",
+          "kind": "rpc",
+          "channel": "A",
+          "method": "tools/call",
+          "args": {
+            "action_ref": "o1",
+            "ict_from": "reserve:o1"
+          },
+          "expect": {
+            "status": "COMMITTED",
+            "receipt_equal": "lookup",
+            "state_unchanged": true
+          }
+        }
+      ],
+      "final": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      }
+    }
+  ],
+  "binding_vectors": [
+    {
+      "id": "V01",
+      "name": "base",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "base",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiMiIsInRhZ3MiOlsibmV1dHJhbCJdfSwiZXhlY3V0b3JfaWQiOiJ1cm46cjY6ZXhlY3V0b3IiLCJtYW5kYXRlX2lkIjoibGVhZi0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYSIsIm1ldGhvZCI6InRvb2xzL2NhbGwiLCJvcGVyYXRpb25faWQiOiJvcC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInByb2ZpbGUiOiJ6dGktbWNwLzAuMSIsInJlc291cmNlX2lkIjoidXJuOnI2OnJlc291cmNlIiwicm9vdF9tYW5kYXRlX2lkIjoicm9vdC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInRlbmFudF9pZCI6InI2LWxhYi10ZW5hbnQiLCJ0b29sX25hbWUiOiJkZW1vLmFkZF9yZWNvcmQiLCJ0b29sX3JldmlzaW9uIjoiMSJ9",
+      "golden_sha256": "52c3025cbbd37d7b7f6281d54eadd7e627bb94c8c6e66a82f15ecc99f9115fc5"
+    },
+    {
+      "id": "V02",
+      "name": "object key insertion order reversed",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "arguments": {
+          "quantity": "2",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        },
+        "tool_revision": "1",
+        "tool_name": "demo.add_record",
+        "method": "tools/call",
+        "resource_id": "urn:r6:resource",
+        "executor_id": "urn:r6:executor",
+        "operation_id": "op-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "tenant_id": "r6-lab-tenant",
+        "profile": "zti-mcp/0.1"
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "equal:V01",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiMiIsInRhZ3MiOlsibmV1dHJhbCJdfSwiZXhlY3V0b3JfaWQiOiJ1cm46cjY6ZXhlY3V0b3IiLCJtYW5kYXRlX2lkIjoibGVhZi0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYSIsIm1ldGhvZCI6InRvb2xzL2NhbGwiLCJvcGVyYXRpb25faWQiOiJvcC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInByb2ZpbGUiOiJ6dGktbWNwLzAuMSIsInJlc291cmNlX2lkIjoidXJuOnI2OnJlc291cmNlIiwicm9vdF9tYW5kYXRlX2lkIjoicm9vdC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInRlbmFudF9pZCI6InI2LWxhYi10ZW5hbnQiLCJ0b29sX25hbWUiOiJkZW1vLmFkZF9yZWNvcmQiLCJ0b29sX3JldmlzaW9uIjoiMSJ9",
+      "golden_sha256": "52c3025cbbd37d7b7f6281d54eadd7e627bb94c8c6e66a82f15ecc99f9115fc5"
+    },
+    {
+      "id": "V03",
+      "name": "JSON escaping",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "quote\" slash\\ newline\n",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V01",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJxdW90ZVwiIHNsYXNoXFwgbmV3bGluZVxuIiwicXVhbnRpdHkiOiIyIiwidGFncyI6WyJuZXV0cmFsIl19LCJleGVjdXRvcl9pZCI6InVybjpyNjpleGVjdXRvciIsIm1hbmRhdGVfaWQiOiJsZWFmLTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDBhIiwibWV0aG9kIjoidG9vbHMvY2FsbCIsIm9wZXJhdGlvbl9pZCI6Im9wLTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxIiwicHJvZmlsZSI6Inp0aS1tY3AvMC4xIiwicmVzb3VyY2VfaWQiOiJ1cm46cjY6cmVzb3VyY2UiLCJyb290X21hbmRhdGVfaWQiOiJyb290LTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxIiwidGVuYW50X2lkIjoicjYtbGFiLXRlbmFudCIsInRvb2xfbmFtZSI6ImRlbW8uYWRkX3JlY29yZCIsInRvb2xfcmV2aXNpb24iOiIxIn0=",
+      "golden_sha256": "d1c6cdeb7fd89bb492ff237c8ffbc87756bac553cce5a3e9a767542b3a6563cc"
+    },
+    {
+      "id": "V04",
+      "name": "Unicode BMP",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "\u00e9",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V01",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiLDqSIsInF1YW50aXR5IjoiMiIsInRhZ3MiOlsibmV1dHJhbCJdfSwiZXhlY3V0b3JfaWQiOiJ1cm46cjY6ZXhlY3V0b3IiLCJtYW5kYXRlX2lkIjoibGVhZi0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYSIsIm1ldGhvZCI6InRvb2xzL2NhbGwiLCJvcGVyYXRpb25faWQiOiJvcC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInByb2ZpbGUiOiJ6dGktbWNwLzAuMSIsInJlc291cmNlX2lkIjoidXJuOnI2OnJlc291cmNlIiwicm9vdF9tYW5kYXRlX2lkIjoicm9vdC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInRlbmFudF9pZCI6InI2LWxhYi10ZW5hbnQiLCJ0b29sX25hbWUiOiJkZW1vLmFkZF9yZWNvcmQiLCJ0b29sX3JldmlzaW9uIjoiMSJ9",
+      "golden_sha256": "f717d39cdcececb20624ed1dfec376b3e6f353203ea755d7a62969e95f18329f"
+    },
+    {
+      "id": "V05",
+      "name": "Unicode supplementary",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "\ud83d\ude00",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V01",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiLwn5iAIiwicXVhbnRpdHkiOiIyIiwidGFncyI6WyJuZXV0cmFsIl19LCJleGVjdXRvcl9pZCI6InVybjpyNjpleGVjdXRvciIsIm1hbmRhdGVfaWQiOiJsZWFmLTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDBhIiwibWV0aG9kIjoidG9vbHMvY2FsbCIsIm9wZXJhdGlvbl9pZCI6Im9wLTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxIiwicHJvZmlsZSI6Inp0aS1tY3AvMC4xIiwicmVzb3VyY2VfaWQiOiJ1cm46cjY6cmVzb3VyY2UiLCJyb290X21hbmRhdGVfaWQiOiJyb290LTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxIiwidGVuYW50X2lkIjoicjYtbGFiLXRlbmFudCIsInRvb2xfbmFtZSI6ImRlbW8uYWRkX3JlY29yZCIsInRvb2xfcmV2aXNpb24iOiIxIn0=",
+      "golden_sha256": "ff57210b320b5ef0ec26b9ff9e07530b467c57ea10e3eddb8268e46bd94f6b6d"
+    },
+    {
+      "id": "V06",
+      "name": "Unicode not normalized",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "e\u0301",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V04",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJlzIEiLCJxdWFudGl0eSI6IjIiLCJ0YWdzIjpbIm5ldXRyYWwiXX0sImV4ZWN1dG9yX2lkIjoidXJuOnI2OmV4ZWN1dG9yIiwibWFuZGF0ZV9pZCI6ImxlYWYtMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMGEiLCJtZXRob2QiOiJ0b29scy9jYWxsIiwib3BlcmF0aW9uX2lkIjoib3AtMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEiLCJwcm9maWxlIjoienRpLW1jcC8wLjEiLCJyZXNvdXJjZV9pZCI6InVybjpyNjpyZXNvdXJjZSIsInJvb3RfbWFuZGF0ZV9pZCI6InJvb3QtMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEiLCJ0ZW5hbnRfaWQiOiJyNi1sYWItdGVuYW50IiwidG9vbF9uYW1lIjoiZGVtby5hZGRfcmVjb3JkIiwidG9vbF9yZXZpc2lvbiI6IjEifQ==",
+      "golden_sha256": "451e8b9b701d9eb6d2810ff611fb7cd4435ac8709d32e60ba0efa6c9b6631363"
+    },
+    {
+      "id": "V07",
+      "name": "array order bound",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "alpha",
+          "tags": [
+            "blue",
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V08",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiMiIsInRhZ3MiOlsiYmx1ZSIsIm5ldXRyYWwiXX0sImV4ZWN1dG9yX2lkIjoidXJuOnI2OmV4ZWN1dG9yIiwibWFuZGF0ZV9pZCI6ImxlYWYtMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMGEiLCJtZXRob2QiOiJ0b29scy9jYWxsIiwib3BlcmF0aW9uX2lkIjoib3AtMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEiLCJwcm9maWxlIjoienRpLW1jcC8wLjEiLCJyZXNvdXJjZV9pZCI6InVybjpyNjpyZXNvdXJjZSIsInJvb3RfbWFuZGF0ZV9pZCI6InJvb3QtMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEiLCJ0ZW5hbnRfaWQiOiJyNi1sYWItdGVuYW50IiwidG9vbF9uYW1lIjoiZGVtby5hZGRfcmVjb3JkIiwidG9vbF9yZXZpc2lvbiI6IjEifQ==",
+      "golden_sha256": "c3b0a405326ff28cf31ec44fbca0ed45dbe9e2a70bc90215c61a4dbac301ac3e"
+    },
+    {
+      "id": "V08",
+      "name": "array reversed",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "alpha",
+          "tags": [
+            "neutral",
+            "blue"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V07",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiMiIsInRhZ3MiOlsibmV1dHJhbCIsImJsdWUiXX0sImV4ZWN1dG9yX2lkIjoidXJuOnI2OmV4ZWN1dG9yIiwibWFuZGF0ZV9pZCI6ImxlYWYtMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMGEiLCJtZXRob2QiOiJ0b29scy9jYWxsIiwib3BlcmF0aW9uX2lkIjoib3AtMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEiLCJwcm9maWxlIjoienRpLW1jcC8wLjEiLCJyZXNvdXJjZV9pZCI6InVybjpyNjpyZXNvdXJjZSIsInJvb3RfbWFuZGF0ZV9pZCI6InJvb3QtMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEiLCJ0ZW5hbnRfaWQiOiJyNi1sYWItdGVuYW50IiwidG9vbF9uYW1lIjoiZGVtby5hZGRfcmVjb3JkIiwidG9vbF9yZXZpc2lvbiI6IjEifQ==",
+      "golden_sha256": "72c0bca42685155944c10a06fc0b13b32eb09bf7c98499e37f7943e7d495fb84"
+    },
+    {
+      "id": "V09",
+      "name": "empty list",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "alpha",
+          "tags": []
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V01",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiMiIsInRhZ3MiOltdfSwiZXhlY3V0b3JfaWQiOiJ1cm46cjY6ZXhlY3V0b3IiLCJtYW5kYXRlX2lkIjoibGVhZi0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYSIsIm1ldGhvZCI6InRvb2xzL2NhbGwiLCJvcGVyYXRpb25faWQiOiJvcC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInByb2ZpbGUiOiJ6dGktbWNwLzAuMSIsInJlc291cmNlX2lkIjoidXJuOnI2OnJlc291cmNlIiwicm9vdF9tYW5kYXRlX2lkIjoicm9vdC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInRlbmFudF9pZCI6InI2LWxhYi10ZW5hbnQiLCJ0b29sX25hbWUiOiJkZW1vLmFkZF9yZWNvcmQiLCJ0b29sX3JldmlzaW9uIjoiMSJ9",
+      "golden_sha256": "ddd53eb155b8aa512aa8a831a6d37c491610cfd263d1ed21190f8fcfaf8d2a9d"
+    },
+    {
+      "id": "V10",
+      "name": "mutate operation",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000002",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V01",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiMiIsInRhZ3MiOlsibmV1dHJhbCJdfSwiZXhlY3V0b3JfaWQiOiJ1cm46cjY6ZXhlY3V0b3IiLCJtYW5kYXRlX2lkIjoibGVhZi0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYSIsIm1ldGhvZCI6InRvb2xzL2NhbGwiLCJvcGVyYXRpb25faWQiOiJvcC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMiIsInByb2ZpbGUiOiJ6dGktbWNwLzAuMSIsInJlc291cmNlX2lkIjoidXJuOnI2OnJlc291cmNlIiwicm9vdF9tYW5kYXRlX2lkIjoicm9vdC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInRlbmFudF9pZCI6InI2LWxhYi10ZW5hbnQiLCJ0b29sX25hbWUiOiJkZW1vLmFkZF9yZWNvcmQiLCJ0b29sX3JldmlzaW9uIjoiMSJ9",
+      "golden_sha256": "78763db8a5962556fbd5cd8d44cb5bd1c39baf774fc296a6d56cc5594965f8b8"
+    },
+    {
+      "id": "V11",
+      "name": "mutate mandate",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000b",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V01",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiMiIsInRhZ3MiOlsibmV1dHJhbCJdfSwiZXhlY3V0b3JfaWQiOiJ1cm46cjY6ZXhlY3V0b3IiLCJtYW5kYXRlX2lkIjoibGVhZi0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYiIsIm1ldGhvZCI6InRvb2xzL2NhbGwiLCJvcGVyYXRpb25faWQiOiJvcC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInByb2ZpbGUiOiJ6dGktbWNwLzAuMSIsInJlc291cmNlX2lkIjoidXJuOnI2OnJlc291cmNlIiwicm9vdF9tYW5kYXRlX2lkIjoicm9vdC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInRlbmFudF9pZCI6InI2LWxhYi10ZW5hbnQiLCJ0b29sX25hbWUiOiJkZW1vLmFkZF9yZWNvcmQiLCJ0b29sX3JldmlzaW9uIjoiMSJ9",
+      "golden_sha256": "4d5be12804f551d44ba1b43085b7b5e837a637e83b0995aa8ecc756217188e26"
+    },
+    {
+      "id": "V12",
+      "name": "mutate bound tool revision",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "2",
+        "arguments": {
+          "quantity": "2",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "CANONICAL_ONLY_TOOL_BINDING_REFUSED",
+      "hash_relation": "different:V01",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiMiIsInRhZ3MiOlsibmV1dHJhbCJdfSwiZXhlY3V0b3JfaWQiOiJ1cm46cjY6ZXhlY3V0b3IiLCJtYW5kYXRlX2lkIjoibGVhZi0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYSIsIm1ldGhvZCI6InRvb2xzL2NhbGwiLCJvcGVyYXRpb25faWQiOiJvcC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInByb2ZpbGUiOiJ6dGktbWNwLzAuMSIsInJlc291cmNlX2lkIjoidXJuOnI2OnJlc291cmNlIiwicm9vdF9tYW5kYXRlX2lkIjoicm9vdC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInRlbmFudF9pZCI6InI2LWxhYi10ZW5hbnQiLCJ0b29sX25hbWUiOiJkZW1vLmFkZF9yZWNvcmQiLCJ0b29sX3JldmlzaW9uIjoiMiJ9",
+      "golden_sha256": "35ee73fe631a582891c75a8ad64d1ebb79c5511281016860b89bfbbdbabb7feb"
+    },
+    {
+      "id": "V13",
+      "name": "quantity zero",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "0",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V01",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiMCIsInRhZ3MiOlsibmV1dHJhbCJdfSwiZXhlY3V0b3JfaWQiOiJ1cm46cjY6ZXhlY3V0b3IiLCJtYW5kYXRlX2lkIjoibGVhZi0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYSIsIm1ldGhvZCI6InRvb2xzL2NhbGwiLCJvcGVyYXRpb25faWQiOiJvcC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInByb2ZpbGUiOiJ6dGktbWNwLzAuMSIsInJlc291cmNlX2lkIjoidXJuOnI2OnJlc291cmNlIiwicm9vdF9tYW5kYXRlX2lkIjoicm9vdC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInRlbmFudF9pZCI6InI2LWxhYi10ZW5hbnQiLCJ0b29sX25hbWUiOiJkZW1vLmFkZF9yZWNvcmQiLCJ0b29sX3JldmlzaW9uIjoiMSJ9",
+      "golden_sha256": "9345a74507e1c4ec7275332dbf295f84b544eae14a26232e1b78e7ca5da6b963"
+    },
+    {
+      "id": "V14",
+      "name": "quantity safe maximum",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "9007199254740991",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V01",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiOTAwNzE5OTI1NDc0MDk5MSIsInRhZ3MiOlsibmV1dHJhbCJdfSwiZXhlY3V0b3JfaWQiOiJ1cm46cjY6ZXhlY3V0b3IiLCJtYW5kYXRlX2lkIjoibGVhZi0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYSIsIm1ldGhvZCI6InRvb2xzL2NhbGwiLCJvcGVyYXRpb25faWQiOiJvcC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInByb2ZpbGUiOiJ6dGktbWNwLzAuMSIsInJlc291cmNlX2lkIjoidXJuOnI2OnJlc291cmNlIiwicm9vdF9tYW5kYXRlX2lkIjoicm9vdC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInRlbmFudF9pZCI6InI2LWxhYi10ZW5hbnQiLCJ0b29sX25hbWUiOiJkZW1vLmFkZF9yZWNvcmQiLCJ0b29sX3JldmlzaW9uIjoiMSJ9",
+      "golden_sha256": "73ae8cc5a85081ee0e6257b29c852497d34d4b55adb463e75989ae8e49b90b1a"
+    },
+    {
+      "id": "V15",
+      "name": "quantity safe plus one",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "9007199254740992",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V16",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiOTAwNzE5OTI1NDc0MDk5MiIsInRhZ3MiOlsibmV1dHJhbCJdfSwiZXhlY3V0b3JfaWQiOiJ1cm46cjY6ZXhlY3V0b3IiLCJtYW5kYXRlX2lkIjoibGVhZi0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYSIsIm1ldGhvZCI6InRvb2xzL2NhbGwiLCJvcGVyYXRpb25faWQiOiJvcC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInByb2ZpbGUiOiJ6dGktbWNwLzAuMSIsInJlc291cmNlX2lkIjoidXJuOnI2OnJlc291cmNlIiwicm9vdF9tYW5kYXRlX2lkIjoicm9vdC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInRlbmFudF9pZCI6InI2LWxhYi10ZW5hbnQiLCJ0b29sX25hbWUiOiJkZW1vLmFkZF9yZWNvcmQiLCJ0b29sX3JldmlzaW9uIjoiMSJ9",
+      "golden_sha256": "e897e5cd791459debfb19f45ebf605ff005c778d1c0b0f7e7b38ae20e76138fc"
+    },
+    {
+      "id": "V16",
+      "name": "quantity Number precision loss witness",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "9007199254740993",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V15",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiOTAwNzE5OTI1NDc0MDk5MyIsInRhZ3MiOlsibmV1dHJhbCJdfSwiZXhlY3V0b3JfaWQiOiJ1cm46cjY6ZXhlY3V0b3IiLCJtYW5kYXRlX2lkIjoibGVhZi0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYSIsIm1ldGhvZCI6InRvb2xzL2NhbGwiLCJvcGVyYXRpb25faWQiOiJvcC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInByb2ZpbGUiOiJ6dGktbWNwLzAuMSIsInJlc291cmNlX2lkIjoidXJuOnI2OnJlc291cmNlIiwicm9vdF9tYW5kYXRlX2lkIjoicm9vdC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInRlbmFudF9pZCI6InI2LWxhYi10ZW5hbnQiLCJ0b29sX25hbWUiOiJkZW1vLmFkZF9yZWNvcmQiLCJ0b29sX3JldmlzaW9uIjoiMSJ9",
+      "golden_sha256": "275c6a1aa26a72e864834d581a51d263896bcb0dd26487c77eca6a00d5ce3b13"
+    },
+    {
+      "id": "V17",
+      "name": "quantity uint64 maximum",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "18446744073709551615",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "hash_relation": "different:V01",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiMTg0NDY3NDQwNzM3MDk1NTE2MTUiLCJ0YWdzIjpbIm5ldXRyYWwiXX0sImV4ZWN1dG9yX2lkIjoidXJuOnI2OmV4ZWN1dG9yIiwibWFuZGF0ZV9pZCI6ImxlYWYtMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMGEiLCJtZXRob2QiOiJ0b29scy9jYWxsIiwib3BlcmF0aW9uX2lkIjoib3AtMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEiLCJwcm9maWxlIjoienRpLW1jcC8wLjEiLCJyZXNvdXJjZV9pZCI6InVybjpyNjpyZXNvdXJjZSIsInJvb3RfbWFuZGF0ZV9pZCI6InJvb3QtMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEiLCJ0ZW5hbnRfaWQiOiJyNi1sYWItdGVuYW50IiwidG9vbF9uYW1lIjoiZGVtby5hZGRfcmVjb3JkIiwidG9vbF9yZXZpc2lvbiI6IjEifQ==",
+      "golden_sha256": "c0093710981e06a912c18ffe1ec7fe8d5f73cc0d351fd06d5d4486ccac5857b1"
+    },
+    {
+      "id": "V18",
+      "name": "quantity overflow",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "18446744073709551616",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "REFUSE_CONSTRAINT_VIOLATION",
+      "hash_relation": null,
+      "golden_canonical_utf8_base64": null,
+      "golden_sha256": null
+    },
+    {
+      "id": "V19",
+      "name": "noncanonical leading zero",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "02",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "REFUSE_CONSTRAINT_VIOLATION",
+      "hash_relation": null,
+      "golden_canonical_utf8_base64": null,
+      "golden_sha256": null
+    },
+    {
+      "id": "V20",
+      "name": "quantity JSON integer",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": 2,
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "REFUSE_CONSTRAINT_VIOLATION",
+      "hash_relation": null,
+      "golden_canonical_utf8_base64": null,
+      "golden_sha256": null
+    },
+    {
+      "id": "V21",
+      "name": "quantity Boolean",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": true,
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "REFUSE_CONSTRAINT_VIOLATION",
+      "hash_relation": null,
+      "golden_canonical_utf8_base64": null,
+      "golden_sha256": null
+    },
+    {
+      "id": "V22",
+      "name": "lone surrogate",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "\ud800",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "REFUSE_BINDING_MISMATCH",
+      "hash_relation": null,
+      "golden_canonical_utf8_base64": null,
+      "golden_sha256": null
+    },
+    {
+      "id": "V23",
+      "name": "tags object instead of list",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "alpha",
+          "tags": {
+            "neutral": true
+          }
+        }
+      },
+      "expected": "REFUSE_CONSTRAINT_VIOLATION",
+      "hash_relation": null,
+      "golden_canonical_utf8_base64": null,
+      "golden_sha256": null
+    },
+    {
+      "id": "V24",
+      "name": "unsafe JSON integer",
+      "representation": "decoded JSON object; V24 JSON number as parsed, no lexical promise",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": 9007199254740992,
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "REFUSE_BINDING_MISMATCH",
+      "hash_relation": null,
+      "golden_canonical_utf8_base64": null,
+      "golden_sha256": null
+    }
+  ],
+  "causal_plans": [
+    {
+      "id": "C01",
+      "family": "budget",
+      "order": [
+        "dispatch both admission RPCs to distinct provider processes",
+        "observe both reserve:before_transaction arrivals correlated to actual MCP request IDs",
+        "release A winner",
+        "observe winner transaction commit and RESERVED response",
+        "release other admission",
+        "observe CUMULATIVE_VIOLATION and admission checkpoint",
+        "after admission checkpoint, call prescribed winner with original action/ICT and observe COMMITTED"
+      ],
+      "overrides": {
+        "root_budget": {
+          "ops": {
+            "unit": "operation",
+            "amount": "3"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "1024"
+          }
+        }
+      },
+      "actions": [
+        "o1",
+        "o2"
+      ],
+      "expected": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      },
+      "required": [
+        "two real outstanding admission requests before first release",
+        "two provider-process arrivals at reserve:before_transaction, correlated by endpoint/request ID",
+        "prescribed winner commits and returns RESERVED before other release",
+        "other request refuses CUMULATIVE_VIOLATION",
+        "checkpoint before later effects/cancel"
+      ],
+      "client_pairs": [
+        "PP",
+        "PT",
+        "TP",
+        "TT"
+      ],
+      "pair_roles": {
+        "first": "A",
+        "second": "B",
+        "admin": "P (bootstrap only)"
+      },
+      "bootstrap": "root+leafA+leafB revision3",
+      "barriers": "trusted startup control-dir rules/events/release files; never business arguments or sleeps as order proof",
+      "admission_overlap": {
+        "hook": "reserve:before_transaction",
+        "both_arrivals_before_first_release": true,
+        "winner_channel": "A",
+        "loser_channel": "B",
+        "release_loser_after_winner_response": true,
+        "sleep_is_not_order_proof": true
+      },
+      "post_admission_effect": {
+        "channel": "A",
+        "action_ref": "o1",
+        "ict_from": "reserve:o1",
+        "expect": {
+          "status": "COMMITTED"
+        }
+      },
+      "checkpoint_expectations": {
+        "after_admission": {
+          "state_revision": "4",
+          "reservation_states": {
+            "RESERVED": 1,
+            "COMMITTED": 0,
+            "CANCELLED": 0
+          },
+          "consumed": {
+            "ops": {
+              "unit": "operation",
+              "amount": "0"
+            },
+            "bytes": {
+              "unit": "byte",
+              "amount": "0"
+            }
+          },
+          "reserved": {
+            "ops": {
+              "unit": "operation",
+              "amount": "2"
+            },
+            "bytes": {
+              "unit": "byte",
+              "amount": "5"
+            }
+          },
+          "business_rows": 0,
+          "receipts": 0,
+          "authority_epoch": "0",
+          "possible_facts": [
+            "neutral"
+          ]
+        }
+      }
+    },
+    {
+      "id": "C02",
+      "family": "budget",
+      "order": [
+        "dispatch both admission RPCs to distinct provider processes",
+        "observe both reserve:before_transaction arrivals correlated to actual MCP request IDs",
+        "release B winner",
+        "observe winner transaction commit and RESERVED response",
+        "release other admission",
+        "observe CUMULATIVE_VIOLATION and admission checkpoint",
+        "after admission checkpoint, call prescribed winner with original action/ICT and observe COMMITTED"
+      ],
+      "overrides": {
+        "root_budget": {
+          "ops": {
+            "unit": "operation",
+            "amount": "3"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "1024"
+          }
+        }
+      },
+      "actions": [
+        "o1",
+        "o2"
+      ],
+      "expected": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      },
+      "required": [
+        "two real outstanding admission requests before first release",
+        "two provider-process arrivals at reserve:before_transaction, correlated by endpoint/request ID",
+        "prescribed winner commits and returns RESERVED before other release",
+        "other request refuses CUMULATIVE_VIOLATION",
+        "checkpoint before later effects/cancel"
+      ],
+      "client_pairs": [
+        "PP",
+        "PT",
+        "TP",
+        "TT"
+      ],
+      "pair_roles": {
+        "first": "A",
+        "second": "B",
+        "admin": "P (bootstrap only)"
+      },
+      "bootstrap": "root+leafA+leafB revision3",
+      "barriers": "trusted startup control-dir rules/events/release files; never business arguments or sleeps as order proof",
+      "admission_overlap": {
+        "hook": "reserve:before_transaction",
+        "both_arrivals_before_first_release": true,
+        "winner_channel": "B",
+        "loser_channel": "A",
+        "release_loser_after_winner_response": true,
+        "sleep_is_not_order_proof": true
+      },
+      "post_admission_effect": {
+        "channel": "B",
+        "action_ref": "o2",
+        "ict_from": "reserve:o2",
+        "expect": {
+          "status": "COMMITTED"
+        }
+      },
+      "checkpoint_expectations": {
+        "after_admission": {
+          "state_revision": "4",
+          "reservation_states": {
+            "RESERVED": 1,
+            "COMMITTED": 0,
+            "CANCELLED": 0
+          },
+          "consumed": {
+            "ops": {
+              "unit": "operation",
+              "amount": "0"
+            },
+            "bytes": {
+              "unit": "byte",
+              "amount": "0"
+            }
+          },
+          "reserved": {
+            "ops": {
+              "unit": "operation",
+              "amount": "2"
+            },
+            "bytes": {
+              "unit": "byte",
+              "amount": "5"
+            }
+          },
+          "business_rows": 0,
+          "receipts": 0,
+          "authority_epoch": "0",
+          "possible_facts": [
+            "neutral"
+          ]
+        }
+      }
+    },
+    {
+      "id": "C03",
+      "family": "composition",
+      "order": [
+        "dispatch both admission RPCs to distinct provider processes",
+        "observe both reserve:before_transaction arrivals correlated to actual MCP request IDs",
+        "release A winner",
+        "observe winner transaction commit and RESERVED response",
+        "release other admission",
+        "observe CUMULATIVE_VIOLATION and admission checkpoint"
+      ],
+      "expected": {
+        "state_revision": "4",
+        "reservation_states": {
+          "RESERVED": 1,
+          "COMMITTED": 0,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "business_rows": 0,
+        "receipts": 0,
+        "authority_epoch": "0",
+        "possible_facts": [
+          "red"
+        ]
+      },
+      "required": [
+        "two real outstanding admission requests before first release",
+        "two provider-process arrivals at reserve:before_transaction, correlated by endpoint/request ID",
+        "prescribed winner commits and returns RESERVED before other release",
+        "other request refuses CUMULATIVE_VIOLATION",
+        "checkpoint before later effects/cancel"
+      ],
+      "client_pairs": [
+        "PP",
+        "PT",
+        "TP",
+        "TT"
+      ],
+      "pair_roles": {
+        "first": "A",
+        "second": "B",
+        "admin": "P (bootstrap only)"
+      },
+      "bootstrap": "root+leafA+leafB revision3",
+      "barriers": "trusted startup control-dir rules/events/release files; never business arguments or sleeps as order proof",
+      "admission_overlap": {
+        "hook": "reserve:before_transaction",
+        "both_arrivals_before_first_release": true,
+        "winner_channel": "A",
+        "loser_channel": "B",
+        "release_loser_after_winner_response": true,
+        "sleep_is_not_order_proof": true
+      },
+      "checkpoint_expectations": {
+        "after_admission": {
+          "state_revision": "4",
+          "reservation_states": {
+            "RESERVED": 1,
+            "COMMITTED": 0,
+            "CANCELLED": 0
+          },
+          "consumed": {
+            "ops": {
+              "unit": "operation",
+              "amount": "0"
+            },
+            "bytes": {
+              "unit": "byte",
+              "amount": "0"
+            }
+          },
+          "reserved": {
+            "ops": {
+              "unit": "operation",
+              "amount": "2"
+            },
+            "bytes": {
+              "unit": "byte",
+              "amount": "5"
+            }
+          },
+          "business_rows": 0,
+          "receipts": 0,
+          "authority_epoch": "0",
+          "possible_facts": [
+            "red"
+          ]
+        }
+      }
+    },
+    {
+      "id": "C04",
+      "family": "composition",
+      "order": [
+        "dispatch both admission RPCs to distinct provider processes",
+        "observe both reserve:before_transaction arrivals correlated to actual MCP request IDs",
+        "release B winner",
+        "observe winner transaction commit and RESERVED response",
+        "release other admission",
+        "observe CUMULATIVE_VIOLATION and admission checkpoint"
+      ],
+      "expected": {
+        "state_revision": "4",
+        "reservation_states": {
+          "RESERVED": 1,
+          "COMMITTED": 0,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "business_rows": 0,
+        "receipts": 0,
+        "authority_epoch": "0",
+        "possible_facts": [
+          "blue"
+        ]
+      },
+      "required": [
+        "two real outstanding admission requests before first release",
+        "two provider-process arrivals at reserve:before_transaction, correlated by endpoint/request ID",
+        "prescribed winner commits and returns RESERVED before other release",
+        "other request refuses CUMULATIVE_VIOLATION",
+        "checkpoint before later effects/cancel"
+      ],
+      "client_pairs": [
+        "PP",
+        "PT",
+        "TP",
+        "TT"
+      ],
+      "pair_roles": {
+        "first": "A",
+        "second": "B",
+        "admin": "P (bootstrap only)"
+      },
+      "bootstrap": "root+leafA+leafB revision3",
+      "barriers": "trusted startup control-dir rules/events/release files; never business arguments or sleeps as order proof",
+      "admission_overlap": {
+        "hook": "reserve:before_transaction",
+        "both_arrivals_before_first_release": true,
+        "winner_channel": "B",
+        "loser_channel": "A",
+        "release_loser_after_winner_response": true,
+        "sleep_is_not_order_proof": true
+      },
+      "checkpoint_expectations": {
+        "after_admission": {
+          "state_revision": "4",
+          "reservation_states": {
+            "RESERVED": 1,
+            "COMMITTED": 0,
+            "CANCELLED": 0
+          },
+          "consumed": {
+            "ops": {
+              "unit": "operation",
+              "amount": "0"
+            },
+            "bytes": {
+              "unit": "byte",
+              "amount": "0"
+            }
+          },
+          "reserved": {
+            "ops": {
+              "unit": "operation",
+              "amount": "2"
+            },
+            "bytes": {
+              "unit": "byte",
+              "amount": "5"
+            }
+          },
+          "business_rows": 0,
+          "receipts": 0,
+          "authority_epoch": "0",
+          "possible_facts": [
+            "blue"
+          ]
+        }
+      }
+    },
+    {
+      "id": "C05",
+      "family": "same_operation",
+      "order": [
+        "reserve same operation",
+        "both calls arrived before tx",
+        "release caller1",
+        "caller1 commit",
+        "release caller2",
+        "caller2 receipt retry"
+      ],
+      "expected": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      },
+      "required": [
+        "two distinct outstanding RPC requests",
+        "same principal two channels",
+        "c1 response before release2",
+        "identical immutable receipts"
+      ],
+      "client_pairs": [
+        "PP",
+        "PT",
+        "TP",
+        "TT"
+      ],
+      "pair_roles": {
+        "first": "A",
+        "second": "A2 (same trusted principal A)",
+        "admin": "P (bootstrap only)"
+      },
+      "bootstrap": "root+leafA+leafB revision3",
+      "barriers": "trusted startup control-dir rules/events/release files; never business arguments or sleeps as order proof"
+    },
+    {
+      "id": "C06",
+      "family": "same_operation",
+      "order": [
+        "reserve same operation",
+        "both calls arrived before tx",
+        "release caller2",
+        "caller2 commit",
+        "release caller1",
+        "caller1 receipt retry"
+      ],
+      "expected": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      },
+      "required": [
+        "two distinct outstanding RPC requests",
+        "same principal two channels",
+        "c2 response before release1",
+        "identical immutable receipts"
+      ],
+      "client_pairs": [
+        "PP",
+        "PT",
+        "TP",
+        "TT"
+      ],
+      "pair_roles": {
+        "first": "A",
+        "second": "A2 (same trusted principal A)",
+        "admin": "P (bootstrap only)"
+      },
+      "bootstrap": "root+leafA+leafB revision3",
+      "barriers": "trusted startup control-dir rules/events/release files; never business arguments or sleeps as order proof"
+    },
+    {
+      "id": "C07",
+      "family": "revocation",
+      "order": [
+        "reserve",
+        "call paused before tx",
+        "revoke committed",
+        "call released",
+        "call REVOKED"
+      ],
+      "expected": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 1,
+          "COMMITTED": 0,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "business_rows": 0,
+        "receipts": 0,
+        "authority_epoch": "1"
+      },
+      "required": [
+        "pause arrival",
+        "revocation committed response+event",
+        "release",
+        "call refusal"
+      ],
+      "mutant_M05_order": [
+        "validation_transaction_finished",
+        "pause_after_validation arrived",
+        "revoke committed",
+        "pause released",
+        "effect commit"
+      ],
+      "client_pairs": [
+        "PP",
+        "PT",
+        "TP",
+        "TT"
+      ],
+      "pair_roles": {
+        "first": "A (effect actor)",
+        "second": "admin (revoke/cancel actor)"
+      },
+      "bootstrap": "root+leafA+leafB revision3",
+      "barriers": "trusted startup control-dir rules/events/release files; never business arguments or sleeps as order proof"
+    },
+    {
+      "id": "C08",
+      "family": "revocation",
+      "order": [
+        "reserve",
+        "call effect committed",
+        "revoke committed",
+        "lookup prior receipt"
+      ],
+      "expected": {
+        "state_revision": "6",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "1"
+      },
+      "required": [
+        "call COMMITTED response before revoke dispatch",
+        "lookup receipt unchanged"
+      ],
+      "client_pairs": [
+        "PP",
+        "PT",
+        "TP",
+        "TT"
+      ],
+      "pair_roles": {
+        "first": "A (effect actor)",
+        "second": "admin (revoke/cancel actor)"
+      },
+      "bootstrap": "root+leafA+leafB revision3",
+      "barriers": "trusted startup control-dir rules/events/release files; never business arguments or sleeps as order proof"
+    },
+    {
+      "id": "C09",
+      "family": "cancellation",
+      "order": [
+        "reserve",
+        "call paused before tx",
+        "cancel committed",
+        "call released",
+        "call REVOKED"
+      ],
+      "expected": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 0,
+          "CANCELLED": 1
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 0,
+        "receipts": 0,
+        "authority_epoch": "0"
+      },
+      "required": [
+        "pause arrival",
+        "CANCELLED response+commit event",
+        "release",
+        "no callback/effect"
+      ],
+      "client_pairs": [
+        "PP",
+        "PT",
+        "TP",
+        "TT"
+      ],
+      "pair_roles": {
+        "first": "A (effect actor)",
+        "second": "admin (revoke/cancel actor)"
+      },
+      "bootstrap": "root+leafA+leafB revision3",
+      "barriers": "trusted startup control-dir rules/events/release files; never business arguments or sleeps as order proof"
+    },
+    {
+      "id": "C10",
+      "family": "cancellation",
+      "order": [
+        "reserve",
+        "call committed",
+        "cancel consumed reservation"
+      ],
+      "expected": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      },
+      "required": [
+        "COMMITTED response before cancel dispatch",
+        "no revision/charge change after cancel"
+      ],
+      "client_pairs": [
+        "PP",
+        "PT",
+        "TP",
+        "TT"
+      ],
+      "pair_roles": {
+        "first": "A (effect actor)",
+        "second": "admin (revoke/cancel actor)"
+      },
+      "bootstrap": "root+leafA+leafB revision3",
+      "barriers": "trusted startup control-dir rules/events/release files; never business arguments or sleeps as order proof"
+    },
+    {
+      "id": "C11",
+      "family": "crash_recovery",
+      "order": [
+        "reserve",
+        "business INSERT staged",
+        "crash before commit",
+        "all writers stopped",
+        "checkpoint emptyeffect+heldreservation",
+        "restart",
+        "retry once"
+      ],
+      "expected": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      },
+      "required": [
+        "trusted beforecommit crash exit86",
+        "no response",
+        "checkpoint priorrev4",
+        "new actual PID",
+        "one callback durable row"
+      ],
+      "client_pairs": [
+        "PP",
+        "PT",
+        "TP",
+        "TT"
+      ],
+      "pair_roles": {
+        "first": "A before crash",
+        "second": "A after restart (same trusted principal)",
+        "admin": "P bootstrap; lookup uses restarted actor"
+      },
+      "bootstrap": "root+leafA+leafB revision3",
+      "barriers": "trusted startup control-dir rules/events/release files; never business arguments or sleeps as order proof"
+    },
+    {
+      "id": "C12",
+      "family": "crash_recovery",
+      "order": [
+        "reserve",
+        "commit effect+receipt",
+        "crash before response",
+        "all writers stopped",
+        "checkpoint oneeffect",
+        "restart other channel",
+        "lookup/retry originalop"
+      ],
+      "expected": {
+        "state_revision": "5",
+        "reservation_states": {
+          "RESERVED": 0,
+          "COMMITTED": 1,
+          "CANCELLED": 0
+        },
+        "consumed": {
+          "ops": {
+            "unit": "operation",
+            "amount": "2"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "5"
+          }
+        },
+        "reserved": {
+          "ops": {
+            "unit": "operation",
+            "amount": "0"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "0"
+          }
+        },
+        "business_rows": 1,
+        "receipts": 1,
+        "authority_epoch": "0"
+      },
+      "required": [
+        "trusted aftercommit crash exit86",
+        "no response",
+        "checkpoint revision5",
+        "new actual PID",
+        "unchanged receipt and one durable row"
+      ],
+      "client_pairs": [
+        "PP",
+        "PT",
+        "TP",
+        "TT"
+      ],
+      "pair_roles": {
+        "first": "A before crash",
+        "second": "A after restart (same trusted principal)",
+        "admin": "P bootstrap; lookup uses restarted actor"
+      },
+      "bootstrap": "root+leafA+leafB revision3",
+      "barriers": "trusted startup control-dir rules/events/release files; never business arguments or sleeps as order proof"
+    }
+  ],
+  "date_diagnostics": [
+    {
+      "id": "D01",
+      "name": "root_integer_positive",
+      "target": "root",
+      "body_valid_from": 0,
+      "body_valid_until": 1000,
+      "clock": 0,
+      "jwt": {
+        "iat": 0,
+        "nbf": 0,
+        "exp": 1000
+      },
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "expected": "ACTIVE",
+      "negative_state": "badroot remains0 roots/mandates/transitions; badchild validroot remains1 mandate/root/transition revision1; allbaseSQLunchanged frombefore attempt",
+      "positive_state": "1root+1mandate revision1"
+    },
+    {
+      "id": "D02",
+      "name": "child_integer_positive",
+      "target": "child",
+      "body_valid_from": 1,
+      "body_valid_until": 1000,
+      "clock": 2,
+      "jwt": {
+        "iat": 0,
+        "nbf": 1,
+        "exp": 1000
+      },
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "expected": "ACTIVE",
+      "negative_state": "badroot remains0 roots/mandates/transitions; badchild validroot remains1 mandate/root/transition revision1; allbaseSQLunchanged frombefore attempt",
+      "positive_state": "1root+2mandates revision2"
+    },
+    {
+      "id": "D03",
+      "name": "root_from_true",
+      "target": "root",
+      "body_valid_from": true,
+      "body_valid_until": 1000,
+      "clock": 2,
+      "jwt": {
+        "iat": 0,
+        "nbf": 1,
+        "exp": 1000
+      },
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "expected": "INVALID_TOKEN",
+      "negative_state": "badroot remains0 roots/mandates/transitions; badchild validroot remains1 mandate/root/transition revision1; allbaseSQLunchanged frombefore attempt",
+      "positive_state": "1root+1mandate revision1"
+    },
+    {
+      "id": "D04",
+      "name": "child_from_true",
+      "target": "child",
+      "body_valid_from": true,
+      "body_valid_until": 1000,
+      "clock": 2,
+      "jwt": {
+        "iat": 0,
+        "nbf": 1,
+        "exp": 1000
+      },
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "expected": "INVALID_TOKEN",
+      "negative_state": "badroot remains0 roots/mandates/transitions; badchild validroot remains1 mandate/root/transition revision1; allbaseSQLunchanged frombefore attempt",
+      "positive_state": "1root+2mandates revision2"
+    },
+    {
+      "id": "D05",
+      "name": "root_from_false",
+      "target": "root",
+      "body_valid_from": false,
+      "body_valid_until": 1000,
+      "clock": 0,
+      "jwt": {
+        "iat": 0,
+        "nbf": 0,
+        "exp": 1000
+      },
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "expected": "INVALID_TOKEN",
+      "negative_state": "badroot remains0 roots/mandates/transitions; badchild validroot remains1 mandate/root/transition revision1; allbaseSQLunchanged frombefore attempt",
+      "positive_state": "1root+1mandate revision1"
+    },
+    {
+      "id": "D06",
+      "name": "child_from_false",
+      "target": "child",
+      "body_valid_from": false,
+      "body_valid_until": 1000,
+      "clock": 0,
+      "jwt": {
+        "iat": 0,
+        "nbf": 0,
+        "exp": 1000
+      },
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "expected": "INVALID_TOKEN",
+      "negative_state": "badroot remains0 roots/mandates/transitions; badchild validroot remains1 mandate/root/transition revision1; allbaseSQLunchanged frombefore attempt",
+      "positive_state": "1root+2mandates revision2"
+    },
+    {
+      "id": "D07",
+      "name": "root_until_true",
+      "target": "root",
+      "body_valid_from": 0,
+      "body_valid_until": true,
+      "clock": 0,
+      "jwt": {
+        "iat": 0,
+        "nbf": 0,
+        "exp": 1
+      },
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "expected": "INVALID_TOKEN",
+      "negative_state": "badroot remains0 roots/mandates/transitions; badchild validroot remains1 mandate/root/transition revision1; allbaseSQLunchanged frombefore attempt",
+      "positive_state": "1root+1mandate revision1"
+    },
+    {
+      "id": "D08",
+      "name": "child_until_true",
+      "target": "child",
+      "body_valid_from": 0,
+      "body_valid_until": true,
+      "clock": 0,
+      "jwt": {
+        "iat": 0,
+        "nbf": 0,
+        "exp": 1
+      },
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "expected": "INVALID_TOKEN",
+      "negative_state": "badroot remains0 roots/mandates/transitions; badchild validroot remains1 mandate/root/transition revision1; allbaseSQLunchanged frombefore attempt",
+      "positive_state": "1root+2mandates revision2"
+    }
+  ],
+  "malformed_regressions": {
+    "separate_from20": true,
+    "client_runs": [
+      "P",
+      "T"
+    ],
+    "cases": [
+      {
+        "id": "R01",
+        "override": {
+          "tool_name": []
+        },
+        "expected": {
+          "jsonrpc_error": {
+            "code": -31001,
+            "data": {
+              "profile": "zti-mcp/0.1",
+              "reason": "BINDING_MISMATCH",
+              "status": "REFUSED"
+            }
+          },
+          "state_unchanged": true
+        }
+      },
+      {
+        "id": "R02",
+        "override": {
+          "tool_name": {}
+        },
+        "expected": {
+          "jsonrpc_error": {
+            "code": -31001,
+            "data": {
+              "profile": "zti-mcp/0.1",
+              "reason": "BINDING_MISMATCH",
+              "status": "REFUSED"
+            }
+          },
+          "state_unchanged": true
+        }
+      }
+    ],
+    "followup": "sameendpoint validreserve+call succeeds"
+  },
+  "synthetics": [
+    {
+      "id": "SD01",
+      "kind": "discovery",
+      "fault": "For every server/discover response in a copy of positive I01_P, set result.supportedVersions=[2025-03-26] and result.protocolVersion=2026-07-28; coherently reencode raw_base64/frame/observations; other bytes/SQL unchanged.",
+      "expected": "independentreaderrejects modern supportedVersions; original accepted",
+      "original_unchanged": true
+    },
+    {
+      "id": "SD02",
+      "kind": "discovery",
+      "fault": "In every server/discover response of a separate positive I01_P copy, move result.capabilities to result._meta[io.modelcontextprotocol/serverCapabilities] and delete result.capabilities. Keep supportedVersions=[2026-07-28]. Coherently reencode raw_base64/frame/observations.",
+      "expected": "independentreaderrejects missing modern capabilities without legacy fallback; original accepted",
+      "original_unchanged": true
+    },
+    {
+      "id": "SD03",
+      "kind": "discovery",
+      "fault": "In every server/discover response of a separate positive I01_P copy, delete result.supportedVersions, set result.protocolVersion=2026-07-28, retain correct modern capabilities; coherently reencode raw_base64/frame/observations/copy hashes.",
+      "expected": "independentreaderrejects missing modern supportedVersions without legacy fallback; original accepted",
+      "original_unchanged": true
+    },
+    {
+      "id": "SE01",
+      "kind": "signature",
+      "fault": "replace acceptedICT64bytesignature byzeros consistently inwire,fixtures,SQL; preserveclaims",
+      "expected": "cryptographicrejection; originalaccepted"
+    },
+    {
+      "id": "SE02",
+      "kind": "effect",
+      "fault": "mutate storedconsumerrow labelalpha tobravo, preserveledgerboundaction/receipt",
+      "expected": "exacteffect-actionlinkrejection; originalaccepted"
+    },
+    {
+      "id": "SE03",
+      "kind": "accounting_revision",
+      "fault": "In a separate positive I01_P copy, change only reservations.cost_json.ops.amount from string2 to string1 for committed o1. Keep action, consumer row, receipt, ICT and transition revisions unchanged; update derived observation/accounting projections and copy integrity manifest coherently.",
+      "expected": "independent cost recomputation rejects reservation amount1 versus action quantity2; original accepted"
+    }
+  ],
+  "mutants": [
+    {
+      "id": "M01",
+      "site": "clientbinder",
+      "fault": "Number(quantity) beforestringbinding",
+      "witness": "V16",
+      "expected_witness": "9007199254740993 becomes9007199254740992 andoriginalgolden diverges",
+      "infra_is_detection": false
+    },
+    {
+      "id": "M02",
+      "site": "providercallbackhandoff",
+      "fault": "aftervalidatedboundaction mutate callbacklabel alpha->bravo",
+      "witness": "I01",
+      "expected_witness": "normaloracle rejectsconsumerrowlabelbravo versusauthorizedalpha; businessINSERTactuallyreached",
+      "infra_is_detection": false
+    },
+    {
+      "id": "M03",
+      "site": "effecttransaction",
+      "fault": "commitbusinessINSERT separately thenraise beforeledgercharge/receipt",
+      "witness": "I18",
+      "expected_witness": "durableorphanrow1 butreservationRESERVED+receipt0+revision4",
+      "infra_is_detection": false
+    },
+    {
+      "id": "M04",
+      "site": "consumedretry",
+      "fault": "reexecutecallback foralreadycommittedsameoperation",
+      "witness": "I08",
+      "expected_witness": "consumerrowcount2 noUNIQUEopmasking; normalreceipt/charge mayunchanged",
+      "infra_is_detection": false
+    },
+    {
+      "id": "M05",
+      "site": "authoritycheckordering",
+      "fault": "completeauthorityvalidation separate tx beforepause;revokecommits;resumeeffectfromcachedvalidation",
+      "witness": "C07",
+      "expected_witness": "effectafterrevocation; requiredcausalorderfromC07 mutant_M05_order",
+      "infra_is_detection": false
+    },
+    {
+      "id": "M06",
+      "site": "admission",
+      "fault": "omitfactsfromotherRESERVEDrows",
+      "witness": "C03",
+      "expected_witness": "bothred+blueRESERVEDatadmissioncheckpoint; noeffectrequired",
+      "infra_is_detection": false
+    }
+  ],
+  "evidence_layout": {
+    "case": "cases/<category>/<id>__<clientorpair>/",
+    "files": [
+      "manifest.json",
+      "fixtures.json",
+      "observation.json",
+      "wire/<connection>.jsonl",
+      "wire/<connection>.lifecycle.jsonl",
+      "events/<connection>.jsonl",
+      "checkpoints/<label>.sqlite",
+      "provider.sqlite",
+      "model_expectations.json"
+    ],
+    "manifest_fields": [
+      "category",
+      "history_or_plan_id",
+      "client_roles",
+      "source_identity",
+      "provider_distribution_hash",
+      "consumer_distribution_hash",
+      "client_distribution_hash",
+      "public_keys",
+      "key_contexts",
+      "checkpoint_labels"
+    ],
+    "observations": "steps map exactrequestid+endpointinstance+method+rawresponse/error, processreceipts, causaljournal, infraerrors separate; no summary usedasproviderinput",
+    "private_runfiles": "trustedconfigs/rules/ephemeralprivatekeys canexistisolatedruntime butneverpublicevidence;publickeys andredactedtrustedconfigprojection retained"
+  },
+  "prefreeze_open_points": [],
+  "format": "zti-r6-scenarios-v1",
+  "preexecution_resolutions": [
+    "fixed issuer.CONTEXT copied as data",
+    "epoch0 revision1 at root; bootstrap root+A+B revision3",
+    "I07 channel C for mandate C",
+    "I08 consumed reserve COMMITTED with same receipt, no new ICT",
+    "I04 declared identity is SDK metadata/clientInfo only; trusted principal remains launch config",
+    "I12 two isolated positive subruns included without extra history count",
+    "negative helper status removed recursively",
+    "after actual consumer INSERT hook call:business_inserted",
+    "V23 valid JSON but invalid demo argument shape is CONSTRAINT_VIOLATION; invalid canonical JSON rejected first",
+    "pair roles explicit for all 12 plans",
+    "independent goldens computed before provider qualification",
+    "S1-C01: I20 lookup uses restarted actor A after stop_all_writers",
+    "S1-C02: I14 compares a checkpoint after revoke before release; pending refused call adds no transition/effect, rather than requiring global SQL unchanged across a concurrent revoke",
+    "S1-C03: SD01/SD02 and SE03 each have one exact synthetic delta and expected semantic rejection",
+    "Complete default unsigned mandate/action templates, operation IDs, public demo input schema and permitted runtime randomness are concretized before qualification.",
+    "S1-C05: default mandate iat equals body.valid_from, preserving iat<=nbf; diagnostic JWT dates explicit integers.",
+    "FREEZE002: S1-AUTH-01 wrong role keys now announce the same key that actually signs, preserving otherwise valid role claims",
+    "FREEZE002: S1-COVERAGE-01 I04 execution identity, I15 historical tool retry, I05 context+signature substeps, raw duplicate iss, SD03 and four auxiliary binding diagnostics restored",
+    "FREEZE002: S1-CAUSAL-01 C01-C04 and I12 two admission RPCs overlap at a trusted before-transaction barrier, then prescribed ordered releases",
+    "FREEZE002: S1-PKG-01 native TypeScript application is extracted outside checkout and node_modules with byte-identical lock copy and exact runtime; no static typecheck claimed",
+    "FREEZE002 delta-C01: C01/C02 explicitly retain winner tools/call after admission checkpoint; rev4 held checkpoint and rev5 committed final are separately specified. C03/C04 remain admission-only.",
+    "FREEZE002 delta-C02: concurrent badBlue does not require global SQL unchanged while winner commits; request-specific no-durable-change convention is explicit.",
+    "FREEZE002 delta-C03: wrongtyp and unknownkid header objects are complete alg/kid/typ protected objects, isolating exactly one context fault."
+  ],
+  "mandate_templates": {
+    "root": {
+      "profile": "zti-mcp/0.1",
+      "tenant_id": "r6-lab-tenant",
+      "principal_id": "urn:r6:owner",
+      "root_mandate_id": "root-00000000000000000000000000000001",
+      "mandate_id": "root-00000000000000000000000000000001",
+      "parent_id": null,
+      "parent_hash": null,
+      "correlation_id": "corr-00000000000000000000000000000001",
+      "delegatee_id": "urn:r6:admin",
+      "valid_from": 1999999940,
+      "valid_until": 2000003600,
+      "constraints": {
+        "allowed_executors": [
+          "urn:r6:executor"
+        ],
+        "allowed_resources": [
+          "urn:r6:resource"
+        ],
+        "allowed_methods": [
+          "tools/call"
+        ],
+        "allowed_tools": [
+          "demo.add_record"
+        ],
+        "action_caps": {
+          "ops": {
+            "unit": "operation",
+            "amount": "10"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "1024"
+          }
+        }
+      },
+      "root_policy": {
+        "budgets": {
+          "ops": {
+            "unit": "operation",
+            "amount": "10"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "1024"
+          }
+        },
+        "forbidden_sets": [
+          [
+            "red",
+            "blue"
+          ]
+        ]
+      },
+      "policy_hash": "16ee37d7786dac1a1355c2ddee60dd0f22ab7944733701bd9b002b2b134ea9f2"
+    },
+    "leafA": {
+      "profile": "zti-mcp/0.1",
+      "tenant_id": "r6-lab-tenant",
+      "principal_id": "urn:r6:owner",
+      "root_mandate_id": "root-00000000000000000000000000000001",
+      "mandate_id": "leaf-0000000000000000000000000000000a",
+      "parent_id": "root-00000000000000000000000000000001",
+      "parent_hash": "62acb50deb18d258974ed72cfe128b5ee1ff7818ad22d4f0643333ac1e958d94",
+      "correlation_id": "corr-00000000000000000000000000000001",
+      "delegatee_id": "urn:r6:agent-a",
+      "valid_from": 1999999940,
+      "valid_until": 2000003600,
+      "constraints": {
+        "allowed_executors": [
+          "urn:r6:executor"
+        ],
+        "allowed_resources": [
+          "urn:r6:resource"
+        ],
+        "allowed_methods": [
+          "tools/call"
+        ],
+        "allowed_tools": [
+          "demo.add_record"
+        ],
+        "action_caps": {
+          "ops": {
+            "unit": "operation",
+            "amount": "10"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "1024"
+          }
+        }
+      },
+      "root_policy": null,
+      "policy_hash": "16ee37d7786dac1a1355c2ddee60dd0f22ab7944733701bd9b002b2b134ea9f2"
+    },
+    "leafB": {
+      "profile": "zti-mcp/0.1",
+      "tenant_id": "r6-lab-tenant",
+      "principal_id": "urn:r6:owner",
+      "root_mandate_id": "root-00000000000000000000000000000001",
+      "mandate_id": "leaf-0000000000000000000000000000000b",
+      "parent_id": "root-00000000000000000000000000000001",
+      "parent_hash": "62acb50deb18d258974ed72cfe128b5ee1ff7818ad22d4f0643333ac1e958d94",
+      "correlation_id": "corr-00000000000000000000000000000001",
+      "delegatee_id": "urn:r6:agent-b",
+      "valid_from": 1999999940,
+      "valid_until": 2000003600,
+      "constraints": {
+        "allowed_executors": [
+          "urn:r6:executor"
+        ],
+        "allowed_resources": [
+          "urn:r6:resource"
+        ],
+        "allowed_methods": [
+          "tools/call"
+        ],
+        "allowed_tools": [
+          "demo.add_record"
+        ],
+        "action_caps": {
+          "ops": {
+            "unit": "operation",
+            "amount": "10"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "1024"
+          }
+        }
+      },
+      "root_policy": null,
+      "policy_hash": "16ee37d7786dac1a1355c2ddee60dd0f22ab7944733701bd9b002b2b134ea9f2"
+    },
+    "leafC": {
+      "profile": "zti-mcp/0.1",
+      "tenant_id": "r6-lab-tenant",
+      "principal_id": "urn:r6:owner",
+      "root_mandate_id": "root-00000000000000000000000000000001",
+      "mandate_id": "leaf-0000000000000000000000000000000c",
+      "parent_id": "root-00000000000000000000000000000001",
+      "parent_hash": "62acb50deb18d258974ed72cfe128b5ee1ff7818ad22d4f0643333ac1e958d94",
+      "correlation_id": "corr-00000000000000000000000000000001",
+      "delegatee_id": "urn:r6:agent-c",
+      "valid_from": 1999999940,
+      "valid_until": 2000003600,
+      "constraints": {
+        "allowed_executors": [
+          "urn:r6:executor"
+        ],
+        "allowed_resources": [
+          "urn:r6:resource"
+        ],
+        "allowed_methods": [
+          "tools/call"
+        ],
+        "allowed_tools": [
+          "demo.add_record"
+        ],
+        "action_caps": {
+          "ops": {
+            "unit": "operation",
+            "amount": "10"
+          },
+          "bytes": {
+            "unit": "byte",
+            "amount": "1024"
+          }
+        }
+      },
+      "root_policy": null,
+      "policy_hash": "16ee37d7786dac1a1355c2ddee60dd0f22ab7944733701bd9b002b2b134ea9f2"
+    }
+  },
+  "operation_ids": {
+    "o1": "op-00000000000000000000000000000001",
+    "o2": "op-00000000000000000000000000000002",
+    "o3": "op-00000000000000000000000000000003",
+    "oC": "op-00000000000000000000000000000004",
+    "red": "op-00000000000000000000000000000005",
+    "blue": "op-00000000000000000000000000000006"
+  },
+  "action_templates": {
+    "o1": {
+      "profile": "zti-mcp/0.1",
+      "tenant_id": "r6-lab-tenant",
+      "root_mandate_id": "root-00000000000000000000000000000001",
+      "mandate_id": "leaf-0000000000000000000000000000000a",
+      "operation_id": "op-00000000000000000000000000000001",
+      "executor_id": "urn:r6:executor",
+      "resource_id": "urn:r6:resource",
+      "method": "tools/call",
+      "tool_name": "demo.add_record",
+      "tool_revision": "1",
+      "arguments": {
+        "quantity": "2",
+        "label": "alpha",
+        "tags": [
+          "neutral"
+        ]
+      }
+    },
+    "o2": {
+      "profile": "zti-mcp/0.1",
+      "tenant_id": "r6-lab-tenant",
+      "root_mandate_id": "root-00000000000000000000000000000001",
+      "mandate_id": "leaf-0000000000000000000000000000000b",
+      "operation_id": "op-00000000000000000000000000000002",
+      "executor_id": "urn:r6:executor",
+      "resource_id": "urn:r6:resource",
+      "method": "tools/call",
+      "tool_name": "demo.add_record",
+      "tool_revision": "1",
+      "arguments": {
+        "quantity": "2",
+        "label": "bravo",
+        "tags": [
+          "neutral"
+        ]
+      }
+    },
+    "o3": {
+      "profile": "zti-mcp/0.1",
+      "tenant_id": "r6-lab-tenant",
+      "root_mandate_id": "root-00000000000000000000000000000001",
+      "mandate_id": "leaf-0000000000000000000000000000000a",
+      "operation_id": "op-00000000000000000000000000000003",
+      "executor_id": "urn:r6:executor",
+      "resource_id": "urn:r6:resource",
+      "method": "tools/call",
+      "tool_name": "demo.add_record",
+      "tool_revision": "1",
+      "arguments": {
+        "quantity": "1",
+        "label": "next",
+        "tags": []
+      }
+    },
+    "oC": {
+      "profile": "zti-mcp/0.1",
+      "tenant_id": "r6-lab-tenant",
+      "root_mandate_id": "root-00000000000000000000000000000001",
+      "mandate_id": "leaf-0000000000000000000000000000000c",
+      "operation_id": "op-00000000000000000000000000000004",
+      "executor_id": "urn:r6:executor",
+      "resource_id": "urn:r6:resource",
+      "method": "tools/call",
+      "tool_name": "demo.add_record",
+      "tool_revision": "1",
+      "arguments": {
+        "quantity": "2",
+        "label": "alpha",
+        "tags": [
+          "neutral"
+        ]
+      }
+    },
+    "red": {
+      "profile": "zti-mcp/0.1",
+      "tenant_id": "r6-lab-tenant",
+      "root_mandate_id": "root-00000000000000000000000000000001",
+      "mandate_id": "leaf-0000000000000000000000000000000a",
+      "operation_id": "op-00000000000000000000000000000005",
+      "executor_id": "urn:r6:executor",
+      "resource_id": "urn:r6:resource",
+      "method": "tools/call",
+      "tool_name": "demo.add_record",
+      "tool_revision": "1",
+      "arguments": {
+        "quantity": "2",
+        "label": "alpha",
+        "tags": [
+          "red"
+        ]
+      }
+    },
+    "blue": {
+      "profile": "zti-mcp/0.1",
+      "tenant_id": "r6-lab-tenant",
+      "root_mandate_id": "root-00000000000000000000000000000001",
+      "mandate_id": "leaf-0000000000000000000000000000000b",
+      "operation_id": "op-00000000000000000000000000000006",
+      "executor_id": "urn:r6:executor",
+      "resource_id": "urn:r6:resource",
+      "method": "tools/call",
+      "tool_name": "demo.add_record",
+      "tool_revision": "1",
+      "arguments": {
+        "quantity": "2",
+        "label": "bravo",
+        "tags": [
+          "blue"
+        ]
+      }
+    }
+  },
+  "fixture_generation_rules": {
+    "default_bootstrap": [
+      "root",
+      "leafA",
+      "leafB"
+    ],
+    "ids": "fixed aliases in this fixture; each history/subrun uses a fresh database",
+    "override_policy": "recompute policy_hash, root hash, child parent_hash and dependent action identity before signing; never take provider hashes as fixture truth",
+    "jwt": "issuer.mandate_claims exact closed fields; jti=mandate_id,default iat=body.valid_from (1999999940), nbf/exp=body dates; integer0<=iat<=nbf<exp<=safe; diagnostics use explicit integer JWT dates; ES256 role header fixed",
+    "randomness": "two fresh P-256 keys and nondeterministic ES256 signatures, opaque reservation IDs and process IDs are runtime values. Public keys, tokens, resolved fixtures and their hashes are recorded before dispatch; admission/effect expectations do not depend on those random bytes.",
+    "dates_parent": "date diagnostics child bootstrap root has integer dates0..1000 and iat0; only target body date changes, with independently integer JWS dates specified per diagnostic",
+    "consumer_schema": "row_id autoPK plus tool.business_columns; all declared columns NOT NULL except auto-generated row_id; no uniqueness constraint on operation_id"
+  },
+  "binding_diagnostics": [
+    {
+      "id": "VA01",
+      "name": "root field bound",
+      "representation": "decoded JSON object",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000002",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "ACCEPT",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "golden_sha256": "57bc5bc3293ba6664a95848526816c8acd2051f41ff49d846f6086b03426ebde",
+      "golden_canonical_utf8_base64": "eyJhcmd1bWVudHMiOnsibGFiZWwiOiJhbHBoYSIsInF1YW50aXR5IjoiMiIsInRhZ3MiOlsibmV1dHJhbCJdfSwiZXhlY3V0b3JfaWQiOiJ1cm46cjY6ZXhlY3V0b3IiLCJtYW5kYXRlX2lkIjoibGVhZi0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYSIsIm1ldGhvZCI6InRvb2xzL2NhbGwiLCJvcGVyYXRpb25faWQiOiJvcC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSIsInByb2ZpbGUiOiJ6dGktbWNwLzAuMSIsInJlc291cmNlX2lkIjoidXJuOnI2OnJlc291cmNlIiwicm9vdF9tYW5kYXRlX2lkIjoicm9vdC0wMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMiIsInRlbmFudF9pZCI6InI2LWxhYi10ZW5hbnQiLCJ0b29sX25hbWUiOiJkZW1vLmFkZF9yZWNvcmQiLCJ0b29sX3JldmlzaW9uIjoiMSJ9"
+    },
+    {
+      "id": "VA02",
+      "name": "quantity plus sign",
+      "representation": "decoded JSON object",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "+1",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "REFUSE_CONSTRAINT_VIOLATION",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "golden_sha256": null,
+      "golden_canonical_utf8_base64": null
+    },
+    {
+      "id": "VA03",
+      "name": "decoded fractional number",
+      "representation": "decoded JSON object",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": 1.5,
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ]
+        }
+      },
+      "expected": "REFUSE_BINDING_MISMATCH",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "golden_sha256": null,
+      "golden_canonical_utf8_base64": null
+    },
+    {
+      "id": "VA04",
+      "name": "non-ASCII nested key",
+      "representation": "decoded JSON object",
+      "input": {
+        "profile": "zti-mcp/0.1",
+        "tenant_id": "r6-lab-tenant",
+        "root_mandate_id": "root-00000000000000000000000000000001",
+        "mandate_id": "leaf-0000000000000000000000000000000a",
+        "operation_id": "op-00000000000000000000000000000001",
+        "executor_id": "urn:r6:executor",
+        "resource_id": "urn:r6:resource",
+        "method": "tools/call",
+        "tool_name": "demo.add_record",
+        "tool_revision": "1",
+        "arguments": {
+          "quantity": "2",
+          "label": "alpha",
+          "tags": [
+            "neutral"
+          ],
+          "\u00e9": 0
+        }
+      },
+      "expected": "REFUSE_BINDING_MISMATCH",
+      "client_runs": [
+        "P",
+        "T"
+      ],
+      "golden_sha256": null,
+      "golden_canonical_utf8_base64": null
+    }
+  ],
+  "raw_jws_diagnostics": {
+    "fixture": "fixtures/raw_jws.json",
+    "negative_inputs": 1,
+    "positive_controls": 1,
+    "sdk_executions": 0,
+    "purpose": "A duplicated iss key with identical values is signed on its exact raw bytes; mathematical signature verification must succeed separately, strict independent raw reader must reject duplicate key; no-duplicate control accepted."
+  }
+}

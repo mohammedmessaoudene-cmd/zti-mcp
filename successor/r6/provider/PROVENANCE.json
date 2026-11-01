@@ -1,0 +1,32 @@
+{
+  "baseline_commit": "3b5b696fe6837e99bad9526c69aa253366d503f5",
+  "license": "Apache-2.0",
+  "adaptations": {
+    "src/zti_mcp_r6/core.py": {
+      "source": "integration/stdio_r5/core.py",
+      "changes": "Configured key/identity contexts, generic installed ToolSpec callbacks, bounded writer effect, result persistence, strict bound identifier checks and R6 startup-only mutants"
+    },
+    "src/zti_mcp_r6/crypto.py": {
+      "source": "integration/stdio_r5/crypto.py",
+      "changes": "Public scalar signer removed; separate injected KI public and KP private contexts; provider signs ICTs only"
+    },
+    "src/zti_mcp_r6/models.py": {
+      "source": "integration/stdio_r5/models.py",
+      "changes": "R6 package-local import and documentation context; strict public wire models preserved"
+    },
+    "src/zti_mcp_r6/endpoint.py": {
+      "source": "integration/stdio_r5/endpoint.py",
+      "changes": "Installed package entry point, public generic catalog override, request ContextVar attribution, structured result and trusted R6 fault controls"
+    }
+  },
+  "original_additions": [
+    "src/zti_mcp_r6/integration.py",
+    "src/zti_mcp_r6/__init__.py",
+    "src/zti_mcp_r6/__main__.py",
+    "tests/test_boundary.py",
+    "pyproject.toml"
+  ],
+  "historical_source_files_modified": false,
+  "issuer_module_imported_by_provider": false,
+  "independent_provider_implementation_claimed": false
+}

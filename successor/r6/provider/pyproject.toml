@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools==80.9.0", "wheel==0.45.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zti-mcp-r6"
+version = "0.3.0"
+description = "Bounded local MCP delegation and transactional SQLite tool integration"
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+dependencies = ["mcp==2.3.0", "mcp-types==2.3.0", "cryptography==50.0.2", "pydantic==2.14.2", "anyio==4.15.1"]
+
+[project.scripts]
+zti-mcp-r6 = "zti_mcp_r6.endpoint:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
