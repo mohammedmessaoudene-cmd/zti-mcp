@@ -244,7 +244,9 @@ def main():
     parser.add_argument("--private-root", type=Path, help="Fresh private runtime outside checkout and evidence; defaults to system temporary directory")
     parser.add_argument("--select", help="Development-only exact caseID, category:caseID, vectors or synthetic; not full qualification")
     args = parser.parse_args()
-    args.python, args.client_dir = args.python.resolve(), args.client_dir.resolve()
+    # POSIX venv executables are symlinks. Resolving the final executable loses
+    # pyvenv.cfg discovery and launches the base interpreter without our wheels.
+    args.python, args.client_dir = args.python.absolute(), args.client_dir.resolve()
     asyncio.run(execute(args))
 
 

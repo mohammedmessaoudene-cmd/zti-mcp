@@ -15,6 +15,7 @@ The reader corrections and code seal are in
 | Injected callback mutation | M02 changes alpha to the frozen bravo witness. The earlier alpha! result remains a failed witness. New targeted data contains the actual bravo business row and is rejected by the ordinary binding check. |
 | Distributions before execution | Wheels and npm archives are inspected against verified source before own-package installation/import or client execution. Altered-source, path-control, notice and entry-point probes are rejected. Runtime observations link the actual inspection, build and distribution hashes. |
 | Upstream entry identities | Selected SDK entry hashes derive from locked, hash-verified upstream archives. DEPENDENCY_ENTRY_POINTS.json covers three Python entries and the TypeScript client entry. It does not hash every dependency file or attest to an outside runner. |
+| POSIX virtual-environment launcher | Keep the executable's absolute invocation path. Resolving its symlink starts the base interpreter and loses the installed wheels. The first Ubuntu head run stopped at client identity before any scenario; its failure is retained and the corrected head requires fresh qualification. |
 
 These finite checks and team reviews are AI-assisted. Release evidence must
 identify the actual clean head, merge commit, installed artifacts, native/hosted
