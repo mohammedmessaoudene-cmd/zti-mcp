@@ -1,5 +1,6 @@
 """Data-export sensitivity checks. No frozen semantic campaign is simulated."""
 from contextlib import closing
+import base64
 import hashlib
 import importlib.util
 import json
@@ -97,6 +98,79 @@ class ExportTests(unittest.TestCase):
             exporter.export(self.run, self.output)
         self.assertEqual(source, (self.case/'observation.json').read_bytes())
         self.assertFalse((self.output/'data/cases/base/I01__P/observation.json').exists())
+
+    def _assert_public_token_preserved(self, token, public_jwk=None):
+        fixture = json.dumps({'public_jws': token, 'public_jwk': public_jwk}).encode()
+        wire = (json.dumps({'frame': {'public_jws': token}})+'\n').encode()
+        (self.case/'fixtures.json').write_bytes(fixture)
+        (self.case/'wire/instance.jsonl').write_bytes(wire)
+        with closing(sqlite3.connect(self.case/'provider.sqlite')) as connection:
+            connection.execute('UPDATE demo_records SET label=?', (token,))
+            connection.commit()
+        database = (self.case/'provider.sqlite').read_bytes()
+        exporter.export(self.run, self.output)
+        for relative, original in [('fixtures.json', fixture),
+                                   ('wire/instance.jsonl', wire),
+                                   ('provider.sqlite', database)]:
+            self.assertEqual(original, (self.case/relative).read_bytes())
+            self.assertEqual(original, (self.output/'data/cases/base/I01__P'/relative).read_bytes())
+        with zipfile.ZipFile(self.output/'R6_PUBLIC_EVIDENCE.zip') as archive:
+            self.assertEqual(wire, archive.read('cases/base/I01__P/wire/instance.jsonl'))
+
+    def test_valid_public_signature_collision_is_preserved(self):
+        # Public, disposable algebraic fixture; no private scalar is present.
+        # Its signature contains '-sk-' but is not an API credential.
+        token = ('eyJhbGciOiJFUzI1NiIsImtpZCI6ImRpc3Bvc2FibGUtcHVibGljLXRlc3QiLCJ0eXAiOiJwdWJsaWMtc2Nhbm5lci1maXh0dXJlK2p3dCJ9.'
+                 'eyJqdGkiOiJwdWJsaWMtbGV4aWNhbC1jb2xsaXNpb24iLCJwdXJwb3NlIjoiZGF0YS1vbmx5IHRlc3QifQ.'
+                 'axfR8uEsQkf4vOblY6RA8ncDfYEt6zOg9KE5RdiYwpYAAAAAA-sk-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
+        public_jwk = {'kty': 'EC', 'crv': 'P-256',
+                      'x': 'e2grAwjDFfGwZbqbPQ2DizgHgp4jTbZVmNqzPXrXcrI',
+                      'y': 'zCaPAvuldU7SGMVJHH4wF7cLCNHIibRU80Hfd9C1fZ8'}
+        from cryptography.hazmat.primitives import hashes
+        from cryptography.hazmat.primitives.asymmetric import ec, utils
+        decode = lambda value: base64.urlsafe_b64decode(value+'='*((-len(value)) % 4))
+        header, payload, signature = token.split('.')
+        raw = decode(signature)
+        self.assertEqual(64, len(raw))
+        key = ec.EllipticCurvePublicNumbers(int.from_bytes(decode(public_jwk['x']), 'big'),
+                                          int.from_bytes(decode(public_jwk['y']), 'big'),
+                                          ec.SECP256R1()).public_key()
+        key.verify(utils.encode_dss_signature(int.from_bytes(raw[:32], 'big'), int.from_bytes(raw[32:], 'big')),
+                   (header+'.'+payload).encode(), ec.ECDSA(hashes.SHA256()))
+        self._assert_public_token_preserved(token, public_jwk)
+
+    def test_public_signature_segment_start_is_preserved(self):
+        # Opaque public negative-test data: canonical 64-byte signature encoding.
+        encode = lambda value: base64.urlsafe_b64encode(json.dumps(value).encode()).rstrip(b'=').decode()
+        signature = 'sk-'+'A'*83
+        self.assertEqual(64, len(base64.urlsafe_b64decode(signature+'==')))
+        token = encode({'alg': 'ES256'})+'.'+encode({'public_fixture': True})+'.'+signature
+        self._assert_public_token_preserved(token)
+
+    def test_standalone_credentials_and_private_material_remain_refused(self):
+        key = 'sk-'+'A'*40  # Synthetic format witnesses; no real credential.
+        values = [key, json.dumps(key), 'Authorization: Bearer '+key,
+                  'https://service.invalid/?api_key='+key,
+                  'https://service.invalid/'+key, key+'.', ';'+key,
+                  'sk-proj-'+'A'*40, 'sk-'+'A'*83,
+                  '-----BEGIN PRIVATE KEY-----', '-----BEGIN EC PRIVATE KEY-----',
+                  'https://chatgpt.com/c/private-test',
+                  'https://chatgpt.com/library?private-test']
+        values += [prefix+'A'*40 for prefix in ('ghp_', 'gho_', 'ghu_', 'ghs_', 'ghr_', 'github_pat_')]
+        for index, value in enumerate(values):
+            with self.subTest(index=index):
+                (self.case/'fixtures.json').write_text(json.dumps({'value': value}))
+                output = self.output.parent/('refused-'+str(index))
+                with self.assertRaises(ValueError):
+                    exporter.export(self.run, output)
+                self.assertFalse((output/'data/cases/base/I01__P/fixtures.json').exists())
+                self.assertFalse((output/'R6_PUBLIC_EVIDENCE.zip').exists())
+        # These object checks are independent of the lexical token boundary.
+        for value in ({'kty': 'EC', 'd': 'private-scalar'},
+                      {'kty': 'RSA', 'p': 'private-prime'},
+                      {'kty': 'OKP', 'd': 'private-scalar'}):
+            with self.assertRaises(ValueError):
+                exporter.safe_json(value)
 
 
 if __name__ == '__main__':

@@ -15,7 +15,10 @@ import re
 import sqlite3
 import zipfile
 
-SECRET = re.compile(r'-----BEGIN (?:[A-Z ]* )?PRIVATE KEY-----|\b(?:gh[pousr]_[A-Za-z0-9_]{30,}|github_pat_[A-Za-z0-9_]{30,}|sk-(?:proj-)?[A-Za-z0-9_-]{30,})\b|https://chatgpt\.com/(?:c/|library\?)', re.I)
+# A word boundary splits public base64url at '-' and compact JWS at '.'.
+# Recognize standalone credential-shaped strings instead of those substrings;
+# a bare encoding indistinguishable from a credential still fails closed.
+SECRET = re.compile(r'-----BEGIN (?:[A-Z ]* )?PRIVATE KEY-----|(?<![A-Za-z0-9_.-])(?:gh[pousr]_[A-Za-z0-9_]{30,}|github_pat_[A-Za-z0-9_]{30,}|sk-(?:proj-)?[A-Za-z0-9_-]{30,})(?![A-Za-z0-9_-])|https://chatgpt\.com/(?:c/|library\?)', re.I)
 LOCAL_PATH = re.compile(r'(?<![A-Za-z0-9])(?:[A-Za-z]:[\\/][^\s"\'<>]+|/(?:home|Users|private|tmp|workspace|root|runner|__w|var/tmp)/[^\s"\'<>]+)')
 FORBIDDEN_PARTS = {'_runtime', 'node_modules', 'pip-cache', 'npm-cache', '__pycache__', 'keys'}
 CASE_METADATA = {'manifest.json', 'fixtures.json', 'observation.json', 'SYNTHETIC_COPY.json'}
