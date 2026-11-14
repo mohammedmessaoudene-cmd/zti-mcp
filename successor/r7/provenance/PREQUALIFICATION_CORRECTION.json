@@ -1,0 +1,31 @@
+{
+  "changed_runtime_files": [
+    "src/zti_r7/oracle.py"
+  ],
+  "corrected_reader_copy_regressions": {
+    "intact_baselines_PASS": 5,
+    "named_semantic_rejections": 5,
+    "new_provider_executions": 0
+  },
+  "corrected_reader_sha256": "9fb9317dc79cdd140c2cb6e545f35ddd69c6fa8f202e4751204c567ad26df5ce",
+  "decision": "FIX_REQUIRED",
+  "development_only": true,
+  "director_review": "R7-S1-0001-REVIEW-01",
+  "findings": [
+    "R7-S1-ORACLE-01",
+    "R7-S1-EVIDENCE-02"
+  ],
+  "first_full_qualification_not_run": true,
+  "format": "zti-r7-prequalification-correction/1",
+  "initial_candidate": "a57273d08e9fb777fc22ebc80910d48564577834",
+  "limits": "Prequalification copies test reader properties; they are not five new provider executions. Existing R1 receipts remain attributed to their old source. Historical evidence is retained.",
+  "old_reader_copy_regressions": {
+    "corrupted_copies_incorrectly_PASS": 5,
+    "intact_baselines_PASS": 5
+  },
+  "postqualification_correction_cycles_used": 0,
+  "scientific_input_hashes_unchanged": {
+    "oracle_expectations.json": "3062c555319bb50c4499f60f52a9eecf37850aa38dcb30aa1761f762364f52c0",
+    "public_cases.json": "2479cee9830f054b3b3893ca5d7b9851a0e361ebb5c4e1e2c00d7eb459999129"
+  }
+}

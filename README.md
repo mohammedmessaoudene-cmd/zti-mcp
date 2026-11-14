@@ -6,6 +6,20 @@ The repository includes an English draft, a French engineering note, schemas, re
 
 The design, code, documentation and internal reviews were prepared with AI assistance under the author's direction. No independent human or institutional review is claimed.
 
+## Effect completeness and durable recovery comparison (R7)
+
+The isolated [R7 study](successor/r7/README.md) compares ZTI with a separately
+implemented durable SQLite ACL controller under the same local messaging task,
+observations, budgets and incident boundaries. Its frozen corpus contains
+12 templates with two variants each: 24 paired cases, 48 controller executions
+per full campaign, plus separately counted instrument controls. It tests complete
+recipient/read effects and recovery in a new process with the same principal.
+Equality is an acceptable result. No LLM behavior, new MCP wire qualification,
+real mail delivery, remote atomicity or cross-principal recovery is established.
+Actual execution and publication evidence belong to the
+[v0.4.0 research release](https://github.com/mohammedmessaoudene-cmd/zti-mcp/releases/tag/v0.4.0-research).
+The earlier R4/R5/R6 code, fixtures and captured results remain preserved.
+
 ## Installed tools and Python/TypeScript clients (R6)
 
 The separate [R6 successor](successor/r6/README.md) adds a reusable local
