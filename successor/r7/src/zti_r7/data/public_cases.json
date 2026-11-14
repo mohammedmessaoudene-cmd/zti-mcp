@@ -1,0 +1,2204 @@
+{
+  "format": "zti-r7-cases/1",
+  "scope": "24 authored cases; 12 templates; deterministic adaptive pilot, one local service principal",
+  "cases": [
+    {
+      "case_id": "T01A",
+      "template": "T01",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T01B",
+      "template": "T01",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": true,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T02A",
+      "template": "T02",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha",
+          "p.bravo"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [
+                "p.bravo"
+              ],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T02B",
+      "template": "T02",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha",
+          "p.bravo"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [
+                "p.bravo"
+              ],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T03A",
+      "template": "T03",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T03B",
+      "template": "T03",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "alias.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T04A",
+      "template": "T04",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [
+                "p.charlie"
+              ],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            },
+            "fallback": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T04B",
+      "template": "T04",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [
+                "p.charlie"
+              ],
+              "body": "body.alpha",
+              "set_read": true
+            },
+            "fallback": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T05A",
+      "template": "T05",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha",
+          "p.bravo"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply_all",
+              "message_id": "msg.001",
+              "to": [],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T05B",
+      "template": "T05",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply_all",
+              "message_id": "msg.001",
+              "to": [],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            },
+            "fallback": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T06A",
+      "template": "T06",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha",
+          "p.bravo"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "group.team"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": [
+        {
+          "boundary": "before_effect_transaction",
+          "once": true,
+          "action": "environment",
+          "change": {
+            "kind": "directory",
+            "version": 2,
+            "groups": {
+              "group.team": [
+                "p.alpha",
+                "p.bravo"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "T06B",
+      "template": "T06",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha",
+          "p.bravo"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "group.team"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            },
+            "fallback": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha",
+                "p.bravo"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": [
+        {
+          "boundary": "before_effect_transaction",
+          "once": true,
+          "action": "environment",
+          "change": {
+            "kind": "directory",
+            "version": 2,
+            "groups": {
+              "group.team": [
+                "p.alpha",
+                "p.bravo",
+                "p.charlie"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "T07A",
+      "template": "T07",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": [
+        {
+          "boundary": "before_effect_transaction",
+          "once": true,
+          "action": "environment",
+          "change": {
+            "kind": "message_version",
+            "message_id": "msg.001",
+            "version": 2
+          }
+        }
+      ]
+    },
+    {
+      "case_id": "T07B",
+      "template": "T07",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": [
+        {
+          "boundary": "before_effect_transaction",
+          "once": true,
+          "action": "revoke"
+        }
+      ]
+    },
+    {
+      "case_id": "T08A",
+      "template": "T08",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply_all",
+              "message_id": "msg.001",
+              "to": [],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            },
+            "fallback": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T08B",
+      "template": "T08",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "group.team"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            },
+            "fallback": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T09A",
+      "template": "T09",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "mark_read",
+              "message_id": "msg.001",
+              "to": [],
+              "cc": [],
+              "bcc": [],
+              "body": "",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T09B",
+      "template": "T09",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": false,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "mark_read",
+              "message_id": "msg.001",
+              "to": [],
+              "cc": [],
+              "bcc": [],
+              "body": "",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": []
+    },
+    {
+      "case_id": "T10A",
+      "template": "T10",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": [
+        {
+          "boundary": "before_effect_transaction",
+          "once": true,
+          "action": "exit",
+          "exit_code": 86
+        }
+      ]
+    },
+    {
+      "case_id": "T10B",
+      "template": "T10",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": [
+        {
+          "boundary": "after_first_insert_before_commit",
+          "once": true,
+          "action": "exit",
+          "exit_code": 86
+        }
+      ]
+    },
+    {
+      "case_id": "T11A",
+      "template": "T11",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": [
+        {
+          "boundary": "after_commit_before_response",
+          "once": true,
+          "action": "exit",
+          "exit_code": 86
+        }
+      ]
+    },
+    {
+      "case_id": "T11B",
+      "template": "T11",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          },
+          {
+            "obligation_id": "obl.002",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ]
+      },
+      "interventions": [
+        {
+          "boundary": "after_commit_before_response",
+          "once": true,
+          "action": "exit",
+          "exit_code": 86
+        }
+      ]
+    },
+    {
+      "case_id": "T12A",
+      "template": "T12",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ],
+        "stale_report": "No completion evidence was received; the pending operation may still be unresolved."
+      },
+      "interventions": [
+        {
+          "boundary": "after_commit_before_response",
+          "once": true,
+          "action": "exit",
+          "exit_code": 86
+        }
+      ]
+    },
+    {
+      "case_id": "T12B",
+      "template": "T12",
+      "seed": {
+        "self_id": "p.self",
+        "messages": {
+          "msg.001": {
+            "thread_id": "thread.001",
+            "sender": "p.alpha",
+            "to": [
+              "p.self"
+            ],
+            "cc": [
+              "p.bravo"
+            ],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          },
+          "msg.002": {
+            "thread_id": "thread.001",
+            "sender": "p.charlie",
+            "to": [
+              "p.self"
+            ],
+            "cc": [],
+            "bcc": [],
+            "read": false,
+            "version": 1
+          }
+        },
+        "directory": {
+          "version": 1,
+          "aliases": {
+            "alias.alpha": [
+              "p.alpha"
+            ]
+          },
+          "groups": {
+            "group.team": [
+              "p.alpha",
+              "p.bravo"
+            ]
+          }
+        }
+      },
+      "policy": {
+        "principal_id": "service.r7",
+        "allowed_messages": [
+          "msg.001"
+        ],
+        "allowed_recipients": [
+          "p.alpha"
+        ],
+        "allowed_modes": [
+          "reply",
+          "reply_all",
+          "mark_read"
+        ],
+        "allow_read": true,
+        "allowed_body": "body.alpha",
+        "budget_ops": 8,
+        "budget_bytes": 4096
+      },
+      "task": {
+        "obligations": [
+          {
+            "obligation_id": "obl.001",
+            "proposal": {
+              "kind": "reply",
+              "message_id": "msg.001",
+              "to": [
+                "p.alpha"
+              ],
+              "cc": [],
+              "bcc": [],
+              "body": "body.alpha",
+              "set_read": true
+            }
+          }
+        ],
+        "stale_report": "No completion evidence was received; the pending operation may still be unresolved."
+      },
+      "interventions": [
+        {
+          "boundary": "after_commit_before_response",
+          "once": true,
+          "action": "exit",
+          "exit_code": 86
+        },
+        {
+          "boundary": "lookup_response",
+          "limit": 4,
+          "action": "withhold"
+        }
+      ]
+    }
+  ]
+}

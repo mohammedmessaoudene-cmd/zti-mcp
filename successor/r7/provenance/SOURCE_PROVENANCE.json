@@ -1,0 +1,43 @@
+{
+  "format": "zti-r7-source-provenance/1",
+  "base_commit": "1697a9ec4da11de3318d55099d696a814152bc75",
+  "modified_copies": {
+    "__init__.py": {
+      "base_path": "successor/r6/provider/src/zti_mcp_r6/__init__.py",
+      "base_sha256": "af7feea402dd76c3ee7a2a7e7a49821d37cf0490d69cdb5640ca1751c76419ec",
+      "r7_path": "successor/r7/src/zti_r7/_provider/__init__.py",
+      "adaptations": "Attribution plus localized R7 transaction-read/typed-refusal changes; crypto and package initializer retain algorithms."
+    },
+    "core.py": {
+      "base_path": "successor/r6/provider/src/zti_mcp_r6/core.py",
+      "base_sha256": "d1d9ab5d153ffa2ee13963fa277a201a6e43c28a46722a8c04ee9d05f2c70e0c",
+      "r7_path": "successor/r7/src/zti_r7/_provider/core.py",
+      "adaptations": "Attribution plus localized R7 transaction-read/typed-refusal changes; crypto and package initializer retain algorithms."
+    },
+    "crypto.py": {
+      "base_path": "successor/r6/provider/src/zti_mcp_r6/crypto.py",
+      "base_sha256": "b1086d55c63f9fd69a0b2c84d91f7a3cfcf03e0d9972c209227a7132a5d72848",
+      "r7_path": "successor/r7/src/zti_r7/_provider/crypto.py",
+      "adaptations": "Attribution plus localized R7 transaction-read/typed-refusal changes; crypto and package initializer retain algorithms."
+    },
+    "integration.py": {
+      "base_path": "successor/r6/provider/src/zti_mcp_r6/integration.py",
+      "base_sha256": "56daa3dafe37139188ba7fef4133167a0a2bc9383997bf13f70abf534f8324c9",
+      "r7_path": "successor/r7/src/zti_r7/_provider/integration.py",
+      "adaptations": "Attribution plus localized R7 transaction-read/typed-refusal changes; crypto and package initializer retain algorithms."
+    }
+  },
+  "authors": {
+    "provider_domain_z": "A/next_local_audit, AI assistance under Mohammed Messaoudene",
+    "classic_pilot": "B/next_mcp_standards, independently written authorization and durable controller",
+    "fixtures_oracle_worker_runner_packaging": "coordinator, separately authored effect reader and expectations",
+    "instrument_controls": "A/next_local_audit, separate deliberately faulty executables",
+    "technical_review": "C/next_prior_art, no executable R7 authoring",
+    "documentation_workflow": "B with coordinator packaging additions"
+  },
+  "limits": [
+    "Same-team AI review, no independent human validation",
+    "Historical failure evidence retained; hashes do not alone make every development version reconstructible",
+    "Final result and release identity belong to observed release receipts"
+  ]
+}

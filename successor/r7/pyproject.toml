@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools==80.9.0", "wheel==0.45.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zti-r7-research"
+version = "0.4.0"
+description = "Bounded local effect-complete messaging and durable recovery comparison"
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+dependencies = ["cryptography==50.0.2", "cffi==2.1.1", "pycparser==3.12"]
+
+[project.scripts]
+zti-r7 = "zti_r7.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+zti_r7 = ["data/*.json"]

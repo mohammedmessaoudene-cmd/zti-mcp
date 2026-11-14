@@ -1,0 +1,8 @@
+# Exact versions for this finite Python 3.12 research environment.
+# Runtime dependencies (also declared in pyproject.toml):
+cryptography==50.0.2
+cffi==2.1.1
+pycparser==3.12
+# Wheel-build tooling; build with --no-build-isolation and --no-deps.
+setuptools==80.9.0
+wheel==0.45.1

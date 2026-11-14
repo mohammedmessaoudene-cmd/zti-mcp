@@ -1,0 +1,1065 @@
+{
+  "format": "zti-r7-expectations/1",
+  "independence": "Written by coordinator from closed scenario contract, without importing runtime business or authorization modules; never passed to controller process",
+  "cases": {
+    "T01A": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T01B": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 0,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T02A": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [
+            "p.bravo"
+          ],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [
+            "p.bravo"
+          ],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T02B": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [
+            "p.bravo"
+          ],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [
+            "p.bravo"
+          ],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T03A": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T03B": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T04A": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 1,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T04B": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 1,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T05A": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha",
+            "p.bravo"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha",
+            "p.bravo"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T05B": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 1,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T06A": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha",
+            "p.bravo"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 1,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha",
+            "p.bravo"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T06B": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha",
+            "p.bravo"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 1,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha",
+            "p.bravo"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T07A": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 3,
+        "msg.002": 1
+      },
+      "minimum_refusals": 1,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T07B": {
+      "claim_status": "REFUSED",
+      "outboxes": [],
+      "read_changes": {
+        "msg.001": 0,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": false,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 1,
+        "msg.002": 1
+      },
+      "minimum_refusals": 1,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T08A": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 1,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T08B": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 1,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T09A": {
+      "claim_status": "DONE",
+      "outboxes": [],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T09B": {
+      "claim_status": "REFUSED",
+      "outboxes": [],
+      "read_changes": {
+        "msg.001": 0,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": false,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 1,
+        "msg.002": 1
+      },
+      "minimum_refusals": 1,
+      "justified_unknown": false,
+      "expected_restarts": 0,
+      "goal_outboxes": [],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T10A": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": false,
+      "expected_restarts": 1,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T10B": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": false,
+      "expected_restarts": 1,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T11A": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": false,
+      "expected_restarts": 1,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T11B": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        },
+        {
+          "obligation_id": "obl.002",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 3,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": false,
+      "expected_restarts": 1,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        },
+        {
+          "obligation_id": "obl.002",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T12A": {
+      "claim_status": "DONE",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": false,
+      "expected_restarts": 1,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    },
+    "T12B": {
+      "claim_status": "UNKNOWN",
+      "outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "read_changes": {
+        "msg.001": 1,
+        "msg.002": 0
+      },
+      "final_read": {
+        "msg.001": true,
+        "msg.002": false
+      },
+      "final_message_versions": {
+        "msg.001": 2,
+        "msg.002": 1
+      },
+      "minimum_refusals": 0,
+      "justified_unknown": true,
+      "expected_restarts": 1,
+      "goal_outboxes": [
+        {
+          "obligation_id": "obl.001",
+          "message_id": "msg.001",
+          "to": [
+            "p.alpha"
+          ],
+          "cc": [],
+          "bcc": [],
+          "body": "body.alpha"
+        }
+      ],
+      "goal_read_messages": [
+        "msg.001"
+      ]
+    }
+  }
+}

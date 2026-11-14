@@ -1,0 +1,182 @@
+name: Qualify bounded local R7 from an installed wheel
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'successor/r7/**'
+      - '.github/workflows/research-r7.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'successor/r7/**'
+      - '.github/workflows/research-r7.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  EXPECTED_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+  R6_BASELINE_SHA: 1697a9ec4da11de3318d55099d696a814152bc75
+  PIP_DISABLE_PIP_VERSION_CHECK: '1'
+
+jobs:
+  qualify:
+    name: Build and qualify exact R7 source (Ubuntu)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out the actual source head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+
+      - name: Verify source and create isolated build and runtime environments
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE_SHA"
+          test -z "$(git status --porcelain --untracked-files=no)"
+          git diff --exit-code "$R6_BASELINE_SHA" HEAD -- successor/r6 integration/stdio_r5
+          test -f successor/r7/src/zti_r7/data/FREEZE.json
+          r7_root="$RUNNER_TEMP/r7-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          test ! -e "$r7_root"
+          mkdir -p "$r7_root/dist"
+          python -m venv "$r7_root/build-env"
+          python -m venv "$r7_root/runtime"
+          echo "R7_ROOT=$r7_root" >> "$GITHUB_ENV"
+          echo "R7_BUILD_PY=$r7_root/build-env/bin/python" >> "$GITHUB_ENV"
+          echo "R7_RUNTIME_PY=$r7_root/runtime/bin/python" >> "$GITHUB_ENV"
+
+      - name: Build one wheel and install those exact bytes
+        run: |
+          set -euo pipefail
+          "$R7_BUILD_PY" -m pip install -r successor/r7/REQUIREMENTS.txt
+          cp -R successor/r7 "$R7_ROOT/build-source"
+          "$R7_BUILD_PY" -m pip wheel --no-deps --no-build-isolation --wheel-dir "$R7_ROOT/dist" "$R7_ROOT/build-source"
+          mapfile -t wheels < <(find "$R7_ROOT/dist" -maxdepth 1 -type f -name 'zti_r7_research-0.4.0-*.whl')
+          test "${#wheels[@]}" -eq 1
+          "$R7_RUNTIME_PY" -m pip install -r successor/r7/REQUIREMENTS.txt
+          "$R7_RUNTIME_PY" -m pip install --no-deps "${wheels[0]}"
+
+      - name: Record real checkout, wheel and loaded installed-package identities
+        run: |
+          set -euo pipefail
+          "$R7_RUNTIME_PY" -I - <<'PY'
+          import hashlib
+          import importlib.metadata
+          import json
+          import os
+          from pathlib import Path
+          import platform
+          import subprocess
+          import zti_r7
+          def sha(path):
+              return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+          checkout = Path(os.environ['GITHUB_WORKSPACE']).resolve()
+          head = subprocess.check_output(['git', '-C', str(checkout), 'rev-parse', 'HEAD'], text=True).strip()
+          if head != os.environ['EXPECTED_SOURCE_SHA']:
+              raise SystemExit('Unexpected actual checkout SHA')
+          tree = subprocess.check_output(['git', '-C', str(checkout), 'rev-parse', 'HEAD^{tree}'], text=True).strip()
+          parent_line = subprocess.check_output(['git', '-C', str(checkout), 'rev-list', '--parents', '-n', '1', 'HEAD'], text=True).split()
+          tracked = subprocess.check_output(['git', '-C', str(checkout), 'ls-files', '-z', '--', 'successor/r7'], text=True).split('\0')
+          root = Path(os.environ['R7_ROOT'])
+          package = Path(zti_r7.__file__).resolve().parent
+          if package.is_relative_to(checkout):
+              raise SystemExit('Runtime imported checkout instead of installed wheel')
+          expected_versions = {'cryptography': '50.0.2', 'cffi': '2.1.1', 'pycparser': '3.12',
+                               'setuptools': '80.9.0', 'wheel': '0.45.1', 'zti-r7-research': '0.4.0'}
+          versions = {name: importlib.metadata.version(name) for name in expected_versions}
+          if versions != expected_versions or platform.python_version_tuple()[:2] != ('3', '12'):
+              raise SystemExit('Installed dependency/Python identity differs')
+          installed = {path.relative_to(package).as_posix(): sha(path)
+              for path in sorted(package.rglob('*')) if path.is_file() and path.suffix in {'.py', '.json'}}
+          source = {name: sha(checkout / name) for name in tracked if name}
+          for relative, digest in installed.items():
+              if source.get('successor/r7/src/zti_r7/' + relative) != digest:
+                  raise SystemExit('Installed/source file mismatch: ' + relative)
+          wheels = sorted((root / 'dist').glob('*.whl'))
+          if len(wheels) != 1:
+              raise SystemExit('Exactly one wheel required')
+          receipt = {'format': 'zti-r7-ci-build/1', 'actual_source_head': head,
+              'actual_source_tree': tree, 'ordered_parents': parent_line[1:],
+              'expected_source_head': os.environ['EXPECTED_SOURCE_SHA'],
+              'source_files': source, 'installed_package_files': installed,
+              'installed_outside_checkout': True, 'versions': versions,
+              'python': platform.python_version(),
+              'wheels': {path.name: {'bytes': path.stat().st_size, 'sha256': sha(path)} for path in wheels},
+              'interpretation': 'Build and installed-byte attribution; not an independent execution attestation.'}
+          (root / 'dist' / 'BUILD.json').write_text(json.dumps(receipt, sort_keys=True, indent=2) + '\n', encoding='utf-8')
+          PY
+
+      - name: Exercise portable source feasibility separately
+        run: |
+          set -euo pipefail
+          "$R7_BUILD_PY" -I successor/r7/tests/feasibility.py --output-dir "$R7_ROOT/private-feasibility"
+
+      - name: Qualify all frozen 24 pairs from installed wheel
+        run: |
+          set -euo pipefail
+          cd "$R7_ROOT"
+          "$R7_RUNTIME_PY" -I -m zti_r7 qualify --output qualification
+
+      - name: Exercise separate instrument controls and positive witnesses
+        run: |
+          set -euo pipefail
+          cd "$R7_ROOT"
+          "$R7_RUNTIME_PY" -I -m zti_r7 instrument --output controls
+
+      - name: Export only allowlisted campaign data, including retained failures
+        if: always()
+        run: |
+          set -euo pipefail
+          if [[ -n "${R7_RUNTIME_PY:-}" && -f "${R7_ROOT:-}/qualification/SUMMARY.json" ]]; then
+            cd "$R7_ROOT"
+            "$R7_RUNTIME_PY" -I -m zti_r7 export --run qualification --archive R7_PUBLIC_EVIDENCE.zip
+          fi
+          if [[ -n "${R7_RUNTIME_PY:-}" && -f "$R7_ROOT/controls/SUMMARY.json" ]]; then
+            cd "$R7_ROOT"
+            "$R7_RUNTIME_PY" -I -m zti_r7 export --run controls --archive R7_INSTRUMENT_EVIDENCE.zip
+          fi
+
+      - name: Reaudit exported data with trusted installed reader
+        run: |
+          set -euo pipefail
+          cd "$R7_ROOT"
+          "$R7_RUNTIME_PY" -I -m zti_r7 audit --archive R7_PUBLIC_EVIDENCE.zip --output data-audit
+          "$R7_RUNTIME_PY" -I -m zti_r7 audit --archive R7_INSTRUMENT_EVIDENCE.zip --output instrument-audit
+
+      - name: Exercise selected installed package uses
+        run: |
+          set -euo pipefail
+          cd "$R7_ROOT"
+          "$R7_RUNTIME_PY" -I -m zti_r7 smoke --output installed-smoke
+
+      - name: Retain wheel, public data and compact qualification receipts
+        if: always() && env.R7_ROOT != ''
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: research-r7-ubuntu-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ env.R7_ROOT }}/dist/*.whl
+            ${{ env.R7_ROOT }}/dist/BUILD.json
+            ${{ env.R7_ROOT }}/R7_PUBLIC_EVIDENCE.zip
+            ${{ env.R7_ROOT }}/R7_INSTRUMENT_EVIDENCE.zip
+            ${{ env.R7_ROOT }}/qualification/SUMMARY.json
+            ${{ env.R7_ROOT }}/qualification/SOURCE.json
+            ${{ env.R7_ROOT }}/controls/INSTRUMENT.json
+            ${{ env.R7_ROOT }}/data-audit/AUDIT_RECEIPT.json
+            ${{ env.R7_ROOT }}/instrument-audit/AUDIT_RECEIPT.json
+            ${{ env.R7_ROOT }}/installed-smoke/SUMMARY.json
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,24 @@
+{
+  "phase": "PRE_FREEZE_DEVELOPMENT",
+  "qualification_correction_cycles_used": 0,
+  "incidents": [
+    {
+      "run": "private/development_root_001",
+      "result": "4 PASS/1ERROR in selected Z integration cases",
+      "cause": "Public stale_report context not yet accepted by closed pilot task schema",
+      "correction": "B added bounded opaque optional stale_report; original run retained"
+    },
+    {
+      "run": "private/development_root_002",
+      "result": "11 PASS/1FAIL in6 selected pairs",
+      "cause": "Root independent false-refusal reader checked root.active only and missed revoked service-leaf lineage; actual provider refusal was legitimate",
+      "correction": "Reader follows recorded selected-operation mandate lineage, without changing expected fixture; targeted fresh run003 checks both arms"
+    },
+    {
+      "run": "private/development_root_004",
+      "result": "10 selected development audits FAIL",
+      "cause": "Native Windows virtualenv redirector launcher PID differs from actual worker PID; evidence reader correctly rejected process attribution",
+      "correction": "Runner captures unique worker-reported PID from guard/error files and preserves separate launcher_pid. Fresh selected development_root_005 passes10 executions; originals remain unchanged."
+    }
+  ]
+}
